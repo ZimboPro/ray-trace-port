@@ -117,3 +117,9 @@ Cargo.lock
 
 html/
 latex/
+
+
+# Added by cargo
+
+/target
+/Cargo.lock
