@@ -1,0 +1,55 @@
+-redraw without calculations (DONE)
+-4 basic objects, multiple objects of the same type coexist (DONE)
+-must be able to move the camera and verify that it is the same scene and only the eye moved.
+-lights + shading (DONE)
+-shine (DONE)
+-shading works with multiple lights (DONE)
+
+OPTIONS :
+-description file of the scene (?) (DONE)
+-has to be an XML or specific hierarchy in the sceen file (not simple file wiht 1 object per line (DONE)
+-ambient light, objects must never be completly black (DONE)
+-background light must be in the conf file
+-objects can be cut along the x,y, z axis
+-disturbance (DONE)
+-color checkerboard (DONE)
+-complicated algo to change the color of a object (DONE)
+-can shift a texture on the object (DONE)
+-transparent textures
+-texture on a semitransparent object serves as a slide and is projected onto other objects (2 points)(?)
+Composed objects
+cube
+glass = cone + cylinder + sphere (KINDA)
+several of the same composed objects
+Negative objects
+nevgative sphere makes a whole in a plane ???
+Native objects:
+paraboloid and/or hyperboloid
+
+effects:
+AA (DONE)
+cartoon effect (DONE)
+motion bllur
+sepia or color filters (DONE)
+stereoscopy (red / green glasses) (DONE)
+
+Multithreaded
+-particulary fast rendered (DONE)
+-backup of the image
+
+enviroment:
+-progress bar (DONE)
+-interface
+-change scene in live (DONE)
+-several renders automatically
+-automatically generate objects (DONE)
+
+and exotic shapes
+cube hole
+tablecloth
+torrus
+
+video sequence
+import models
+light source not punctual
+moebius strip
