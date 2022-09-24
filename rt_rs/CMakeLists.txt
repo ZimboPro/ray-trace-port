@@ -1,16 +1,27 @@
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CARGO_CMD cargo build)
-    set(TARGET_DIR "debug")
-else ()
-    set(CARGO_CMD cargo build --release)
-    set(TARGET_DIR "release")
-endif ()
+include(FetchContent)
 
-set(CLIENT_SO "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_DIR}/librt_rs.so")
+FetchContent_Declare(
+    Corrosion
+    GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+    GIT_TAG v0.2.1 # Optionally specify a commit hash, version tag or branch here
+)
 
-add_custom_target(rt_rs ALL
-    COMMENT "Compiling client module"
-    COMMAND CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR} ${CARGO_CMD} 
-    COMMAND cp ${CLIENT_SO} ${CMAKE_CURRENT_BINARY_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(rt_rs PROPERTIES LOCATION ${CMAKE_CURRENT_BINARY_DIR})
+FetchContent_MakeAvailable(Corrosion)
+
+corrosion_import_crate(MANIFEST_PATH Cargo.toml)
+
+target_include_directories(rt_rs
+    INTERFACE
+    target/
+    )
+
+# # Wrapper for bindgen
+# target_sources(rt_rs
+#     INTERFACE
+#     target/rt_rs.h
+#     )
+
+# target_link_libraries(rt_rs
+#     INTERFACE
+#     c_lib
+#     )
