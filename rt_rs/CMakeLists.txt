@@ -8,7 +8,7 @@ endif ()
 
 set(CLIENT_SO "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_DIR}/librt_rs.so")
 
-add_custom_target(client ALL
+add_custom_target(rt_rs ALL
     COMMENT "Compiling client module"
     COMMAND CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR} ${CARGO_CMD} 
     COMMAND cp ${CLIENT_SO} ${CMAKE_CURRENT_BINARY_DIR}
