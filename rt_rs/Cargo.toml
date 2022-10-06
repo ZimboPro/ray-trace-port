@@ -8,6 +8,14 @@ build = "build.rs"
 [dependencies]
 atoi = "1.0.0"
 libc = "0.2.133"
+sdl2 = "0.35.2"
+
+[dependencies.glam]
+version = "0.21.3"
+features = ["serde"]
+
+[dependencies.serde]
+features=["derive"]
 
 [lib]
 crate-type=["staticlib"]
