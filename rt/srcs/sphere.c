@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_rs.h>
 
 /*
  ** gets object details
@@ -33,6 +34,7 @@ static void		ft_circ(int *i, char **str, t_objects *obj)
 	char					**s;
 
 	ft_circ_helper(i, str, obj);
+	// *i = *i + 1;
 	obj->rad = (float)ft_atoi(str[*i]);
 	*i = *i + 1;
 	s = ft_strsplit(str[*i], ' ');
@@ -40,11 +42,7 @@ static void		ft_circ(int *i, char **str, t_objects *obj)
 	obj->refract = ft_atoi(s[1]);
 	ft_strarrdel(s);
 	*i = *i + 1;
-	s = ft_strsplit(str[*i], ' ');
-	obj->col.r = ft_atoi(s[0]);
-	obj->col.g = ft_atoi(s[1]);
-	obj->col.b = ft_atoi(s[2]);
-	ft_strarrdel(s);
+	str_map_to_color(str[*i], &obj->col);
 	*i = *i + 1;
 	s = ft_strsplit(str[*i], ' ');
 	if (ft_atoi(s[0]))

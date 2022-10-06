@@ -39,7 +39,7 @@ t_objects			texture(t_objects object, t_ray rv, t_vector n)
 t_objects			pattern(t_objects object, t_vector n, t_ray rv)
 {
 	t_tex	t;
-	t_color	c;
+	SDL_Color	c;
 
 	c = pattern_init(&t, n);
 	if (object.pattern == 1)
@@ -87,7 +87,7 @@ static Uint32	get_pixel(SDL_Surface *surf, int x, int y)
 	return (*(Uint32 *)p);
 }
 
-t_color			tex_map(SDL_Surface *surf, t_vector n)
+SDL_Color			tex_map(SDL_Surface *surf, t_vector n)
 {
 	t_texmap t;
 
@@ -96,7 +96,7 @@ t_color			tex_map(SDL_Surface *surf, t_vector n)
 	t.blue = 0;
 	t.alpha = 0;
 	if (surf == NULL)
-		return (t.col = (t_color){(int)t.blue, (int)t.red, (int)t.green});
+		return (t.col = (SDL_Color){t.blue, t.red, t.green, 255});
 	SDL_LockSurface(surf);
 	t.width = (int)surf->w;
 	t.height = (int)surf->h;
@@ -106,7 +106,7 @@ t_color			tex_map(SDL_Surface *surf, t_vector n)
 	t.height = (t.width - 1) * t.v;
 	t.pixelcol = get_pixel(surf, t.width, t.height);
 	SDL_GetRGB(t.pixelcol, surf->format, &t.red, &t.green, &t.blue);
-	t.col = (t_color){(int)t.red, (int)t.green, (int)t.blue};
+	t.col = (SDL_Color){t.red, t.green, t.blue, 255};
 	SDL_UnlockSurface(surf);
 	return (t.col);
 }

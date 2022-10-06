@@ -16,7 +16,7 @@
  ** sphere color and shading
 */
 
-void			cartoon_circle(t_obj obj, t_color *col, int i, t_ray rv)
+void			cartoon_circle(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
 	t_objects	circ;
@@ -25,7 +25,7 @@ void			cartoon_circle(t_obj obj, t_color *col, int i, t_ray rv)
 	circ = obj.objects[i];
 	p = calc_vect_to_point(rv.sc, rv.v, (obj.d * 1.05));
 	if (calc_p_dist(p, circ.c) > circ.rad)
-		*col = (t_color){0, 0, 0};
+		*col = (SDL_Color){0, 0, 0, 255};
 	else
 	{
 		p = calc_vect_to_point(rv.sc, rv.v, (obj.d * 0.995));
@@ -38,7 +38,7 @@ void			cartoon_circle(t_obj obj, t_color *col, int i, t_ray rv)
  ** cylinder color and shading
 */
 
-void			cartoon_cylinder(t_obj obj, t_color *col, int i, t_ray rv)
+void			cartoon_cylinder(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
 	float		di;
@@ -50,7 +50,7 @@ void			cartoon_cylinder(t_obj obj, t_color *col, int i, t_ray rv)
 			calc_unit_v(obj.objects[i].dir));
 	p1 = calc_vect_to_point(obj.objects[i].c, obj.objects[i].dir, di);
 	if (calc_p_dist(p, p1) > obj.objects[i].rad)
-		*col = (t_color){0, 0, 0};
+		*col = (SDL_Color){0, 0, 0, 255};
 	else
 	{
 		p = calc_vect_to_point(rv.sc, rv.v, (obj.d * 0.995));
@@ -66,7 +66,7 @@ void			cartoon_cylinder(t_obj obj, t_color *col, int i, t_ray rv)
  ** cone color and shading
 */
 
-void			cartoon_cone(t_obj obj, t_color *col, int i, t_ray rv)
+void			cartoon_cone(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
 	t_vector	n;
@@ -76,7 +76,7 @@ void			cartoon_cone(t_obj obj, t_color *col, int i, t_ray rv)
 	di = -1;
 	int_cone(obj.objects[i], &di, (t_ray){p, rv.v});
 	if (di == -1)
-		*col = (t_color){0, 0, 0};
+		*col = (SDL_Color){0, 0, 0, 255};
 	else
 	{
 		p = calc_vect_to_point(rv.sc, rv.v, (obj.d * 0.995));
@@ -93,7 +93,7 @@ void			cartoon_cone(t_obj obj, t_color *col, int i, t_ray rv)
  ** sphere plane and shading
 */
 
-void			cartoon_plane(t_obj obj, t_color *col, int i, t_ray rv)
+void			cartoon_plane(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
 	t_objects	plane;

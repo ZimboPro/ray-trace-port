@@ -11,12 +11,26 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-
+#include <rt_rs.h>
 /*
  ** takes two points and changes it to a vector
 */
 
 t_vector		calc_p_to_v(t_point a, t_point b)
+{
+	t_vector	ans;
+
+	ans.x = b.x - a.x;
+	ans.y = b.y - a.y;
+	ans.z = b.z - a.z;
+	ans.w = 0;
+	return (ans);
+}
+/*
+ ** takes two points and changes it to a vector
+*/
+
+t_vector		calc_p_to_vec(t_point a, Vec3 b)
 {
 	t_vector	ans;
 
@@ -34,6 +48,15 @@ t_vector		calc_p_to_v(t_point a, t_point b)
 inline float	calc_p_dist(t_point a, t_point b)
 {
 	return (calc_m(calc_p_to_v(a, b)));
+}
+
+/*
+ ** returns distance between to points
+*/
+
+inline float	calc_p_dist_vec(t_point a, Vec3 b)
+{
+	return (calc_m(calc_p_to_vec(a, b)));
 }
 
 /*

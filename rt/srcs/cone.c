@@ -49,22 +49,6 @@ static void		ft_cone(int *i, char **str, t_objects *obj)
 }
 
 /*
- ** gets object colors
-*/
-
-static void		ft_cone_color(char *str, t_objects *obj)
-{
-	char	**s;
-
-	s = ft_strsplit(str, ' ');
-	obj->col.r = ft_atoi(s[0]);
-	obj->col.g = ft_atoi(s[1]);
-	obj->col.b = ft_atoi(s[2]);
-	ft_strarrdel(s);
-	s = NULL;
-}
-
-/*
  ** allocates memory
 */
 
@@ -101,7 +85,7 @@ void			ft_cones(t_objects *obj, char **str, int i, int *j)
 	ft_strarrdel(s);
 	s = NULL;
 	i++;
-	ft_cone_color(str[i], obj);
+	str_map_to_color(str[i], &obj->col);
 	i++;
 	ft_cone_options(str[i], obj);
 }

@@ -125,7 +125,7 @@ void		*threading_aa(void *arg)
 	t_temp	*t;
 	int		x;
 	int		y;
-	t_color	p;
+	SDL_Color	p;
 
 	t = (t_temp *)arg;
 	y = t->y_b;

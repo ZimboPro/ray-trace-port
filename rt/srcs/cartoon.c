@@ -11,20 +11,19 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_rs.h>
 
 /*
  ** finds color with lights ie multi-lights and checks if light source is
  ** closer than object if intersection
 */
 
-static t_color	cartoon_help(t_color col, float j)
+static SDL_Color	cartoon_help(SDL_Color col, float j)
 {
-	return ((t_color){col.r * (AMB + (1 - AMB) * j),
-			col.g * (AMB + (1 - AMB) * j),
-			col.b * (AMB + (1 - AMB) * j)});
+	return dim_color(&col, (AMB + (1 - AMB) * j));
 }
 
-t_color			cartoon_color(t_obj obj, t_ray n, int i)
+SDL_Color			cartoon_color(t_obj obj, t_ray n, int i)
 {
 	t_cart c;
 
@@ -33,11 +32,11 @@ t_color			cartoon_color(t_obj obj, t_ray n, int i)
 	while (c.k < obj.light)
 	{
 		c.tmp = 0;
-		c.l = calc_unit_v(calc_p_to_v(n.sc, obj.lights[c.k].c));
+		c.l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[c.k].c));
 		if (obj.objects[i].plane == 0 && (c.tmp = calc_dp(c.l, n.v)) < 0)
 			c.tmp = 0;
 		else if (intersection(obj, &(obj.d), c.l, n.sc) != -1 &&
-				calc_p_dist(n.sc, obj.lights[c.k].c) > obj.d)
+				calc_p_dist_vec(n.sc, obj.lights[c.k].c) > obj.d)
 			c.tmp = 0;
 		else if (obj.objects[i].plane == 1)
 			c.tmp = 1;

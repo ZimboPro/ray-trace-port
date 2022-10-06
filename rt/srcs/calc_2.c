@@ -62,3 +62,17 @@ t_vector	calc_multi(t_vector a, float d)
 	ans.w = a.w;
 	return (ans);
 }
+
+/*
+ ** multiplies each component of vector by a value
+*/
+
+Vec3	calc_multi_vec(Vec3 a, float d)
+{
+	Vec3	ans;
+
+	ans.x = a.x * d;
+	ans.y = a.y * d;
+	ans.z = a.z * d;
+	return (ans);
+}

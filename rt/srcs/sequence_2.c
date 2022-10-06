@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_rs.h>
 
 /*
  ** handles events and commands
@@ -99,6 +100,8 @@ void			sequence(char *str)
 {
 	char	**s;
 	t_obj	obj;
+
+	parse_file(str);
 
 	s = ft_read(str);
 	if (s != NULL)

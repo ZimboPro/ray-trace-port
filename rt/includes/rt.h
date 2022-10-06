@@ -23,6 +23,7 @@
 # include <sys/stat.h>
 # include <pthread.h>
 # include "libft.h"
+# include <rt_rs.h>
 
 # define PIXEL_RATIO 200
 # define AMB 0.20
@@ -44,16 +45,6 @@ typedef struct	s_pixel
 	int			y;
 }				t_pixel;
 
-/*
- ** rgb color
-*/
-
-typedef struct	s_color
-{
-	int			r;
-	int			g;
-	int			b;
-}				t_color;
 
 /*
  ** used in quadratic formula for intersection
@@ -100,7 +91,7 @@ typedef struct	s_objects
 	t_point		c;
 	float		h;
 	float		rad;
-	t_color		col;
+	SDL_Color		col;
 	t_vector	dir;
 	float		reflect;
 	int			refract;
@@ -129,7 +120,7 @@ typedef struct	s_camera
 	t_vector	hor;
 	float		h_fov;
 	float		v_fov;
-	t_color		bg;
+	SDL_Color		bg;
 }				t_camera;
 
 /*
@@ -139,7 +130,7 @@ typedef struct	s_camera
 typedef struct	s_light
 {
 	int			total;
-	t_point		c;
+	Vec3		c;
 }				t_light;
 
 /*
@@ -175,7 +166,7 @@ typedef struct	s_obj
 
 typedef struct		s_pix_colors
 {
-	t_color			c;
+	SDL_Color			c;
 	t_pixel			p;
 }					t_pix_colors;
 
@@ -207,7 +198,7 @@ typedef struct	s_texmap
 	int			width;
 	Uint8		*p;
 	Uint32		pixelcol;
-	t_color		col;
+	SDL_Color		col;
 	Uint8		red;
 	Uint8		green;
 	Uint8		blue;
@@ -255,7 +246,7 @@ typedef struct	s_cart
 	int			i;
 	float		j;
 	float		tmp;
-	t_color		co;
+	SDL_Color		co;
 	t_vector	l;
 }				t_cart;
 
@@ -263,8 +254,8 @@ typedef struct	s_traceh
 {
 	int		i;
 	float	f;
-	t_color	p_c;
-	t_color	rlc;
+	SDL_Color	p_c;
+	SDL_Color	rlc;
 	t_ray	temp;
 }				t_traceh;
 
@@ -280,8 +271,8 @@ typedef struct	s_coneh
 
 typedef struct	s_colh
 {
-	t_color	p_c;
-	t_color	rlc;
+	SDL_Color	p_c;
+	SDL_Color	rlc;
 	t_ray	temp;
 	float	f;
 }				t_colh;
@@ -371,11 +362,14 @@ t_vector		calc_cross_product(t_vector a, t_vector b);
 t_vector		calc_coplanar(t_vector a, t_vector b);
 t_point			calc_vect_to_point(t_point p, t_vector v, float m);
 t_vector		calc_p_to_v(t_point a, t_point b);
+t_vector		calc_p_to_vec(t_point a, Vec3 b);
 float			calc_p_dist(t_point a, t_point b);
+float	calc_p_dist_vec(t_point a, Vec3 b);
 t_vector		calc_unit_v(t_vector a);
 t_vector		calc_normal(t_vector v, t_point origin, t_point p);
 void			calc_w_to_c(t_obj *obj);
 t_vector		calc_multi(t_vector a, float d);
+Vec3	calc_multi_vec(Vec3 a, float d);
 t_vector		rot_x(t_vector v, float r);
 t_vector		rot_y(t_vector v, float r);
 
@@ -396,41 +390,41 @@ float			**transf(t_vector v);
 t_objects		pattern(t_objects object, t_vector n, t_ray rv);
 float			perlin2d(float x, float y, float freq, int depth);
 t_objects		texture(t_objects circ, t_ray rv, t_vector n);
-t_color			sepia(t_color col);
-t_color			filter(t_color col);
-t_color			tex_map(SDL_Surface *surf, t_vector n);
+SDL_Color			sepia(SDL_Color col);
+SDL_Color			filter(SDL_Color col);
+SDL_Color			tex_map(SDL_Surface *surf, t_vector n);
 float			modulo(float f);
 float			checker(t_tex t);
-t_color			marble(t_tex *t, t_vector n);
-t_color			pattern_init(t_tex *t, t_vector n);
+SDL_Color			marble(t_tex *t, t_vector n);
+SDL_Color			pattern_init(t_tex *t, t_vector n);
 
 /*
  ** gets object colors and shading if in normal mode
 */
 
-t_color			get_color(t_obj obj, SDL_Renderer *ren, int n, t_ray v);
-t_color			color_circle(t_obj obj, int  i, t_ray rv);
-t_color			color_cylinder(t_obj obj, int n, t_ray v);
-t_color			color_cone(t_obj obj, int n, t_ray v);
-t_color			color_plane(t_obj obj, int n, t_ray v);
+SDL_Color			get_color(t_obj obj, SDL_Renderer *ren, int n, t_ray v);
+SDL_Color			color_circle(t_obj obj, int  i, t_ray rv);
+SDL_Color			color_cylinder(t_obj obj, int n, t_ray v);
+SDL_Color			color_cone(t_obj obj, int n, t_ray v);
+SDL_Color			color_plane(t_obj obj, int n, t_ray v);
 float			blinn_helper(t_obj obj, t_ray n, t_cart h);
-t_color			blinn_phong(t_obj obj, t_ray n, int i, t_vector v);
+SDL_Color			blinn_phong(t_obj obj, t_ray n, int i, t_vector v);
 
 
 /*
  ** recursice ray trace and fresnel equation if object is refractive
 */
 
-t_color			trace_ray(t_obj obj, t_ray ray, int depth, SDL_Renderer *ren);
-t_color			fresnel_equation(t_obj obj, int i, t_ray ray, int depth,
+SDL_Color			trace_ray(t_obj obj, t_ray ray, int depth, SDL_Renderer *ren);
+SDL_Color			fresnel_equation(t_obj obj, int i, t_ray ray, int depth,
 						SDL_Renderer *ren);
-t_color			fresnel_effect(t_obj obj, t_ray ray, int depth,
+SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 						SDL_Renderer *ren);
 float			fresnel(float n1, int n2, t_vector n, t_vector v);
-t_color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
+SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 						SDL_Renderer *ren);
-t_color			fresnel_equation_cart(t_obj obj, int i, t_ray ray, int depth);
-t_color			color_adjust(t_color a, float d);
+SDL_Color			fresnel_equation_cart(t_obj obj, int i, t_ray ray, int depth);
+SDL_Color			color_adjust(SDL_Color a, float d);
 
 /*
  ** gets the reflective point and direction of respective object
@@ -456,13 +450,13 @@ t_ray			rl_plane(t_objects obj, t_ray ray, float d);
  ** gets object colors and shading if in cartoon mode
 */
 
-void			cartoon_circle(t_obj obj, t_color *col, int i, t_ray ray);
-void			cartoon_cone(t_obj obj, t_color *col, int i, t_ray ray);
-void			cartoon_cylinder(t_obj obj, t_color *col, int i, t_ray ray);
-void			cartoon_plane(t_obj obj, t_color *col, int i, t_ray ray);
-t_color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i,
+void			cartoon_circle(t_obj obj, SDL_Color *col, int i, t_ray ray);
+void			cartoon_cone(t_obj obj, SDL_Color *col, int i, t_ray ray);
+void			cartoon_cylinder(t_obj obj, SDL_Color *col, int i, t_ray ray);
+void			cartoon_plane(t_obj obj, SDL_Color *col, int i, t_ray ray);
+SDL_Color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i,
 					t_ray ray);
-t_color			cartoon_color(t_obj obj, t_ray n, int i);
+SDL_Color			cartoon_color(t_obj obj, t_ray n, int i);
 void			miss(SDL_Renderer *ren);
 
 /*
@@ -472,10 +466,10 @@ void			miss(SDL_Renderer *ren);
 void			aa_seq(char *str);
 void			ft_draw_aa(t_obj *obj, SDL_Renderer *ren);
 void			*threading_aa(void *arg);
-t_color			aa_col(t_obj obj, int x, int y, SDL_Renderer *ren);
+SDL_Color			aa_col(t_obj obj, int x, int y, SDL_Renderer *ren);
 void			cartoon_draw_aa(t_obj *obj, SDL_Renderer *ren);
 void			*threading_cart_aa(void *arg);
-t_color			aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren);
+SDL_Color			aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren);
 void			interface(SDL_Renderer *ren);
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object_colors_2.c                                  :+:      :+:    :+:   */
+/*   objecSDL_Colors_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syoung <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,9 +20,9 @@ float			blinn_helper(t_obj obj, t_ray n, t_cart h)
 {
 	if (obj.objects[h.i].plane == 0 && (h.tmp = calc_dp(h.l, n.v)) < 0.0f)
 		h.tmp = 0.0f;
-	else if (intersection(obj, &(obj.d), calc_unit_v(calc_p_to_v(n.sc,
+	else if (intersection(obj, &(obj.d), calc_unit_v(calc_p_to_vec(n.sc,
 		obj.lights[h.k].c)), n.sc) != -1
-		&& calc_p_dist(n.sc, obj.lights[h.k].c) > obj.d)
+		&& calc_p_dist_vec(n.sc, obj.lights[h.k].c) > obj.d)
 		h.tmp = 0.0f;
 	else if (obj.objects[h.i].plane == 1
 		&& (h.tmp = calc_dp(h.l, n.v)) < 0.0f)
@@ -31,7 +31,7 @@ float			blinn_helper(t_obj obj, t_ray n, t_cart h)
 	return (h.tmp);
 }
 
-t_color			blinn_phong(t_obj obj, t_ray n, int i, t_vector v)
+SDL_Color			blinn_phong(t_obj obj, t_ray n, int i, t_vector v)
 {
 	t_cart	h;
 
@@ -41,7 +41,7 @@ t_color			blinn_phong(t_obj obj, t_ray n, int i, t_vector v)
 	while (h.k < obj.light)
 	{
 		h.tmp = 1;
-		h.l = calc_unit_v(calc_p_to_v(n.sc, obj.lights[h.k].c));
+		h.l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[h.k].c));
 		h.l = calc_addition(h.l, calc_multi(calc_unit_v(v), -1));
 		if (calc_m(h.l) != 0.0f)
 		{

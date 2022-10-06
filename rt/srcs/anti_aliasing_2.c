@@ -11,16 +11,16 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-
+#include <rt_rs.h>
 /*
  ** anti-aliasing
 */
 
-t_color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
+SDL_Color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 {
 	t_ray	rays[4];
-	t_color	p;
-	t_color	t;
+	SDL_Color	p;
+	SDL_Color	t;
 	int		i;
 
 	i = 0;
@@ -28,14 +28,17 @@ t_color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 	rays[1] = ray(obj, (float)x + 0.25, (float)y - 0.25);
 	rays[2] = ray(obj, (float)x - 0.25, (float)y + 0.25);
 	rays[3] = ray(obj, (float)x + 0.25, (float)y + 0.25);
-	p = (t_color){0, 0, 0};
+	p = (SDL_Color){0, 0, 0, 255};
 	while (i < 4)
 	{
 		t = trace_ray(obj, rays[i], 0, ren);
-		p = (t_color){p.r + t.r, p.g + t.g, p.b + t.b};
+		if (i == 0) {
+			p = t;
+		} else {
+			p = mix_color(p, t);
+		}
 		i++;
 	}
-	p = (t_color){p.r >> 2, p.g >> 2, p.b >> 2};
 	return (p);
 }
 
@@ -81,7 +84,7 @@ void		*threading_cart_aa(void *arg)
 	t_temp	*t;
 	int		x;
 	int		y;
-	t_color	p;
+	SDL_Color	p;
 
 	t = (t_temp *)arg;
 	y = t->y_b;
@@ -107,11 +110,11 @@ void		*threading_cart_aa(void *arg)
  ** anti-aliasing
 */
 
-t_color		aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren)
+SDL_Color		aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 {
 	t_ray	rays[4];
-	t_color	p;
-	t_color	t;
+	SDL_Color	p;
+	SDL_Color	t;
 	int		i;
 
 	i = 0;
@@ -119,13 +122,16 @@ t_color		aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 	rays[1] = ray(obj, (float)x + 0.25, (float)y - 0.25);
 	rays[2] = ray(obj, (float)x - 0.25, (float)y + 0.25);
 	rays[3] = ray(obj, (float)x + 0.25, (float)y + 0.25);
-	p = (t_color){0, 0, 0};
+	p = (SDL_Color){0, 0, 0, 255};
 	while (i < 4)
 	{
 		t = trace_ray_cart(obj, rays[i], 0, ren);
-		p = (t_color){p.r + t.r, p.g + t.g, p.b + t.b};
+		if (i == 0) {
+			p = t;
+		} else {
+			p = mix_color(p, t);
+		}
 		i++;
 	}
-	p = (t_color){p.r >> 2, p.g >> 2, p.b >> 2};
 	return (p);
 }

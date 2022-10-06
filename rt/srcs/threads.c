@@ -18,7 +18,7 @@ void	*threading(void *arg)
 	int		y;
 	int		x;
 	t_ray	rv;
-	t_color	p;
+	SDL_Color	p;
 
 	t = (t_temp *)arg;
 	y = t->y_b;
@@ -51,7 +51,7 @@ void	*cartoon_threading(void *arg)
 	int		y;
 	int		x;
 	t_ray	rv;
-	t_color	p;
+	SDL_Color	p;
 
 	t = (t_temp *)arg;
 	y = t->y_b;

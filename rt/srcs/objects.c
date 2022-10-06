@@ -38,7 +38,7 @@ static void	ft_update_map(t_obj *obj, float d)
 	obj->camera.c = calc_multi(obj->camera.c, d);
 	while (i < obj->light)
 	{
-		obj->lights[i].c = calc_multi(obj->lights[i].c, d);
+		obj->lights[i].c = calc_multi_vec(obj->lights[i].c, d);
 		i++;
 	}
 }

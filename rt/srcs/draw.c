@@ -94,13 +94,13 @@ float			fresnel(float n1, int n2, t_vector n, t_vector v)
  ** fresnel equation and effect
 */
 
-t_color			fresnel_effect(t_obj obj, t_ray ray, int depth,
+SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 		SDL_Renderer *ren)
 {
 	t_ray		n;
 	float		f;
-	t_color		rfl;
-	t_color		rfr;
+	SDL_Color		rfl;
+	SDL_Color		rfr;
 
 	n.sc = calc_vect_to_point(ray.sc, ray.v, obj.d);
 	if (OBJI.cylinder == 1 || OBJI.cone == 1)
@@ -117,8 +117,8 @@ t_color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 				depth + 1, ren);
 		rfr = trace_ray(obj, get_refract_ray(OBJI, ray, obj.d),
 				depth + 1, ren);
-		rfr = (t_color){rfl.r * f + rfr.r * (1 - f), rfl.g * f + rfr.g *
-			(1 - f), rfl.b * f + rfr.b * (1 - f)};
+		rfr = (SDL_Color){rfl.r * f + rfr.r * (1 - f), rfl.g * f + rfr.g *
+			(1 - f), rfl.b * f + rfr.b * (1 - f), 255};
 	}
 	return (rfr);
 }

@@ -27,12 +27,12 @@ float			checker(t_tex t)
 	return (t.pattern);
 }
 
-t_color			marble(t_tex *t, t_vector n)
+SDL_Color			marble(t_tex *t, t_vector n)
 {
 	float	noise;
-	t_color	c;
+	SDL_Color	c;
 
-	c = (t_color){52, 67, 62};
+	c = (SDL_Color){52, 67, 62, 255};
 	t->scale_s = 100;
 	noise = perlin2d(t->scale_s * 0.5 * n.y, t->scale_t * 0.5 * n.x, 0.1, 4);
 	t->angle = 0.523599;
@@ -41,14 +41,14 @@ t_color			marble(t_tex *t, t_vector n)
 	return (c);
 }
 
-t_color			pattern_init(t_tex *t, t_vector n)
+SDL_Color			pattern_init(t_tex *t, t_vector n)
 {
-	t_color c;
+	SDL_Color c;
 
 	t->scale_s = 10;
 	t->scale_t = 10;
 	t->angle = 0.523599;
-	c = (t_color){0, 120, 80};
+	c = (SDL_Color){0, 120, 80, 255};
 	t->tex_x = (1 + atan2(n.z, n.x) / M_PI) * 0.5;
 	t->tex_y = acosf(n.y) / M_PI;
 	t->s = t->tex_x * cos(t->angle) - t->tex_y * sin(t->angle);
@@ -56,7 +56,7 @@ t_color			pattern_init(t_tex *t, t_vector n)
 	return (c);
 }
 
-t_color			sepia(t_color col)
+SDL_Color			sepia(SDL_Color col)
 {
 	int r;
 	int g;

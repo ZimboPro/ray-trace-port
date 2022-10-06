@@ -43,22 +43,6 @@ static void		ft_pln(int *i, char **str, t_objects *plane)
 }
 
 /*
- ** gets object's color
-*/
-
-static void		ft_plane_color(char *str, t_objects *plane)
-{
-	char	**s;
-
-	s = ft_strsplit(str, ' ');
-	plane->col.r = ft_atoi(s[0]);
-	plane->col.g = ft_atoi(s[1]);
-	plane->col.b = ft_atoi(s[2]);
-	ft_strarrdel(s);
-	s = NULL;
-}
-
-/*
  ** allocates memory
 */
 
@@ -73,7 +57,7 @@ void			ft_planes(t_objects *obj, char **str, int i, int *j)
 	obj->cylinder = 0;
 	obj->plane = 1;
 	ft_pln(&i, str, obj);
-	ft_plane_color(str[i], obj);
+	str_map_to_color(str[i], &obj->col);
 	obj->c = (t_point){0, 0, 0, 0};
 	obj->h = 0;
 	obj->rad = 0;

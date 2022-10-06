@@ -16,13 +16,13 @@
  ** fresnel equation and effect for cartoon mode
 */
 
-static t_color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
+static SDL_Color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
 		SDL_Renderer *ren)
 {
 	t_ray		n;
 	float		f;
-	t_color		rfl;
-	t_color		rfr;
+	SDL_Color		rfl;
+	SDL_Color		rfr;
 	int			i;
 
 	i = obj.i;
@@ -38,8 +38,8 @@ static t_color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
 				depth + 1, ren);
 		rfr = trace_ray(obj, get_refract_ray(obj.objects[i], ray, obj.d),
 				depth + 1, ren);
-		rfr = (t_color){rfl.r * f + rfr.r * (1 - f), rfl.g
-			* f + rfr.g * (1 - f), rfl.b * f + rfr.b * (1 - f)};
+		rfr = (SDL_Color){rfl.r * f + rfr.r * (1 - f), rfl.g
+			* f + rfr.g * (1 - f), rfl.b * f + rfr.b * (1 - f), 255};
 	}
 	return (rfr);
 }
@@ -49,7 +49,7 @@ static t_color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
  ** refration if applicable for cartoon mode
 */
 
-t_color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
+SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 	SDL_Renderer *ren)
 {
 	t_colh	h;
@@ -64,14 +64,14 @@ t_color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 			h.temp = get_reflect_ray(OBJI, ray, obj.d);
 			h.rlc =
 			color_adjust(trace_ray_cart(obj, h.temp, depth + 1, ren), h.f);
-			h.p_c = (t_color){(h.rlc.r + h.p_c.r) >> 1, (h.rlc.g + h.p_c.g)
-				>> 1, (h.rlc.b + h.p_c.b) >> 1};
+			h.p_c = (SDL_Color){(h.rlc.r + h.p_c.r) >> 1, (h.rlc.g + h.p_c.g)
+				>> 1, (h.rlc.b + h.p_c.b) >> 1, 255};
 		}
 		if (OBJI.refract != 1000293)
 		{
 			h.rlc = fresnel_effect_cart(obj, ray, depth, ren);
-			h.p_c = (t_color){h.rlc.r * h.f + h.p_c.r * (1 - h.f), h.rlc.g
-			* h.f + h.p_c.g * (1 - h.f), h.rlc.b * h.f + h.p_c.b * (1 - h.f)};
+			h.p_c = (SDL_Color){h.rlc.r * h.f + h.p_c.r * (1 - h.f), h.rlc.g
+			* h.f + h.p_c.g * (1 - h.f), h.rlc.b * h.f + h.p_c.b * (1 - h.f), 255};
 		}
 		return (h.p_c);
 	}
@@ -115,11 +115,11 @@ void			cartoon_draw(t_obj *obj, SDL_Renderer *ren)
  ** gets object color and cartoon shading
 */
 
-t_color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
+SDL_Color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
 {
-	t_color	col;
+	SDL_Color	col;
 
-	col = (t_color){0, 0, 0};
+	col = (SDL_Color){0, 0, 0, 255};
 	miss(ren);
 	if (obj.objects[i].circle == 1)
 		cartoon_circle(obj, &col, i, ry);

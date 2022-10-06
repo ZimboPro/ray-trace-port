@@ -65,18 +65,6 @@ static void		ft_cyl_options(char *str, t_objects *obj)
 	s = NULL;
 }
 
-static void		ft_cyl_color(char *str, t_objects *cyl)
-{
-	char	**s;
-
-	s = ft_strsplit(str, ' ');
-	cyl->col.r = ft_atoi(s[0]);
-	cyl->col.g = ft_atoi(s[1]);
-	cyl->col.b = ft_atoi(s[2]);
-	ft_strarrdel(s);
-	s = NULL;
-}
-
 /*
  ** alocates memory
 */
@@ -101,7 +89,7 @@ void			ft_cylinders(t_objects *obj, char **str, int i, int *j)
 	ft_strarrdel(s);
 	s = NULL;
 	i++;
-	ft_cyl_color(str[i], obj);
+	str_map_to_color(str[i], &obj->col);
 	i++;
 	ft_cyl_options(str[i], obj);
 }
