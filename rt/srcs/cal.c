@@ -22,36 +22,6 @@ inline float	calc_vector_ang(t_vector a, t_vector b)
 }
 
 /*
- ** addition of two vectors
-*/
-
-t_vector		calc_addition(t_vector a, t_vector b)
-{
-	t_vector	ans;
-
-	ans.x = a.x + b.x;
-	ans.y = a.y + b.y;
-	ans.z = a.z + b.z;
-	ans.w = 0;
-	return (ans);
-}
-
-/*
- ** cross product of 2 vectors
-*/
-
-t_vector		calc_cross_product(t_vector a, t_vector b)
-{
-	t_vector	ans;
-
-	ans.x = a.y * b.z - a.z * b.y;
-	ans.y = (a.x * b.z - a.z * b.x) * -1;
-	ans.z = a.x * b.y - a.y * b.x;
-	ans.w = 0;
-	return (ans);
-}
-
-/*
  ** using points and vectors to get new points
 */
 

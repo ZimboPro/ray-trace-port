@@ -63,8 +63,8 @@ typedef struct	s_quad
  ** renaming vector to point for  differentiating
 */
 
-typedef Vec4	t_point;
-typedef Vec4 t_vector;
+typedef Vector4	t_point;
+typedef Vector4 t_vector;
 
 /*
  ** the data stored of objects
@@ -342,8 +342,6 @@ float			calc_dp(t_vector a, t_vector b);
 t_vector		calc_con(t_vector a, float **b);
 float			**calc_trans(float **a, float **b);
 float			calc_vector_ang(t_vector a, t_vector b);
-t_vector		calc_addition(t_vector a, t_vector b);
-t_vector		calc_cross_product(t_vector a, t_vector b);
 t_vector		calc_coplanar(t_vector a, t_vector b);
 t_point			calc_vect_to_point(t_point p, t_vector v, float m);
 t_vector		calc_p_to_v(t_point a, t_point b);
