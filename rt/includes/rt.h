@@ -60,22 +60,11 @@ typedef struct	s_quad
 }				t_quad;
 
 /*
- ** components of vecotrs and points
-*/
-
-typedef struct	s_vector
-{
-	float		x;
-	float		y;
-	float		z;
-	float		w;
-}				t_vector;
-
-/*
  ** renaming vector to point for  differentiating
 */
 
-typedef t_vector	t_point;
+typedef Vec4	t_point;
+typedef Vec4 t_vector;
 
 /*
  ** the data stored of objects
