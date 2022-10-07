@@ -67,11 +67,11 @@ SDL_Color			get_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
 	SDL_Color	col;
 
 	miss(ren);
-	if (obj.objects[i].circle == 1)
+	if (obj.objects[i].type == Circle)
 		col = color_circle(obj, i, ry);
-	else if (obj.objects[i].cylinder == 1)
+	else if (obj.objects[i].type == Cylinder)
 		col = color_cylinder(obj, i, ry);
-	else if (obj.objects[i].cone == 1)
+	else if (obj.objects[i].type == Cone)
 		col = color_cone(obj, i, ry);
 	else
 		col = color_plane(obj, i, ry);

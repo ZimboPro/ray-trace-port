@@ -17,7 +17,7 @@ t_objects			texture(t_objects object, t_ray rv, t_vector n)
 	static SDL_Surface	*surf = NULL;
 	static char			*tex = "default.bmp";
 
-	if (object.circle && (ft_strcmp("NULL", object.texmap) != 0))
+	if (object.type == Circle && (ft_strcmp("NULL", object.texmap) != 0))
 	{
 		if (strcmp(tex, object.texmap) != 0)
 		{

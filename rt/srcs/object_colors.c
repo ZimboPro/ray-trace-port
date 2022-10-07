@@ -28,12 +28,12 @@ static SDL_Color	light_color(t_obj obj, t_ray n, int i)
 	{
 		h.tmp = 0;
 		h.l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[h.k].c));
-		if (obj.objects[i].plane == 0 && (h.tmp = calc_dp(h.l, n.v)) < 0)
+		if (obj.objects[i].type != Plane && (h.tmp = calc_dp(h.l, n.v)) < 0)
 			h.tmp /= 6;
 		else if (intersection(obj, &(obj.d), h.l, n.sc) != -1 &&
 				calc_p_dist_vec(n.sc, obj.lights[h.k].c) > obj.d)
 			h.tmp = 0;
-		else if (obj.objects[i].plane == 1)
+		else if (obj.objects[i].type == Plane)
 			h.tmp = 1;
 		h.j += h.tmp;
 		h.k++;

@@ -23,14 +23,14 @@ static void	ft_update_map(t_obj *obj, float d)
 	i = 0;
 	while (i < obj->obj_total)
 	{
-		if (obj->objects[i].plane == 1)
+		if (obj->objects[i].type == Plane)
 			obj->objects[i].dir.w *= d;
-		if (obj->objects[i].plane == 0)
+		if (obj->objects[i].type != Plane)
 		{
 			obj->objects[i].c = calc_multi(obj->objects[i].c, d);
 			obj->objects[i].rad *= d;
 		}
-		if (obj->objects[i].plane == 0 && obj->objects[i].circle == 0)
+		if (obj->objects[i].type != Plane && obj->objects[i].type != Circle)
 			obj->objects[i].h *= d;
 		i++;
 	}

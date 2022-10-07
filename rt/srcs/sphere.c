@@ -64,10 +64,7 @@ void			ft_circles(t_objects *obj, char **str, int i, int *j)
 	while (ft_strstr(str[i], "Circle") == NULL)
 		i++;
 	i++;
-	obj->circle = 1;
-	obj->cone = 0;
-	obj->cylinder = 0;
-	obj->plane = 0;
+	obj->type = Circle;
 	ft_circ(&i, str, obj);
 	obj->h = 0;
 	obj->dir = (t_vector){0, 0, 0, 0};

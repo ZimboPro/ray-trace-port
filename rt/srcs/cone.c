@@ -73,10 +73,7 @@ void			ft_cones(t_objects *obj, char **str, int i, int *j)
 	while (ft_strstr(str[i], "Cone") == NULL)
 		i++;
 	i++;
-	obj->circle = 0;
-	obj->cone = 1;
-	obj->cylinder = 0;
-	obj->plane = 0;
+	obj->type = Cone;
 	ft_cone(&i, str, obj);
 	i++;
 	s = ft_strsplit(str[i], ' ');

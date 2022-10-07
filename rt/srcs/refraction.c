@@ -20,11 +20,11 @@ t_ray	get_refract_ray(t_objects obj, t_ray ray, float d)
 {
 	t_ray	rfrt;
 
-	if (obj.circle == 1)
+	if (obj.type == Circle)
 		rfrt = rl_sphere(obj, ray, d);
-	else if (obj.cone == 1)
+	else if (obj.type == Cone)
 		rfrt = rl_cone(obj, ray, d);
-	else if (obj.cylinder == 1)
+	else if (obj.type == Cylinder)
 		rfrt = rl_cylinder(obj, ray, d);
 	else
 		rfrt = rl_plane(obj, ray, d);

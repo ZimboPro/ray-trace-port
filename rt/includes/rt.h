@@ -72,11 +72,7 @@ typedef Vec4 t_vector;
 
 typedef struct	s_objects
 {
-	int			circle;
-	int			cylinder;
-	int			cone;
-	int			plane;
-	int			texture;
+	ObjectType type;
 	t_point		c;
 	float		h;
 	float		rad;

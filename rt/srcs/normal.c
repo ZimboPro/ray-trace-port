@@ -41,7 +41,7 @@ t_vector	normal(t_objects obj, float d, t_ray ray)
 {
 	t_vector	n;
 
-	if (obj.cylinder == 1)
+	if (obj.type == Cylinder)
 		n = cyl_norm(obj, d, ray);
 	else
 		n = cone_norm(obj, d, ray);

@@ -52,10 +52,7 @@ void			ft_planes(t_objects *obj, char **str, int i, int *j)
 	while (str[i] != NULL && ft_strstr(str[i], "Plane") == NULL)
 		i++;
 	i++;
-	obj->circle = 0;
-	obj->cone = 0;
-	obj->cylinder = 0;
-	obj->plane = 1;
+	obj->type = Plane;
 	ft_pln(&i, str, obj);
 	str_map_to_color(str[i], &obj->col);
 	obj->c = (t_point){0, 0, 0, 0};

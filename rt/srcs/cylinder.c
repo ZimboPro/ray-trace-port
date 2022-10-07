@@ -77,10 +77,7 @@ void			ft_cylinders(t_objects *obj, char **str, int i, int *j)
 	while (ft_strstr(str[i], "Cylinder") == NULL)
 		i++;
 	i++;
-	obj->circle = 0;
-	obj->cone = 0;
-	obj->cylinder = 1;
-	obj->plane = 0;
+	obj->type = Cylinder;
 	ft_cyl(&i, str, obj);
 	i++;
 	s = ft_strsplit(str[i], ' ');

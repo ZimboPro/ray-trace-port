@@ -121,11 +121,11 @@ SDL_Color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
 
 	col = (SDL_Color){0, 0, 0, 255};
 	miss(ren);
-	if (obj.objects[i].circle == 1)
+	if (obj.objects[i].type == Circle)
 		cartoon_circle(obj, &col, i, ry);
-	else if (obj.objects[i].cylinder == 1)
+	else if (obj.objects[i].type == Cylinder)
 		cartoon_cylinder(obj, &col, i, ry);
-	else if (obj.objects[i].cone == 1)
+	else if (obj.objects[i].type == Cone)
 		cartoon_cone(obj, &col, i, ry);
 	else
 		cartoon_plane(obj, &col, i, ry);

@@ -33,12 +33,12 @@ SDL_Color			cartoon_color(t_obj obj, t_ray n, int i)
 	{
 		c.tmp = 0;
 		c.l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[c.k].c));
-		if (obj.objects[i].plane == 0 && (c.tmp = calc_dp(c.l, n.v)) < 0)
+		if (obj.objects[i].type != Plane && (c.tmp = calc_dp(c.l, n.v)) < 0)
 			c.tmp = 0;
 		else if (intersection(obj, &(obj.d), c.l, n.sc) != -1 &&
 				calc_p_dist_vec(n.sc, obj.lights[c.k].c) > obj.d)
 			c.tmp = 0;
-		else if (obj.objects[i].plane == 1)
+		else if (obj.objects[i].type == Plane)
 			c.tmp = 1;
 		else if (c.tmp < 0.5)
 			c.tmp = 0.5;

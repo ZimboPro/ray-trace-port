@@ -103,7 +103,7 @@ SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 	SDL_Color		rfr;
 
 	n.sc = calc_vect_to_point(ray.sc, ray.v, obj.d);
-	if (OBJI.cylinder == 1 || OBJI.cone == 1)
+	if (OBJI.type == Cylinder || OBJI.type == Cone)
 		n.v = normal(OBJI, obj.d, ray);
 	else
 		n.v = calc_unit_v(calc_p_to_v(OBJI.c, n.sc));

@@ -18,13 +18,13 @@
 
 static void	intersect(t_objects obj, float *d, t_ray ray)
 {
-	if (obj.circle == 1)
+	if (obj.type == Circle)
 		int_circle(obj, d, ray);
-	else if (obj.cone == 1)
+	else if (obj.type == Cone)
 		int_cone(obj, d, ray);
-	else if (obj.cylinder == 1)
+	else if (obj.type == Cylinder)
 		int_cyl(obj, d, ray);
-	else if (obj.plane == 1)
+	else if (obj.type == Plane)
 		int_plane(obj, d, ray);
 }
 

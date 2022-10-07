@@ -18,13 +18,13 @@
 
 float			blinn_helper(t_obj obj, t_ray n, t_cart h)
 {
-	if (obj.objects[h.i].plane == 0 && (h.tmp = calc_dp(h.l, n.v)) < 0.0f)
+	if (obj.objects[h.i].type != Plane && (h.tmp = calc_dp(h.l, n.v)) < 0.0f)
 		h.tmp = 0.0f;
 	else if (intersection(obj, &(obj.d), calc_unit_v(calc_p_to_vec(n.sc,
 		obj.lights[h.k].c)), n.sc) != -1
 		&& calc_p_dist_vec(n.sc, obj.lights[h.k].c) > obj.d)
 		h.tmp = 0.0f;
-	else if (obj.objects[h.i].plane == 1
+	else if (obj.objects[h.i].type == Plane
 		&& (h.tmp = calc_dp(h.l, n.v)) < 0.0f)
 		h.tmp = -h.tmp;
 	h.tmp = pow(obj.objects[h.i].reflect, 2) * pow(h.tmp, 1000);
