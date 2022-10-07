@@ -13,32 +13,6 @@
 #include "rt.h"
 
 /*
- ** find angles between vectors
-*/
-
-inline float	calc_vector_ang(t_vector a, t_vector b)
-{
-	return (acos((calc_dp(a, b)) / (calc_m(a) * calc_m(b))));
-}
-
-/*
- ** using points and vectors to get new points
-*/
-
-t_point			calc_vect_to_point(t_point p, t_vector v, float m)
-{
-	t_point	ans;
-	float	d;
-
-	d = calc_m(v);
-	ans.x = p.x + v.x * (m / d);
-	ans.y = p.y + v.y * (m / d);
-	ans.z = p.z + v.z * (m / d);
-	ans.w = 1;
-	return (ans);
-}
-
-/*
  ** gets ray shot from camera
 */
 

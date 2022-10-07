@@ -4,7 +4,7 @@ use glam::{Vec4, Vec3};
 use libc::{c_char, c_float};
 
 #[repr(C)]
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct Vector4 {
   x: c_float,
   y: c_float,
@@ -69,6 +69,12 @@ pub unsafe extern "C" fn calc_m(a: Vector4) -> c_float {
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn calc_unit_v(a: Vector4) -> Vector4 {
+  let a: Vec4 = a.into(); 
+  a.normalize().into()
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn calc_dp(a: Vector4, b: Vector4) -> c_float {
   let a: Vec3 = a.into(); 
   let b: Vec3 = b.into();
@@ -82,6 +88,60 @@ pub unsafe extern "C" fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
   a = a * d;
   a.w = f;
   a.into()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_p_to_v(a: Vector4, b: Vector4) -> Vector4 {
+  let a: Vec4 = a.into(); 
+  let b: Vec4 = b.into(); 
+  let mut ans = b - a;
+  ans.w = 0.;
+  ans.into()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_p_dist(a: Vector4, b: Vector4) -> c_float {
+  let a: Vec4 = a.into(); 
+  let b: Vec4 = b.into(); 
+  (b - a).length()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_p_dist_vec(a: Vector4, b: Vec3) -> c_float {
+  let a: Vec3 = a.into(); 
+  (b - a).length()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_p_to_vec(a: Vector4, b: Vec3) -> Vector4 {
+  let a: Vec3 = a.into(); 
+  (b - a).into()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_vector_ang(a: Vector4, b: Vector4) -> c_float {
+  let a: Vec3 = a.into(); 
+  let b: Vec3 = b.into(); 
+  a.angle_between(b)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_vect_to_point(p: Vector4, v: Vector4, m: c_float) -> Vector4 {
+  let p : Vec4 = p.into();
+  let v : Vec4 = v.into();
+	let mut ans = p + v * (m / v.length());
+	ans.w = 1.;
+	ans.into()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vector4 {
+  let ab: Vec4 = calc_p_to_v(a, b.clone()).into();
+	let t = ab.length();
+	let ang = calc_vector_ang(v, ab.into());
+	let t = t * ang.cos();
+	let p = calc_vect_to_point(a, v, t);
+	calc_p_to_v(p, b)
 }
 
 #[no_mangle]

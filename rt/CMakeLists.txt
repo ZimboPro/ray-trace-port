@@ -9,7 +9,6 @@ set(SOURCE
 srcs/anti_aliasing_2.c
 srcs/anti_aliasing.c
 srcs/cal.c
-srcs/calc_1.c
 srcs/calc_2.c
 srcs/calc.c
 srcs/camera_2.c

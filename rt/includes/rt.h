@@ -339,15 +339,7 @@ float			**scale(float sx, float sy, float sz);
 
 t_vector		calc_con(t_vector a, float **b);
 float			**calc_trans(float **a, float **b);
-float			calc_vector_ang(t_vector a, t_vector b);
 t_vector		calc_coplanar(t_vector a, t_vector b);
-t_point			calc_vect_to_point(t_point p, t_vector v, float m);
-t_vector		calc_p_to_v(t_point a, t_point b);
-t_vector		calc_p_to_vec(t_point a, Vec3 b);
-float			calc_p_dist(t_point a, t_point b);
-float	calc_p_dist_vec(t_point a, Vec3 b);
-t_vector		calc_unit_v(t_vector a);
-t_vector		calc_normal(t_vector v, t_point origin, t_point p);
 void			calc_w_to_c(t_obj *obj);
 t_vector		rot_x(t_vector v, float r);
 t_vector		rot_y(t_vector v, float r);
