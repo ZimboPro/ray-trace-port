@@ -341,8 +341,6 @@ t_vector		calc_con(t_vector a, float **b);
 float			**calc_trans(float **a, float **b);
 t_vector		calc_coplanar(t_vector a, t_vector b);
 void			calc_w_to_c(t_obj *obj);
-t_vector		rot_x(t_vector v, float r);
-t_vector		rot_y(t_vector v, float r);
 
 /*
  ** intersections of objects

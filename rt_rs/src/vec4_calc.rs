@@ -58,8 +58,7 @@ pub unsafe extern "C" fn calc_addition(a: Vector4, b: Vector4) -> Vector4 {
 pub unsafe extern "C" fn calc_cross_product(a: Vector4, b: Vector4) -> Vector4 {
   let a: Vec3 = a.into(); 
   let b: Vec3 = b.into(); 
-  let mut ans = a.cross(b);
-  ans.into()
+  a.cross(b).into()
 }
 
 #[no_mangle]
@@ -142,6 +141,28 @@ pub unsafe extern "C" fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vecto
 	let t = t * ang.cos();
 	let p = calc_vect_to_point(a, v, t);
 	calc_p_to_v(p, b)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn	rot_x(v:  Vector4, r: c_float) -> Vector4
+{
+  let mut ans = v;
+	let y = ans.y;
+	let z = ans.z;
+	ans.y = y * r.cos() - z * r.sin();
+	ans.z = y * r.sin() + z * r.cos();
+	ans
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn	rot_y(v:  Vector4, r: c_float) -> Vector4
+{
+  let mut ans = v;
+	let x = ans.x;
+	let z = ans.z;
+	ans.x = x * r.cos() + z * r.sin();
+	ans.z = -x * r.sin() + z * r.cos();
+	ans
 }
 
 #[no_mangle]
