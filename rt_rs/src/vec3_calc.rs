@@ -1,7 +1,7 @@
 use std::ffi::CStr;
 
 use glam::Vec3;
-use libc::c_char;
+use libc::{c_char, c_float};
 
 
 #[no_mangle]
@@ -51,4 +51,9 @@ pub unsafe extern "C" fn str_map_to_vec3(val: *const c_char, vec: &mut Vec3) {
     vec.x = 0.;
     vec.y = 0.;
     vec.z = 0.;
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_multi_vec(a: Vec3, d: c_float) -> Vec3 {
+ a * d
 }

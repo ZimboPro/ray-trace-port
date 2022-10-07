@@ -13,24 +13,6 @@
 #include "rt.h"
 
 /*
- ** vector magnitude
-*/
-
-inline float	calc_m(t_vector a)
-{
-	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
-}
-
-/*
- ** dot product
-*/
-
-inline float	calc_dp(t_vector a, t_vector b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
-/*
  ** multiplication 4x4 * 4x1
 */
 

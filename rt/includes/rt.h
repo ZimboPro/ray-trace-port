@@ -337,8 +337,6 @@ float			**scale(float sx, float sy, float sz);
  ** line algebra and matrix calculations
 */
 
-float			calc_m(t_vector a);
-float			calc_dp(t_vector a, t_vector b);
 t_vector		calc_con(t_vector a, float **b);
 float			**calc_trans(float **a, float **b);
 float			calc_vector_ang(t_vector a, t_vector b);
@@ -351,8 +349,6 @@ float	calc_p_dist_vec(t_point a, Vec3 b);
 t_vector		calc_unit_v(t_vector a);
 t_vector		calc_normal(t_vector v, t_point origin, t_point p);
 void			calc_w_to_c(t_obj *obj);
-t_vector		calc_multi(t_vector a, float d);
-Vec3	calc_multi_vec(Vec3 a, float d);
 t_vector		rot_x(t_vector v, float r);
 t_vector		rot_y(t_vector v, float r);
 

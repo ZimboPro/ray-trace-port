@@ -63,6 +63,28 @@ pub unsafe extern "C" fn calc_cross_product(a: Vector4, b: Vector4) -> Vector4 {
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn calc_m(a: Vector4) -> c_float {
+  let a: Vec3 = a.into(); 
+  a.length()
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_dp(a: Vector4, b: Vector4) -> c_float {
+  let a: Vec3 = a.into(); 
+  let b: Vec3 = b.into();
+  a.dot(b)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
+  let mut a: Vec4 = a.into(); 
+  let f = a.w;
+  a = a * d;
+  a.w = f;
+  a.into()
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn str_to_vec4(val: *const c_char) -> Vector4 {
     if !val.is_null() {
         let raw = CStr::from_ptr(val);

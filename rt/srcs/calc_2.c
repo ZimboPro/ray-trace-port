@@ -47,32 +47,3 @@ t_vector	rot_y(t_vector v, float r)
 	ans.z = -x * sin(r) + z * cos(r);
 	return (ans);
 }
-
-/*
- ** multiplies each component of vector by a value
-*/
-
-t_vector	calc_multi(t_vector a, float d)
-{
-	t_vector	ans;
-
-	ans.x = a.x * d;
-	ans.y = a.y * d;
-	ans.z = a.z * d;
-	ans.w = a.w;
-	return (ans);
-}
-
-/*
- ** multiplies each component of vector by a value
-*/
-
-Vec3	calc_multi_vec(Vec3 a, float d)
-{
-	Vec3	ans;
-
-	ans.x = a.x * d;
-	ans.y = a.y * d;
-	ans.z = a.z * d;
-	return (ans);
-}
