@@ -8,7 +8,6 @@ find_package(SDL2)
 set(SOURCE
 srcs/anti_aliasing_2.c
 srcs/anti_aliasing.c
-srcs/calc.c
 srcs/camera_2.c
 srcs/camera.c
 srcs/cartoon_2.c
@@ -37,8 +36,6 @@ srcs/progess.c
 srcs/read.c
 srcs/reflection.c
 srcs/refraction.c
-srcs/rotation.c
-srcs/scale.c
 srcs/sequence_2.c
 srcs/sequence.c
 srcs/sphere_2.c
@@ -46,7 +43,6 @@ srcs/sphere.c
 srcs/texture_2.c
 srcs/texture.c
 srcs/threads.c
-srcs/translation.c
 )
 
     include_directories(includes/)

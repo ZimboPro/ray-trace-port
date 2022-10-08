@@ -50,28 +50,3 @@ void			int_cyl(t_objects obj, float *d, t_ray ray)
 		int_cylinder(d, cyl);
 }
 
-/*
- ** creates the transforamtion matrix
-*/
-
-float			**transf(t_vector cyl)
-{
-	float		z;
-	float		y;
-	t_vector	temp;
-	t_vector	p;
-	float		**rot;
-
-	p = (t_vector){1, 0, 0, 1};
-	temp = (t_vector){cyl.x, cyl.y, 0, 1};
-	z = calc_vector_ang(p, temp);
-	if (temp.y < 0)
-		z = -z;
-	p = (t_vector){0, 0, 1, 1};
-	temp = (t_vector){cyl.x, 0, cyl.z, 1};
-	y = calc_vector_ang(p, temp);
-	if (temp.x < 0)
-		y = -y;
-	rot = rotation(0, y, z);
-	return (rot);
-}

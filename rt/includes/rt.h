@@ -300,35 +300,16 @@ void			*cartoon_threading(void *arg);
 t_temp			thr_init(t_obj *obj, SDL_Renderer *ren, int i);
 
 /*
- ** creates matrices based on input
-*/
-
-float			**rotation(float x, float y, float z);
-float			**translation(float tx, float ty, float tz);
-float			**scale(float sx, float sy, float sz);
-
-/*
- ** line algebra and matrix calculations
-*/
-
-t_vector		calc_con(t_vector a, float **b);
-float			**calc_trans(float **a, float **b);
-t_vector		calc_coplanar(t_vector a, t_vector b);
-void			calc_w_to_c(t_obj *obj);
-
-/*
  ** intersections of objects
 */
 
 int				intersection(t_obj obj, float *d, t_vector v, t_point n);
-// t_ray			ray(t_obj obj, float x, float y);
 void			int_circle(t_objects obj, float *d, t_ray ray);
 void			int_cone(t_objects obj, float *d, t_ray ray);
 void			int_cone_lid(t_ray obj, float *d, t_ray ray, float r);
 void			int_cyl(t_objects obj, float *d, t_ray ray);
 void			int_cyl_lid(t_ray obj, float *d, t_ray ray, float r);
 void			int_plane(t_objects obj, float *d, t_ray ray);
-float			**transf(t_vector v);
 
 t_objects		pattern(t_objects object, t_vector n, t_ray rv);
 float			perlin2d(float x, float y, float freq, int depth);
