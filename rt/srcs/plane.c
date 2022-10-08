@@ -20,12 +20,7 @@ static void		ft_pln(int *i, char **str, t_objects *plane)
 {
 	char					**s;
 
-	s = ft_strsplit(str[*i], ' ');
-	plane->dir.x = (float)ft_atoi(s[0]);
-	plane->dir.y = (float)ft_atoi(s[1]);
-	plane->dir.z = (float)ft_atoi(s[2]);
-	plane->dir.w = (float)ft_atoi(s[3]);
-	ft_strarrdel(s);
+	str_map_to_vec4(str[*i], &plane->dir);
 	*i += 1;
 	s = ft_strsplit(str[*i], ' ');
 	plane->reflect = ((float)ft_atoi(s[0]) / 100);

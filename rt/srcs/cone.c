@@ -16,30 +16,13 @@
  ** get object details
 */
 
-static void		ft_cone_helper(int *i, char **str, t_objects *obj)
-{
-	char	**s;
-
-	s = ft_strsplit(str[*i], ' ');
-	obj->c.x = (float)ft_atoi(s[0]);
-	obj->c.y = (float)ft_atoi(s[1]);
-	obj->c.z = (float)ft_atoi(s[2]);
-	obj->c.w = 1;
-	ft_strarrdel(s);
-	*i = *i + 1;
-}
-
 static void		ft_cone(int *i, char **str, t_objects *obj)
 {
 	char					**s;
 
-	ft_cone_helper(i, str, obj);
-	s = ft_strsplit(str[*i], ' ');
-	obj->dir.x = (float)ft_atoi(s[0]);
-	obj->dir.y = (float)ft_atoi(s[1]);
-	obj->dir.z = (float)ft_atoi(s[2]);
-	obj->dir.w = 0;
-	ft_strarrdel(s);
+	str_map_to_vec4_def(str[*i], &obj->c);
+	*i = *i + 1;
+	str_map_to_vec4_def(str[*i], &obj->dir);
 	*i = *i + 1;
 	s = ft_strsplit(str[*i], ' ');
 	obj->rad = (float)ft_atoi(s[0]);

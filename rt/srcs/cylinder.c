@@ -12,34 +12,13 @@
 
 #include "rt.h"
 
-/*
- ** get object details
-*/
-
-static void		ft_cyl_helper(int *i, char **str, t_objects *cyl)
-{
-	char	**s;
-
-	s = ft_strsplit(str[*i], ' ');
-	cyl->c.x = (float)ft_atoi(s[0]);
-	cyl->c.y = (float)ft_atoi(s[1]);
-	cyl->c.z = (float)ft_atoi(s[2]);
-	cyl->c.w = 1;
-	ft_strarrdel(s);
-	*i = *i + 1;
-}
-
 static void		ft_cyl(int *i, char **str, t_objects *cyl)
 {
 	char					**s;
 
-	ft_cyl_helper(i, str, cyl);
-	s = ft_strsplit(str[*i], ' ');
-	cyl->dir.x = (float)ft_atoi(s[0]);
-	cyl->dir.y = (float)ft_atoi(s[1]);
-	cyl->dir.z = (float)ft_atoi(s[2]);
-	cyl->dir.w = 0;
-	ft_strarrdel(s);
+	str_map_to_vec4_def(str[*i], &cyl->c);
+	*i = *i + 1;
+	str_map_to_vec4_def(str[*i], &cyl->dir);
 	*i = *i + 1;
 	s = ft_strsplit(str[*i], ' ');
 	cyl->rad = (float)ft_atoi(s[0]);
