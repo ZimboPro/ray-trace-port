@@ -114,26 +114,3 @@ impl From<Object> for WorldObject {
          }
     }
 }
-
-#[no_mangle]
-pub unsafe extern "C" fn parse_file(val: *const c_char) -> WorldObject {
-    Object::default().into()
-}
-
-#[repr(C)]
-pub struct Light {
-    pnt: Vec3,
-    total: i32,
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn extact_light(val: *const c_char) -> Light {
-    Light {
-        pnt: Vec3{
-            x: 0.,
-            y: 0.,
-            z: 0.,
-        },
-        total: 0,
-    }
-}

@@ -73,6 +73,10 @@ typedef Vector4 t_vector;
 typedef struct	s_objects
 {
 	ObjectType type;
+	/**
+	 * @brief Point in space
+	 * 
+	 */
 	t_point		c;
 	float		h;
 	float		rad;
@@ -245,6 +249,7 @@ typedef struct	s_prog
 	int		p_h;
 	int		t;
 }				t_prog;
+
 void			sequence(char *str);
 void			update_pos(t_obj *obj, int *draw, int dir);
 void			ft_eventloop(SDL_Event event, int *loop, t_obj *obj, int *draw);

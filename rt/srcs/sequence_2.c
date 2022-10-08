@@ -16,7 +16,6 @@
 /*
  ** handles events and commands
 */
-
 static void		mouse_click(t_obj *obj, int *draw, SDL_Event event)
 {
 	int x;
@@ -100,8 +99,6 @@ void			sequence(char *str)
 {
 	char	**s;
 	t_obj	obj;
-
-	parse_file(str);
 
 	s = ft_read(str);
 	if (s != NULL)
