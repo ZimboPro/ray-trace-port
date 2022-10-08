@@ -27,7 +27,7 @@ void	*threading(void *arg)
 		x = t->x_b;
 		while (x < t->x_e && t->len < t->size)
 		{
-			rv = ray(*t->obj, x, y);
+			rv = ray(t->obj->camera, x, y);
 			p = trace_ray(*t->obj, rv, 0, t->ren);
 			t->img[t->len] = (t_pix_colors){p, (t_pixel){x, y}};
 			t->len += 1;
@@ -60,7 +60,7 @@ void	*cartoon_threading(void *arg)
 		x = t->x_b;
 		while (x < t->x_e && t->len < t->size)
 		{
-			rv = ray(*t->obj, x, y);
+			rv = ray(t->obj->camera, x, y);
 			p = trace_ray_cart(*t->obj, rv, 0, t->ren);
 			t->img[t->len] = (t_pix_colors){p, (t_pixel){x, y}};
 			t->len += 1;

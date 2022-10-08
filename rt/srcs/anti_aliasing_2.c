@@ -24,10 +24,10 @@ SDL_Color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 	int		i;
 
 	i = 0;
-	rays[0] = ray(obj, (float)x - 0.25, (float)y - 0.25);
-	rays[1] = ray(obj, (float)x + 0.25, (float)y - 0.25);
-	rays[2] = ray(obj, (float)x - 0.25, (float)y + 0.25);
-	rays[3] = ray(obj, (float)x + 0.25, (float)y + 0.25);
+	rays[0] = ray(obj.camera, (float)x - 0.25, (float)y - 0.25);
+	rays[1] = ray(obj.camera, (float)x + 0.25, (float)y - 0.25);
+	rays[2] = ray(obj.camera, (float)x - 0.25, (float)y + 0.25);
+	rays[3] = ray(obj.camera, (float)x + 0.25, (float)y + 0.25);
 	p = (SDL_Color){0, 0, 0, 255};
 	while (i < 4)
 	{
@@ -118,10 +118,10 @@ SDL_Color		aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 	int		i;
 
 	i = 0;
-	rays[0] = ray(obj, (float)x - 0.25, (float)y - 0.25);
-	rays[1] = ray(obj, (float)x + 0.25, (float)y - 0.25);
-	rays[2] = ray(obj, (float)x - 0.25, (float)y + 0.25);
-	rays[3] = ray(obj, (float)x + 0.25, (float)y + 0.25);
+	rays[0] = ray(obj.camera, (float)x - 0.25, (float)y - 0.25);
+	rays[1] = ray(obj.camera, (float)x + 0.25, (float)y - 0.25);
+	rays[2] = ray(obj.camera, (float)x - 0.25, (float)y + 0.25);
+	rays[3] = ray(obj.camera, (float)x + 0.25, (float)y + 0.25);
 	p = (SDL_Color){0, 0, 0, 255};
 	while (i < 4)
 	{

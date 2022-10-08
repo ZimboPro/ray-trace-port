@@ -89,25 +89,7 @@ typedef struct	s_objects
  ** camera data
 */
 
-typedef struct	s_camera
-{
-	int			mode;
-	int			width;
-	int			height;
-	float		dist;
-	float		ar;
-	float		scale;
-	float		xdeg;
-	float		ydeg;
-	t_point		c;
-	t_vector	view;
-	t_vector	up;
-	t_vector	hor;
-	float		h_fov;
-	float		v_fov;
-	SDL_Color		bg;
-}				t_camera;
-
+typedef Camera t_camera;
 /*
  ** light data
 */
@@ -118,16 +100,8 @@ typedef struct	s_light
 	Vec3		c;
 }				t_light;
 
-/*
- ** ray data, a vector and point of origin
-*/
 
-typedef struct	s_ray
-{
-	t_point		sc;
-	t_vector	v;
-}				t_ray;
-
+typedef Ray t_ray;
 /*
  ** sturcts that contains world data
 */
@@ -347,7 +321,7 @@ void			calc_w_to_c(t_obj *obj);
 */
 
 int				intersection(t_obj obj, float *d, t_vector v, t_point n);
-t_ray			ray(t_obj obj, float x, float y);
+// t_ray			ray(t_obj obj, float x, float y);
 void			int_circle(t_objects obj, float *d, t_ray ray);
 void			int_cone(t_objects obj, float *d, t_ray ray);
 void			int_cone_lid(t_ray obj, float *d, t_ray ray, float r);

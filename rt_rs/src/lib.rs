@@ -7,6 +7,7 @@ mod object;
 mod vec3_calc;
 mod vec4_calc;
 mod ray;
+mod camera;
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {

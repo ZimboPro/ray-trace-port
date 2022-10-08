@@ -8,7 +8,6 @@ find_package(SDL2)
 set(SOURCE
 srcs/anti_aliasing_2.c
 srcs/anti_aliasing.c
-srcs/cal.c
 srcs/calc.c
 srcs/camera_2.c
 srcs/camera.c
