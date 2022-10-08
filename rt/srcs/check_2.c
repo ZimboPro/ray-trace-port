@@ -15,7 +15,6 @@
 /*
  ** checks to see if entry for camera is correct
 */
-
 void	check_camera(char **str, int i, int *chk)
 {
 	int		lines;
@@ -44,7 +43,6 @@ void	check_camera(char **str, int i, int *chk)
 /*
  ** checks to see if entry for light is correct
 */
-
 void	check_light(char **str, int i, int *chk)
 {
 	int		lines;
@@ -77,7 +75,6 @@ void	check_light(char **str, int i, int *chk)
 /*
  ** checks values and outputs error if any
 */
-
 int		valid_count(int c, int l, int o)
 {
 	int		chk;
@@ -107,7 +104,6 @@ int		valid_count(int c, int l, int o)
 /*
  ** checks to see if there is a light and camera and at least one object
 */
-
 int		valid(char **str)
 {
 	int		i;
@@ -138,7 +134,6 @@ int		valid(char **str)
 /*
  ** checks to see if map is valid
 */
-
 int		map_check(char **str)
 {
 	int		i;

@@ -15,7 +15,6 @@
 /*
  ** Linear-feedback shift register
 */
-
 t_point	ft_rand(t_point p)
 {
 	unsigned				bit;

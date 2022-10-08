@@ -15,7 +15,6 @@
 /*
  ** finds corresponding ray intersection function
 */
-
 static void	intersect(t_objects obj, float *d, t_ray ray)
 {
 	if (obj.type == Circle)
@@ -31,7 +30,6 @@ static void	intersect(t_objects obj, float *d, t_ray ray)
 /*
  ** finds closest intersection if any for ray
 */
-
 int			intersection(t_obj obj, float *d, t_vector v, t_point p)
 {
 	float	dist;

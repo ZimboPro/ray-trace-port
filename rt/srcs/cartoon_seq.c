@@ -15,7 +15,6 @@
 /*
  ** fresnel equation and effect for cartoon mode
 */
-
 static SDL_Color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
 		SDL_Renderer *ren)
 {
@@ -48,7 +47,6 @@ static SDL_Color	fresnel_effect_cart(t_obj obj, t_ray ray, int depth,
  ** does the ray tracing and gets the color with reflection and
  ** refration if applicable for cartoon mode
 */
-
 SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 	SDL_Renderer *ren)
 {
@@ -81,7 +79,6 @@ SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 /*
  ** creates threads
 */
-
 void			cartoon_draw(t_obj *obj, SDL_Renderer *ren)
 {
 	pthread_t	pthid[4];
@@ -114,7 +111,6 @@ void			cartoon_draw(t_obj *obj, SDL_Renderer *ren)
 /*
  ** gets object color and cartoon shading
 */
-
 SDL_Color			get_cartoon_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
 {
 	SDL_Color	col;

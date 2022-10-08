@@ -16,7 +16,6 @@
  ** count the number of spaces in a string and compare it with the expected
  ** result
 */
-
 int		cnt_space(char *str, int *j, int *chk, int value)
 {
 	int		i;
@@ -42,7 +41,6 @@ int		cnt_space(char *str, int *j, int *chk, int value)
 /*
  ** checks to see if entry for sphere is correct
 */
-
 void	check_circle(char **str, int i, int *chk)
 {
 	int		lines;
@@ -73,7 +71,6 @@ void	check_circle(char **str, int i, int *chk)
 /*
  ** checks to see if entry for cone is correct
 */
-
 void	check_cone(char **str, int i, int *chk)
 {
 	int		lines;
@@ -106,7 +103,6 @@ void	check_cone(char **str, int i, int *chk)
 /*
  ** checks to see if entry for cylinder is correct
 */
-
 void	check_cylinder(char **str, int i, int *chk)
 {
 	int		lines;
@@ -139,7 +135,6 @@ void	check_cylinder(char **str, int i, int *chk)
 /*
  ** checks to see if entry for plane is correct
 */
-
 void	check_plane(char **str, int i, int *chk)
 {
 	int		lines;

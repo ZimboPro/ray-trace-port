@@ -15,7 +15,6 @@
 /*
  ** handles events and commands
 */
-
 static int	ft_events_aa(SDL_Window *win, t_obj *obj)
 {
 	SDL_Renderer	*ren;
@@ -44,7 +43,6 @@ static int	ft_events_aa(SDL_Window *win, t_obj *obj)
 /*
  ** anti-aliasing raytrace
 */
-
 static void	raytrace_aa(t_obj *obj)
 {
 	SDL_Window	*win;
@@ -60,7 +58,6 @@ static void	raytrace_aa(t_obj *obj)
 /*
  ** main sequence of events for anti-aliasing
 */
-
 void		aa_seq(char *str)
 {
 	char	**s;
@@ -86,7 +83,6 @@ void		aa_seq(char *str)
 /*
  ** normal anti_aliasing ray trace with threading
 */
-
 void		ft_draw_aa(t_obj *obj, SDL_Renderer *ren)
 {
 	pthread_t	pthid[4];
@@ -119,7 +115,6 @@ void		ft_draw_aa(t_obj *obj, SDL_Renderer *ren)
 /*
  ** anti-aliasing thread
 */
-
 void		*threading_aa(void *arg)
 {
 	t_temp	*t;

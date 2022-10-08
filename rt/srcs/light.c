@@ -15,7 +15,6 @@
 /*
  ** allocates memory for light(s)
 */
-
 t_light		*ft_lights(int len, char **str)
 {
 	t_light		*lights;

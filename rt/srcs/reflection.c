@@ -15,7 +15,6 @@
 /*
  ** get the reflected vector
 */
-
 t_ray	get_reflect_ray(t_objects obj, t_ray ray, float d)
 {
 	t_ray		reflect;
@@ -34,7 +33,6 @@ t_ray	get_reflect_ray(t_objects obj, t_ray ray, float d)
 /*
  ** reflection ray for sphere
 */
-
 t_ray	rf_sphere(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;
@@ -51,7 +49,6 @@ t_ray	rf_sphere(t_objects obj, t_ray ray, float d)
 /*
  ** reflection ray for cone
 */
-
 t_ray	rf_cone(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;
@@ -72,7 +69,6 @@ t_ray	rf_cone(t_objects obj, t_ray ray, float d)
 /*
  ** reflection ray for cylinder
 */
-
 t_ray	rf_cylinder(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;
@@ -92,7 +88,6 @@ t_ray	rf_cylinder(t_objects obj, t_ray ray, float d)
 /*
  ** reflection ray for plane
 */
-
 t_ray	rf_plane(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;

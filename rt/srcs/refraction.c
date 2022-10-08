@@ -15,7 +15,6 @@
 /*
  ** checks to see which function to use
 */
-
 t_ray	get_refract_ray(t_objects obj, t_ray ray, float d)
 {
 	t_ray	rfrt;
@@ -34,7 +33,6 @@ t_ray	get_refract_ray(t_objects obj, t_ray ray, float d)
 /*
  ** returns point and refractive ray for sphere
 */
-
 t_ray	rl_sphere(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;
@@ -66,7 +64,6 @@ t_ray	rl_sphere(t_objects obj, t_ray ray, float d)
 /*
  ** returns point and refractive ray for cone
 */
-
 t_ray	rl_cone(t_objects obj, t_ray ray, float d)
 {
 	t_coneh h;
@@ -98,7 +95,6 @@ t_ray	rl_cone(t_objects obj, t_ray ray, float d)
 /*
  ** returns point and refractive ray for cylinder
 */
-
 t_ray	rl_cylinder(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;
@@ -131,7 +127,6 @@ t_ray	rl_cylinder(t_objects obj, t_ray ray, float d)
 /*
  ** returns point and refractive ray for plane
 */
-
 t_ray	rl_plane(t_objects obj, t_ray ray, float d)
 {
 	t_ray		rf;

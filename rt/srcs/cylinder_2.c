@@ -15,7 +15,6 @@
 /*
  ** checks to see if ray intersects and then calculates distance if it does
 */
-
 static void		int_cylinder(float *d, t_quad cyl)
 {
 	cyl.t1 = (-cyl.b + sqrt(cyl.c)) / (2 * cyl.a);
@@ -29,7 +28,6 @@ static void		int_cylinder(float *d, t_quad cyl)
 /*
  ** transforms the points and vectors before checking for intersections
 */
-
 void			int_cyl(t_objects obj, float *d, t_ray ray)
 {
 	t_quad		cyl;

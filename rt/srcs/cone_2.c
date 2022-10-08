@@ -15,7 +15,6 @@
 /*
  ** if ray intersects then finds the closest distance
 */
-
 static void		int_c(float *d, t_quad cone, t_objects obj, t_ray ray)
 {
 	t_vector	cp;
@@ -37,7 +36,6 @@ static void		int_c(float *d, t_quad cone, t_objects obj, t_ray ray)
 /*
  ** checks to see if ray intersects
 */
-
 void			int_cone(t_objects obj, float *d, t_ray ray)
 {
 	float		ang;

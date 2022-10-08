@@ -42,7 +42,6 @@ static void		ft_circ(int *i, char **str, t_objects *obj)
 /*
  ** gets values for circle
 */
-
 void			ft_circles(t_objects *obj, char **str, int i, int *j)
 {
 	*j = *j + 1;

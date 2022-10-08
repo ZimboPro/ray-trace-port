@@ -17,7 +17,6 @@
  ** finds color with lights ie multi-lights and checks if light source is
  ** closer than object if intersection
 */
-
 static SDL_Color	cartoon_help(SDL_Color col, float j)
 {
 	return dim_color(&col, (AMB + (1 - AMB) * j));

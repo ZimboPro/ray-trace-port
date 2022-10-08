@@ -15,7 +15,6 @@
 /*
  ** anti-aliasing
 */
-
 SDL_Color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 {
 	t_ray	rays[4];
@@ -45,7 +44,6 @@ SDL_Color		aa_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 /*
  ** cartoon anti_aliasing ray trace with threading
 */
-
 void		cartoon_draw_aa(t_obj *obj, SDL_Renderer *ren)
 {
 	pthread_t	pthid[4];
@@ -78,7 +76,6 @@ void		cartoon_draw_aa(t_obj *obj, SDL_Renderer *ren)
 /*
  ** anti-aliasing thread
 */
-
 void		*threading_cart_aa(void *arg)
 {
 	t_temp	*t;
@@ -109,7 +106,6 @@ void		*threading_cart_aa(void *arg)
 /*
  ** anti-aliasing
 */
-
 SDL_Color		aa_cartoon_col(t_obj obj, int x, int y, SDL_Renderer *ren)
 {
 	t_ray	rays[4];

@@ -15,7 +15,6 @@
 /*
  ** calculates the unit distance, the centre of view plane and aspect ratio
 */
-
 void		camera_corners(t_camera *cam)
 {
 	cam->scale = tan((cam->h_fov / 2) * (M_PI / 180));

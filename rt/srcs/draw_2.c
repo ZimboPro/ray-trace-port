@@ -16,7 +16,6 @@
 /*
  ** adjust color
 */
-
 SDL_Color			color_adjust(SDL_Color a, float d)
 {
 	a.r *= d;
@@ -29,7 +28,6 @@ SDL_Color			color_adjust(SDL_Color a, float d)
  ** does the ray tracing and gets the color with reflection and
  ** refration if applicable
 */
-
 SDL_Color			trace_ray(t_obj obj, t_ray ray, int depth, SDL_Renderer *ren)
 {
 	t_traceh	k;
@@ -61,7 +59,6 @@ SDL_Color			trace_ray(t_obj obj, t_ray ray, int depth, SDL_Renderer *ren)
 /*
  ** gets object color and shading
 */
-
 SDL_Color			get_color(t_obj obj, SDL_Renderer *ren, int i, t_ray ry)
 {
 	SDL_Color	col;

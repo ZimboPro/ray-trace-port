@@ -15,7 +15,6 @@
 /*
  ** gets new vectors and coordinates
 */
-
 static void	cam_vect(t_camera *cam, t_point p)
 {
 	cam->c = p;
@@ -28,7 +27,6 @@ static void	cam_vect(t_camera *cam, t_point p)
 /*
  ** gets camera position
 */
-
 static void	ft_cam(int *i, char **str, t_camera *cam)
 {
 	char		**s;
@@ -50,7 +48,6 @@ static void	ft_cam(int *i, char **str, t_camera *cam)
 /*
  ** initailising the camera
 */
-
 void		init_cam(t_camera *cam)
 {
 	cam->c = (t_point){0, 0, 0, 1};
@@ -62,7 +59,6 @@ void		init_cam(t_camera *cam)
 /*
  ** gets back ground color
 */
-
 static void	background_color(t_camera *cam, char *str)
 {
 	char	**s;
@@ -78,7 +74,6 @@ static void	background_color(t_camera *cam, char *str)
 /*
  ** gets camera details
 */
-
 t_camera	ft_camera(char **str)
 {
 	t_camera	cam;

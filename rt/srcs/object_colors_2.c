@@ -15,7 +15,6 @@
 /*
  ** blinn-phong ligthing
 */
-
 float			blinn_helper(t_obj obj, t_ray n, t_cart h)
 {
 	if (obj.objects[h.i].type != Plane && (h.tmp = calc_dp(h.l, n.v)) < 0.0f)

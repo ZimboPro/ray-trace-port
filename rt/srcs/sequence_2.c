@@ -49,7 +49,6 @@ void			ft_evn(int *loop, t_obj *obj, int *draw)
 /*
  ** handles events and commands and if it is cartoon mode or normal mode
 */
-
 static int		ft_events(SDL_Window *win, t_obj *obj)
 {
 	SDL_Renderer	*ren;
@@ -78,7 +77,6 @@ static int		ft_events(SDL_Window *win, t_obj *obj)
 /*
  ** the ray trace sequence
 */
-
 static void		raytrace(t_obj *obj)
 {
 	SDL_Window	*win;
@@ -94,7 +92,6 @@ static void		raytrace(t_obj *obj)
 /*
  ** the main sequence of events
 */
-
 void			sequence(char *str)
 {
 	char	**s;

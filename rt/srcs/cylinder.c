@@ -30,7 +30,6 @@ static void		ft_cyl(int *i, char **str, t_objects *cyl)
 /*
  ** gets object color
 */
-
 static void		ft_cyl_options(char *str, t_objects *obj)
 {
 	char **s;
@@ -47,7 +46,6 @@ static void		ft_cyl_options(char *str, t_objects *obj)
 /*
  ** alocates memory
 */
-
 void			ft_cylinders(t_objects *obj, char **str, int i, int *j)
 {
 	char	**s;

@@ -44,7 +44,6 @@ void	*threading(void *arg)
 /*
  ** cartoon thread ray trace
 */
-
 void	*cartoon_threading(void *arg)
 {
 	t_temp	*t;
@@ -77,7 +76,6 @@ void	*cartoon_threading(void *arg)
 /*
  ** initialises the data for threading
 */
-
 t_temp	thr_init(t_obj *obj, SDL_Renderer *ren, int i)
 {
 	t_temp			t;

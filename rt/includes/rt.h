@@ -38,7 +38,6 @@
 /*
  ** x and y coordinates
 */
-
 typedef struct	s_pixel
 {
 	int			x;
@@ -49,7 +48,6 @@ typedef struct	s_pixel
 /*
  ** used in quadratic formula for intersection
 */
-
 typedef struct	s_quad
 {
 	float		a;
@@ -62,14 +60,12 @@ typedef struct	s_quad
 /*
  ** renaming vector to point for  differentiating
 */
-
 typedef Vector4	t_point;
 typedef Vector4 t_vector;
 
 /*
  ** the data stored of objects
 */
-
 typedef struct	s_objects
 {
 	ObjectType type;
@@ -92,12 +88,10 @@ typedef struct	s_objects
 /*
  ** camera data
 */
-
 typedef Camera t_camera;
 /*
  ** light data
 */
-
 typedef struct	s_light
 {
 	int			total;
@@ -109,7 +103,6 @@ typedef Ray t_ray;
 /*
  ** sturcts that contains world data
 */
-
 typedef struct	s_obj
 {
 	float		d;
@@ -126,7 +119,6 @@ typedef struct	s_obj
 /*
  ** the color and cordinates of a specific pixel
 */
-
 typedef struct		s_pix_colors
 {
 	SDL_Color			c;
@@ -136,7 +128,6 @@ typedef struct		s_pix_colors
 /*
  ** data needed for multithreads
 */
-
 typedef struct		s_temp
 {
 	size_t			len;
@@ -202,7 +193,6 @@ typedef struct	s_tex
 /*
  ** reading map and checking if it is valid
 */
-
 typedef struct	s_cart
 {
 	int			k;

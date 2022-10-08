@@ -15,7 +15,6 @@
 /*
  ** update camera view
 */
-
 void			update_pos(t_obj *obj, int *draw, int dir)
 {
 	t_point		p;
@@ -39,7 +38,6 @@ void			update_pos(t_obj *obj, int *draw, int dir)
 /*
  ** update camera view
 */
-
 static t_vector	update_view_helper(t_obj *obj, int dir)
 {
 	t_vector temp;
@@ -96,7 +94,6 @@ void			update_view(t_obj *obj, int *draw, int dir)
 /*
  ** event keys and their respective action
 */
-
 void			ft_eventloop(SDL_Event event, int *loop, t_obj *obj, int *draw)
 {
 	if (event.type == SDL_QUIT)

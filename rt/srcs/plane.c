@@ -15,7 +15,6 @@
 /*
  ** gets object details
 */
-
 static void		ft_pln(int *i, char **str, t_objects *plane)
 {
 	char					**s;
@@ -40,7 +39,6 @@ static void		ft_pln(int *i, char **str, t_objects *plane)
 /*
  ** allocates memory
 */
-
 void			ft_planes(t_objects *obj, char **str, int i, int *j)
 {
 	*j = *j + 1;
@@ -58,7 +56,6 @@ void			ft_planes(t_objects *obj, char **str, int i, int *j)
 /*
  ** checks to see if ray intersects with plane
 */
-
 void			int_plane(t_objects obj, float *d, t_ray ray)
 {
 	t_vector	di;

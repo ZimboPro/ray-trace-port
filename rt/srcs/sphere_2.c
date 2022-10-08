@@ -15,7 +15,6 @@
 /*
  ** finds closest point
 */
-
 static void	int_circ(float *d, t_quad ci)
 {
 	ci.t1 = (-ci.b + sqrt(ci.c)) / (2 * ci.a);
@@ -36,7 +35,6 @@ static void	int_circ(float *d, t_quad ci)
 /*
  ** checks to see if ray intersects and and finds the distance if it does
 */
-
 void		int_circle(t_objects circ, float *d, t_ray ray)
 {
 	t_quad		ci;

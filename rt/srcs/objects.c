@@ -15,7 +15,6 @@
 /*
  ** updates map with unit distance
 */
-
 static void	ft_update_map(t_obj *obj, float d)
 {
 	int		i;
@@ -46,7 +45,6 @@ static void	ft_update_map(t_obj *obj, float d)
 /*
  ** if there is the respective object it the retrieves it's detatils
 */
-
 void		obj_assign(t_obj *obj, char **str)
 {
 	int		i;
@@ -78,7 +76,6 @@ void		obj_assign(t_obj *obj, char **str)
 /*
  ** gets the amount of that object
 */
-
 int			ft_cnt(char *str)
 {
 	char	**s;
@@ -93,7 +90,6 @@ int			ft_cnt(char *str)
 /*
  ** gets amount of each object
 */
-
 t_obj		objects(char **str)
 {
 	t_obj	object;

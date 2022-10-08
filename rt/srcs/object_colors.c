@@ -17,7 +17,6 @@
  ** finds color with lights ie multi-lights and checks if light source is
  ** closer than object if intersection
 */
-
 static SDL_Color	light_color(t_obj obj, t_ray n, int i)
 {
 	t_cart	h;
@@ -46,7 +45,6 @@ static SDL_Color	light_color(t_obj obj, t_ray n, int i)
 /*
  ** sphere color and shading
 */
-
 SDL_Color			color_circle(t_obj obj, int i, t_ray rv)
 {
 	t_point		p;
@@ -65,7 +63,6 @@ SDL_Color			color_circle(t_obj obj, int i, t_ray rv)
 /*
  ** cylinder color and shading
 */
-
 SDL_Color			color_cylinder(t_obj obj, int i, t_ray rv)
 {
 	t_point		p;
@@ -86,7 +83,6 @@ SDL_Color			color_cylinder(t_obj obj, int i, t_ray rv)
 /*
  ** cone color and shading
 */
-
 SDL_Color			color_cone(t_obj obj, int i, t_ray rv)
 {
 	t_point		p;
@@ -107,7 +103,6 @@ SDL_Color			color_cone(t_obj obj, int i, t_ray rv)
 /*
  ** sphere plane and shading
 */
-
 SDL_Color			color_plane(t_obj obj, int i, t_ray rv)
 {
 	t_point		p;

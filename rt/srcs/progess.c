@@ -15,7 +15,6 @@
 /*
  ** increments the progress amount
 */
-
 void			progress_update(t_obj *obj)
 {
 	obj->progress += 1;
@@ -24,7 +23,6 @@ void			progress_update(t_obj *obj)
 /*
  ** draws an updates the progress bar
 */
-
 static void		prog_help(t_prog *h, t_obj *obj, SDL_Renderer *ren)
 {
 	while (h->y < obj->camera.height)

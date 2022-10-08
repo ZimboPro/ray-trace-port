@@ -15,7 +15,6 @@
 /*
  ** opens map
 */
-
 static int	ft_open(char *str)
 {
 	int		fd;
@@ -31,7 +30,6 @@ static int	ft_open(char *str)
 /*
  ** reads map into string array
 */
-
 static char	**file_copy(int fd, int i)
 {
 	int		j;
@@ -49,7 +47,6 @@ static char	**file_copy(int fd, int i)
 /*
  ** determines how many lines there are in map
 */
-
 static int	ft_line(int fd)
 {
 	int		i;
@@ -67,7 +64,6 @@ static int	ft_line(int fd)
 /*
  ** reads map into string array and checks if file will open
 */
-
 char		**ft_read(char *str)
 {
 	int		fd;

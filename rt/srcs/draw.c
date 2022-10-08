@@ -15,7 +15,6 @@
 /*
  ** draws pixel point
 */
-
 void			ft_point(t_pix_colors *arr, size_t len, SDL_Renderer *ren)
 {
 	size_t	i;
@@ -32,7 +31,6 @@ void			ft_point(t_pix_colors *arr, size_t len, SDL_Renderer *ren)
 /*
  ** goes thorugh each pixel and finds what color to draw
 */
-
 void			ft_draw(t_obj *obj, SDL_Renderer *ren)
 {
 	pthread_t	pthid[4];
@@ -64,7 +62,6 @@ void			ft_draw(t_obj *obj, SDL_Renderer *ren)
 /*
  ** fresnel equation, the ratio of refraction and reflaction at a point
 */
-
 float			fresnel(float n1, int n2, t_vector n, t_vector v)
 {
 	float	r0;
@@ -93,7 +90,6 @@ float			fresnel(float n1, int n2, t_vector n, t_vector v)
 /*
  ** fresnel equation and effect
 */
-
 SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 		SDL_Renderer *ren)
 {

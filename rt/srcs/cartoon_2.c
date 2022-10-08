@@ -15,7 +15,6 @@
 /*
  ** sphere color and shading
 */
-
 void			cartoon_circle(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
@@ -37,7 +36,6 @@ void			cartoon_circle(t_obj obj, SDL_Color *col, int i, t_ray rv)
 /*
  ** cylinder color and shading
 */
-
 void			cartoon_cylinder(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
@@ -65,7 +63,6 @@ void			cartoon_cylinder(t_obj obj, SDL_Color *col, int i, t_ray rv)
 /*
  ** cone color and shading
 */
-
 void			cartoon_cone(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;
@@ -92,7 +89,6 @@ void			cartoon_cone(t_obj obj, SDL_Color *col, int i, t_ray rv)
 /*
  ** sphere plane and shading
 */
-
 void			cartoon_plane(t_obj obj, SDL_Color *col, int i, t_ray rv)
 {
 	t_point		p;

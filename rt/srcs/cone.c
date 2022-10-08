@@ -15,7 +15,6 @@
 /*
  ** get object details
 */
-
 static void		ft_cone(int *i, char **str, t_objects *obj)
 {
 	char					**s;
@@ -34,7 +33,6 @@ static void		ft_cone(int *i, char **str, t_objects *obj)
 /*
  ** allocates memory
 */
-
 static void		ft_cone_options(char *str, t_objects *obj)
 {
 	char **s;
