@@ -51,9 +51,9 @@ pub unsafe extern "C" fn intersect(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 
 #[no_mangle]
 pub unsafe extern "C" fn normal(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
-  return if obj.r#type == ObjectType::Cylinder {
+  if obj.r#type == ObjectType::Cylinder {
     cyl_norm(obj, d, ray)
   } else {
     cone_norm(obj, d, ray)
-  };
+  }
 }
