@@ -14,21 +14,6 @@
 #include <rt_rs.h>
 
 /*
- ** finds corresponding ray intersection function
-*/
-static void	intersect(t_objects obj, float *d, t_ray ray)
-{
-	if (obj.type == Circle)
-		int_circle(obj, d, ray);
-	else if (obj.type == Cone)
-		int_cone(obj, d, ray);
-	else if (obj.type == Cylinder)
-		int_cyl(obj, d, ray);
-	else if (obj.type == Plane)
-		int_plane(obj, d, ray);
-}
-
-/*
  ** finds closest intersection if any for ray
 */
 int			intersection(t_obj obj, float *d, t_vector v, t_point p)

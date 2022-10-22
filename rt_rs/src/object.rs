@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::vec4_calc::Vector4;
 
 #[repr(C)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, PartialEq, Eq)]
 pub enum ObjectType {
     Circle,
     Cylinder,
