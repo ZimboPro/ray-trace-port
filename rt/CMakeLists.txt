@@ -23,7 +23,6 @@ srcs/interface.c
 srcs/intersection.c
 srcs/light.c
 srcs/main.c
-srcs/normal.c
 srcs/object_colors_2.c
 srcs/object_colors.c
 srcs/objects.c

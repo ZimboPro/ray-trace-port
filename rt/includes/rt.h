@@ -262,9 +262,6 @@ char * joinStr(char **str, int i);
 void			ft_draw(t_obj *obj, SDL_Renderer *ren);
 void			cartoon_draw(t_obj *obj, SDL_Renderer *ren);
 void			ft_point(t_pix_colors *img, size_t len, SDL_Renderer *ren);
-t_vector		normal(t_objects obj, float d, t_ray ray);
-t_vector		cyl_norm(t_objects obj, float d, t_ray ray);
-t_vector		cone_norm(t_objects obj, float d, t_ray ray);
 void			progress_update(t_obj *obj);
 void			progress(t_obj *obj, SDL_Renderer *ren);
 

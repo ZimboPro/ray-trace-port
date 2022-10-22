@@ -1,6 +1,6 @@
 use libc::c_float;
 
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::int_cone, cylinder::int_cyl, plane::int_plane, object::{ObjectType, ObjectItem}};
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem}};
 
 #[repr(C)]
 #[derive(Default)]
@@ -46,4 +46,14 @@ pub unsafe extern "C" fn intersect(obj: ObjectItem, d: &mut c_float, ray: Ray) {
   } else if obj.r#type == ObjectType::Plane {
     int_plane(obj, d, ray);
   }
+}
+
+
+#[no_mangle]
+pub unsafe extern "C" fn normal(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
+  return if obj.r#type == ObjectType::Cylinder {
+    cyl_norm(obj, d, ray)
+  } else {
+    cone_norm(obj, d, ray)
+  };
 }

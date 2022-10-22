@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}};
 
 
 #[no_mangle]
@@ -57,4 +57,12 @@ pub unsafe extern "C" fn int_cone(obj: ObjectItem, d: &mut c_float, ray: Ray) {
       }
     }
   }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn cone_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
+	let p = calc_vect_to_point(ray.sc, ray.v, d);
+	let di = calc_p_dist(p, obj.c).powf(2.) / calc_dp(calc_p_to_v(obj.c, p),
+			calc_unit_v(obj.dir));
+	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
 }

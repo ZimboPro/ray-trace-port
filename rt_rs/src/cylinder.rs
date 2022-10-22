@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float};
 
-use crate::{object::{ObjectItem, ObjectType}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v}, colour::convert_str_to_color, ray::{Quad, Ray}};
+use crate::{object::{ObjectItem, ObjectType}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point}, colour::convert_str_to_color, ray::{Quad, Ray}};
 
 #[no_mangle]
 pub unsafe extern "C" fn cylinder(obj: &mut ObjectItem, str: *const c_char) {
@@ -48,4 +48,11 @@ pub unsafe extern "C" fn int_cyl(obj: ObjectItem, d: &mut c_float, ray: Ray) {
       *d = cyl.t2;
     }
   }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn cyl_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
+	let p = calc_vect_to_point(ray.sc, ray.v, d);
+	let di = calc_dp(calc_p_to_v(obj.c, p), calc_unit_v(obj.dir));
+	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
 }
