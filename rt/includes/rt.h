@@ -252,7 +252,6 @@ void			ft_cylinders(t_objects *obj, char **str, int i, int *j);
 void			ft_planes(t_objects *obj, char **str, int i, int *j);
 t_light			*ft_lights(int len, char **str);
 t_camera		ft_camera(char **str);
-void			camera_corners(t_camera *cam);
 t_point			ft_rand(t_point p);
 char * joinStr(char **str, int i);
 

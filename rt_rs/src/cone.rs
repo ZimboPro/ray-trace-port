@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, Vector4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}};
 
 
 #[no_mangle]
