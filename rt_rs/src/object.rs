@@ -1,7 +1,9 @@
 use glam::{self, f32};
-use libc::c_char;
+use libc::{c_char, c_float, c_int};
 use sdl2::sys::SDL_Color;
 use serde::{Deserialize, Serialize};
+
+use crate::vec4_calc::Vector4;
 
 #[repr(C)]
 #[derive(Serialize, Deserialize)]
@@ -114,3 +116,19 @@ impl From<Object> for WorldObject {
          }
     }
 }
+
+#[repr(C)]
+pub struct	ObjectItem
+{
+    pub r#type: ObjectType,
+    pub c: Vector4,
+    pub h: c_float,
+    pub rad: c_float,
+    pub col: SDL_Color,
+    pub dir: Vector4,
+    pub reflect: c_float,
+    pub refract: c_int,
+    pub pattern: c_int,
+    pub filter: c_int,
+    pub texmap: *const c_char,
+}	

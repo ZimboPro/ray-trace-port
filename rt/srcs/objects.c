@@ -117,3 +117,14 @@ t_obj		objects(char **str)
 		ft_bzero(&(object.objects[i]), sizeof(t_objects));
 	return (object);
 }
+
+
+char * joinStr(char **str, int i) {
+	char * s = ft_strnew(0);
+	while (ft_strlen(str[i]) != 0) {
+		char * t = ft_strjoin( ft_strjoin(s, "\n"), str[i]);
+		free(s);
+		s = t;
+		i++;
+	}
+}

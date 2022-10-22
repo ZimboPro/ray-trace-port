@@ -40,10 +40,7 @@ pub unsafe extern "C" fn str_map_to_color(val: *const c_char, vec: &mut SDL_Colo
         let raw = CStr::from_ptr(val);
         return match raw.to_str() {
             Ok(s) => {
-                let points: Vec<&str> = s.split(' ').collect();
-                    vec.r = points.get(0).unwrap().parse::<u8>().unwrap();
-                    vec.g = points.get(1).unwrap().parse::<u8>().unwrap();
-                    vec.b = points.get(2).unwrap().parse::<u8>().unwrap();
+                convert_str_to_color(s.to_string(), vec);
             }
             Err(_) => {
                 eprintln!("Failed to convert string");
@@ -57,4 +54,11 @@ pub unsafe extern "C" fn str_map_to_color(val: *const c_char, vec: &mut SDL_Colo
     vec.r = 0;
     vec.g = 0;
     vec.b = 0;
+}
+
+pub fn convert_str_to_color(s: String, vec: &mut SDL_Color) {
+    let points: Vec<&str> = s.split(' ').collect();
+    vec.r = points.get(0).unwrap().parse::<u8>().unwrap();
+    vec.g = points.get(1).unwrap().parse::<u8>().unwrap();
+    vec.b = points.get(2).unwrap().parse::<u8>().unwrap(); 
 }

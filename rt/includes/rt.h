@@ -44,7 +44,7 @@ typedef struct	s_pixel
 	int			y;
 }				t_pixel;
 
-
+// typedef Pixel t_pixel;
 /*
  ** used in quadratic formula for intersection
 */
@@ -66,25 +66,26 @@ typedef Vector4 t_vector;
 /*
  ** the data stored of objects
 */
-typedef struct	s_objects
-{
-	ObjectType type;
-	/**
-	 * @brief Point in space
-	 * 
-	 */
-	t_point		c;
-	float		h;
-	float		rad;
-	SDL_Color		col;
-	t_vector	dir;
-	float		reflect;
-	int			refract;
-	int			pattern;
-	int			filter;
-	char		*texmap;
-}				t_objects;
+// typedef struct	s_objects
+// {
+// 	ObjectType type;
+// 	/**
+// 	 * @brief Point in space
+// 	 * 
+// 	 */
+// 	t_point		c;
+// 	float		h;
+// 	float		rad;
+// 	SDL_Color		col;
+// 	t_vector	dir;
+// 	float		reflect;
+// 	int			refract;
+// 	int			pattern;
+// 	int			filter;
+// 	char		*texmap;
+// }				t_objects;
 
+typedef ObjectItem t_objects;
 /*
  ** camera data
 */
@@ -272,6 +273,7 @@ t_light			*ft_lights(int len, char **str);
 t_camera		ft_camera(char **str);
 void			camera_corners(t_camera *cam);
 t_point			ft_rand(t_point p);
+char * joinStr(char **str, int i);
 
 /*
  ** ray tracer starts here and progress bar
