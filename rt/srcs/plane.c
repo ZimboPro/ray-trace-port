@@ -13,44 +13,14 @@
 #include "rt.h"
 
 /*
- ** gets object details
-*/
-static void		ft_pln(int *i, char **str, t_objects *plane)
-{
-	char					**s;
-
-	str_map_to_vec4(str[*i], &plane->dir);
-	*i += 1;
-	s = ft_strsplit(str[*i], ' ');
-	plane->reflect = ((float)ft_atoi(s[0]) / 100);
-	plane->refract = ft_atoi(s[1]);
-	ft_strarrdel(s);
-	*i += 1;
-	s = ft_strsplit(str[*i], ' ');
-	if (ft_atoi(s[0]))
-		plane->c = ft_rand(plane->c);
-	plane->pattern = ft_atoi(s[1]);
-	plane->filter = ft_atoi(s[2]);
-	ft_strarrdel(s);
-	*i += 1;
-	s = NULL;
-}
-
-/*
  ** allocates memory
 */
 void			ft_planes(t_objects *obj, char **str, int i, int *j)
 {
 	*j = *j + 1;
-	while (str[i] != NULL && ft_strstr(str[i], "Plane") == NULL)
-		i++;
-	i++;
-	obj->type = Plane;
-	ft_pln(&i, str, obj);
-	str_map_to_color(str[i], &obj->col);
-	obj->c = (t_point){0, 0, 0, 0};
-	obj->h = 0;
-	obj->rad = 0;
+	char * s = joinStr(str, i);
+	plane(obj, s);
+	free(s);
 }
 
 /*

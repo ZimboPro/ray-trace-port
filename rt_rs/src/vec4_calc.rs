@@ -221,11 +221,7 @@ pub unsafe extern "C" fn str_map_to_vec4(val: *const c_char, vec: &mut Vector4) 
         let raw = CStr::from_ptr(val);
         return match raw.to_str() {
             Ok(s) => {
-                let points: Vec<&str> = s.split(' ').collect();
-                    vec.x = points.first().unwrap().parse::<f32>().unwrap();
-                    vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
-                    vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
-                    vec.w = points.get(3).unwrap().parse::<f32>().unwrap();
+              convert_str_to_vec4_with_w(s, vec);
             }
             Err(_) => {
                 eprintln!("Failed to convert string");
@@ -241,6 +237,15 @@ pub unsafe extern "C" fn str_map_to_vec4(val: *const c_char, vec: &mut Vector4) 
     vec.y = 0.;
     vec.z = 0.;
     vec.w = 0.;
+}
+
+
+pub fn convert_str_to_vec4_with_w(s: &str, vec: &mut Vector4) {
+  let points: Vec<&str> = s.split(' ').collect();
+  vec.x = points.first().unwrap().parse::<f32>().unwrap();
+  vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
+  vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
+  vec.w = points.get(3).unwrap().parse::<f32>().unwrap();
 }
 
 #[no_mangle]
