@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::c_char;
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4}, colour::{str_map_to_color, convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options}};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options}};
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_circle(obj: &mut ObjectItem, str: *const c_char) {

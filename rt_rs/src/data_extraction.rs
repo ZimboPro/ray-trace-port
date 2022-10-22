@@ -2,7 +2,7 @@ use crate::object::ObjectItem;
 
 pub fn get_reflect_refract(line: &str, obj: &mut ObjectItem) {
   let props: Vec<&str> = line.split(' ').collect();
-	obj.reflect = props.get(0).unwrap().parse::<f32>().unwrap() / 100.;
+	obj.reflect = props.first().unwrap().parse::<f32>().unwrap() / 100.;
 	obj.refract = props.get(1).unwrap().parse::<i32>().unwrap();
 }
 

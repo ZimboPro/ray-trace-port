@@ -84,7 +84,7 @@ pub unsafe extern "C" fn calc_dp(a: Vector4, b: Vector4) -> c_float {
 pub unsafe extern "C" fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
   let mut a: Vec4 = a.into(); 
   let f = a.w;
-  a = a * d;
+  a *= d;
   a.w = f;
   a.into()
 }
@@ -135,7 +135,7 @@ pub unsafe extern "C" fn calc_vect_to_point(p: Vector4, v: Vector4, m: c_float) 
 
 #[no_mangle]
 pub unsafe extern "C" fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vector4 {
-  let ab: Vec4 = calc_p_to_v(a, b.clone()).into();
+  let ab: Vec4 = calc_p_to_v(a, b).into();
 	let t = ab.length();
 	let ang = calc_vector_ang(v, ab.into());
 	let t = t * ang.cos();
@@ -174,7 +174,7 @@ pub unsafe extern "C" fn str_to_vec4(val: *const c_char) -> Vector4 {
                 let points: Vec<&str> = s.split(' ').collect();
                 let mut v = Vector4::default();
                 
-                    v.x = points.get(0).unwrap().parse::<c_float>().unwrap();
+                    v.x = points.first().unwrap().parse::<c_float>().unwrap();
                     v.y = points.get(1).unwrap().parse::<c_float>().unwrap();
                     v.z = points.get(2).unwrap().parse::<c_float>().unwrap();
                     v.w = points.get(3).unwrap().parse::<c_float>().unwrap();
@@ -199,7 +199,7 @@ pub unsafe extern "C" fn str_to_vec4_def(val: *const c_char) -> Vector4 {
                 let points: Vec<&str> = s.split(' ').collect();
                 let mut v = Vector4::default();
                 
-                    v.x = points.get(0).unwrap().parse::<c_float>().unwrap();
+                    v.x = points.first().unwrap().parse::<c_float>().unwrap();
                     v.y = points.get(1).unwrap().parse::<c_float>().unwrap();
                     v.z = points.get(2).unwrap().parse::<c_float>().unwrap();
                     v
@@ -222,7 +222,7 @@ pub unsafe extern "C" fn str_map_to_vec4(val: *const c_char, vec: &mut Vector4) 
         return match raw.to_str() {
             Ok(s) => {
                 let points: Vec<&str> = s.split(' ').collect();
-                    vec.x = points.get(0).unwrap().parse::<f32>().unwrap();
+                    vec.x = points.first().unwrap().parse::<f32>().unwrap();
                     vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
                     vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
                     vec.w = points.get(3).unwrap().parse::<f32>().unwrap();
@@ -269,7 +269,7 @@ pub unsafe extern "C" fn str_map_to_vec4_def(val: *const c_char, vec: &mut Vecto
 
 pub fn convert_str_to_vec4(s: &str, vec: &mut Vector4) {
   let points: Vec<&str> = s.split(' ').collect();
-  vec.x = points.get(0).unwrap().parse::<f32>().unwrap();
+  vec.x = points.first().unwrap().parse::<f32>().unwrap();
   vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
   vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
   vec.w = 0.;

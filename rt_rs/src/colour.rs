@@ -1,4 +1,4 @@
-use std::{ops::{Mul, Shr}, ffi::CStr};
+use std::{ops::{Shr}, ffi::CStr};
 
 use libc::c_char;
 use sdl2::sys::SDL_Color;
@@ -58,7 +58,7 @@ pub unsafe extern "C" fn str_map_to_color(val: *const c_char, vec: &mut SDL_Colo
 
 pub fn convert_str_to_color(s: String, vec: &mut SDL_Color) {
     let points: Vec<&str> = s.split(' ').collect();
-    vec.r = points.get(0).unwrap().parse::<u8>().unwrap();
+    vec.r = points.first().unwrap().parse::<u8>().unwrap();
     vec.g = points.get(1).unwrap().parse::<u8>().unwrap();
     vec.b = points.get(2).unwrap().parse::<u8>().unwrap(); 
 }

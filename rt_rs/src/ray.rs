@@ -19,9 +19,9 @@ pub extern "C" fn ray(obj: Camera, x: c_float, y: c_float) -> Ray
   unsafe {
     ray.v = calc_addition(calc_multi(obj.view, x.cos()), calc_multi(
           obj.hor, x.sin()));
-    ray.v = calc_addition(calc_multi(ray.v.clone(), y.cos()), calc_multi(obj.up,
+    ray.v = calc_addition(calc_multi(ray.v, y.cos()), calc_multi(obj.up,
             y.sin()));
-    ray.sc = calc_vect_to_point(obj.c, ray.v.clone(), obj.dist);
+    ray.sc = calc_vect_to_point(obj.c, ray.v, obj.dist);
   }
 	ray
 }

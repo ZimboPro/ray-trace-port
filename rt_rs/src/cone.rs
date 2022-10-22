@@ -24,7 +24,7 @@ fn cone_extraction(str: String, obj: &mut ObjectItem) {
   convert_str_to_vec4(s.get(2).unwrap(), &mut obj.c);
   convert_str_to_vec4(s.get(3).unwrap(), &mut obj.dir);
   let props: Vec<&str> = s.get(4).unwrap().split(' ').collect();
-	obj.rad = props.get(0).unwrap().parse::<f32>().unwrap();
+	obj.rad = props.first().unwrap().parse::<f32>().unwrap();
 	obj.h = props.get(1).unwrap().parse::<f32>().unwrap();
   get_reflect_refract(s.get(5).unwrap(), obj);
 	convert_str_to_color(s.get(6).unwrap().to_string(), &mut obj.col);

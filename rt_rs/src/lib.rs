@@ -1,5 +1,5 @@
 use atoi::atoi;
-use glam::{Vec3, Vec4};
+
 use libc::{c_char, c_int};
 use std::ffi::CStr;
 mod colour;
@@ -20,10 +20,7 @@ pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {
 
         return match raw.to_str() {
             Ok(s) => {
-                return match atoi::<c_int>(s.as_bytes()) {
-                    Some(v) => v,
-                    None => 0,
-                };
+                return atoi::<c_int>(s.as_bytes()).unwrap_or(0);
             }
             Err(_) => 0,
         };

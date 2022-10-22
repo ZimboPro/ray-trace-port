@@ -12,7 +12,7 @@ pub unsafe extern "C" fn str_to_vec3(val: *const c_char) -> Vec3 {
             Ok(s) => {
                 let points: Vec<&str> = s.split(' ').collect();
                 Vec3 {
-                    x: points.get(0).unwrap().parse::<f32>().unwrap(),
+                    x: points.first().unwrap().parse::<f32>().unwrap(),
                     y: points.get(1).unwrap().parse::<f32>().unwrap(),
                     z: points.get(2).unwrap().parse::<f32>().unwrap(),
                 }
@@ -35,7 +35,7 @@ pub unsafe extern "C" fn str_map_to_vec3(val: *const c_char, vec: &mut Vec3) {
         return match raw.to_str() {
             Ok(s) => {
                 let points: Vec<&str> = s.split(' ').collect();
-                    vec.x = points.get(0).unwrap().parse::<f32>().unwrap();
+                    vec.x = points.first().unwrap().parse::<f32>().unwrap();
                     vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
                     vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
             }
