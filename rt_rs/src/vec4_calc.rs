@@ -6,10 +6,10 @@ use libc::{c_char, c_float};
 #[repr(C)]
 #[derive(Default, Clone, Copy)]
 pub struct Vector4 {
-  x: c_float,
-  y: c_float,
-  z: c_float,
-  w: c_float,
+  pub x: c_float,
+  pub y: c_float,
+  pub z: c_float,
+  pub w: c_float,
 }
 
 impl From<Vec4> for Vector4 {
