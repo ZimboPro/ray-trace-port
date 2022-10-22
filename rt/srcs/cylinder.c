@@ -12,37 +12,6 @@
 
 #include "rt.h"
 
-static void		ft_cyl(int *i, char **str, t_objects *cyl)
-{
-	char					**s;
-
-	str_map_to_vec4_def(str[*i], &cyl->c);
-	*i = *i + 1;
-	str_map_to_vec4_def(str[*i], &cyl->dir);
-	*i = *i + 1;
-	s = ft_strsplit(str[*i], ' ');
-	cyl->rad = (float)ft_atoi(s[0]);
-	cyl->h = (float)ft_atoi(s[1]);
-	ft_strarrdel(s);
-	s = NULL;
-}
-
-/*
- ** gets object color
-*/
-static void		ft_cyl_options(char *str, t_objects *obj)
-{
-	char **s;
-
-	s = ft_strsplit(str, ' ');
-	if (ft_atoi(s[0]) == 1)
-		obj->c = ft_rand(obj->c);
-	obj->pattern = ft_atoi(s[1]);
-	obj->filter = ft_atoi(s[2]);
-	ft_strarrdel(s);
-	s = NULL;
-}
-
 /*
  ** alocates memory
 */

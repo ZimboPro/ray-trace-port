@@ -41,23 +41,20 @@ pub unsafe extern "C" fn int_cone(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 	cone.c = cov * cov - calc_dp(co, co) * ang;
 	cone.c = (cone.b * cone.b) - (4. * cone.a * cone.c);
 	if cone.c >= 0. {
-
-		let mut cp = Vector4::default();
-
-	cone.t1 = (-cone.b + cone.c.sqrt()) / (2. * cone.a);
-	cone.t2 = (-cone.b - cone.c.sqrt()) / (2. * cone.a);
-	if cone.t1 >= 0. {
-		*d = cone.t1;
-  }
-	if cone.t2 >= 0. && (cone.t2 < cone.t1 || *d == -1.) {
-		*d = cone.t2;
-  }
-	if *d != -1.
-	{
-		cp = calc_p_to_v(obj.c, calc_vect_to_point(ray.sc, ray.v, *d));
-		if calc_dp(cp, obj.dir) < 0. {
-			*d = -1.;
+    cone.t1 = (-cone.b + cone.c.sqrt()) / (2. * cone.a);
+    cone.t2 = (-cone.b - cone.c.sqrt()) / (2. * cone.a);
+    if cone.t1 >= 0. {
+      *d = cone.t1;
     }
-	}
+    if cone.t2 >= 0. && (cone.t2 < cone.t1 || *d == -1.) {
+      *d = cone.t2;
+    }
+    if *d != -1.
+    {
+      let cp = calc_p_to_v(obj.c, calc_vect_to_point(ray.sc, ray.v, *d));
+      if calc_dp(cp, obj.dir) < 0. {
+        *d = -1.;
+      }
+    }
   }
 }
