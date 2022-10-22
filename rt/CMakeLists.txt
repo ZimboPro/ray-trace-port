@@ -34,7 +34,6 @@ srcs/reflection.c
 srcs/refraction.c
 srcs/sequence_2.c
 srcs/sequence.c
-srcs/sphere.c
 srcs/texture_2.c
 srcs/texture.c
 srcs/threads.c

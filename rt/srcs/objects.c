@@ -56,8 +56,13 @@ void		obj_assign(t_obj *obj, char **str)
 	t = obj->obj_total;
 	while (str[i] != NULL && j < t)
 	{
-		if (ft_strstr(str[i], "Circle") != NULL)
-			ft_circles(&(obj->objects[j]), str, i, &j);
+		if (ft_strstr(str[i], "Circle") != NULL) {
+			char * s = joinStr(str, i);
+			ft_circle(&(obj->objects[j]), s);
+			j += 1;
+			obj->objects[j].texmap = "NULL";
+			free(s);
+		}
 		else if (ft_strstr(str[i], "Cone") != NULL)
 			ft_cones(&(obj->objects[j]), str, i, &j);
 		else if (ft_strstr(str[i], "Cylinder") != NULL)

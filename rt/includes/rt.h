@@ -246,7 +246,6 @@ int				map_check(char **str);
 t_obj			objects(char **str);
 void			obj_assign(t_obj *obj, char **str);
 int				ft_cnt(char *str);
-void			ft_circles(t_objects *obj, char **str, int i, int *j);
 void			ft_cones(t_objects *obj, char **str, int i, int *j);
 void			ft_cylinders(t_objects *obj, char **str, int i, int *j);
 void			ft_planes(t_objects *obj, char **str, int i, int *j);
