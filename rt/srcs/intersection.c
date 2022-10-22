@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_rs.h>
 
 /*
  ** finds corresponding ray intersection function

@@ -5,8 +5,17 @@ use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point},
 #[repr(C)]
 #[derive(Default)]
 pub struct Ray {
-  sc: Vector4,
-	v: Vector4
+  pub sc: Vector4,
+	pub v: Vector4
+}
+
+#[derive(Default)]
+pub struct Quad {
+  pub a: c_float,
+  pub b: c_float,
+  pub c: c_float,
+  pub t1: c_float,
+  pub t2: c_float,
 }
 
 #[no_mangle]

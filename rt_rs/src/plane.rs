@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::c_char;
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, convert_str_to_vec4_with_w}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color};
 
 
 #[no_mangle]

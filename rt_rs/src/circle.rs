@@ -1,8 +1,8 @@
 use std::ffi::CStr;
 
-use libc::c_char;
+use libc::{c_char, c_float};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}};
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_circle(obj: &mut ObjectItem, str: *const c_char) {
@@ -10,14 +10,14 @@ pub unsafe extern "C" fn ft_circle(obj: &mut ObjectItem, str: *const c_char) {
     let raw = CStr::from_ptr(str);
     return match raw.to_str() {
         Ok(s) => {
-          ft_circ( s.to_string(), obj);
+          circle_extraction( s.to_string(), obj);
         },
         Err(_) => eprintln!("String Error for Circle")
       }
     }
 }
 
-fn ft_circ(str: String, obj: &mut ObjectItem)
+fn circle_extraction(str: String, obj: &mut ObjectItem)
 {
   obj.r#type = ObjectType::Circle;
   obj.h = 0.;
@@ -30,4 +30,32 @@ fn ft_circ(str: String, obj: &mut ObjectItem)
   get_obj_options(s.get(6).unwrap(), obj);
   // TODO map to correct values
 	// obj.texmap = props.get(3).unwrap().as_bytes().as_ptr();
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn int_circle(circ: ObjectItem, d: &mut c_float, ray: Ray) {
+  let mut ci = Quad::default();
+  
+  let co = calc_p_to_v(circ.c, ray.sc);
+	ci.a = 1.;
+	ci.b = 2. * calc_dp(calc_unit_v(ray.v), co);
+	ci.c = calc_dp(co, co) - (circ.rad * circ.rad);
+	ci.c = (ci.b * ci.b) - (4. * ci.a * ci.c);
+	if ci.c >= 0. {
+		ci.t1 = (-ci.b + ci.c.sqrt()) / (2. * ci.a);
+    ci.t2 = (-ci.b - ci.c.sqrt()) / (2. * ci.a);
+    if ci.t1 > 0. && ci.t2 > 0.
+    {
+      if ci.t1 <= ci.t2 {
+        *d = ci.t1;
+      } else {
+        *d = ci.t2;
+      }
+    }
+    else if ci.t1 > 0. {
+      *d = ci.t1;
+    } else if ci.t2 > 0. {
+      *d = ci.t2;
+    }
+  }
 }

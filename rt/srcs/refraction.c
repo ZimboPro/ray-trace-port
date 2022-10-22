@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_rs.h>
 
 /*
  ** checks to see which function to use

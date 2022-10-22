@@ -15,7 +15,6 @@ srcs/cartoon.c
 srcs/cartoon_seq.c
 srcs/check_2.c
 srcs/check.c
-srcs/cone_2.c
 srcs/cone.c
 srcs/cylinder_2.c
 srcs/cylinder.c
@@ -38,7 +37,6 @@ srcs/reflection.c
 srcs/refraction.c
 srcs/sequence_2.c
 srcs/sequence.c
-srcs/sphere_2.c
 srcs/sphere.c
 srcs/texture_2.c
 srcs/texture.c
