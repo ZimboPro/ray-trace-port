@@ -32,7 +32,7 @@ fn plane_extraction(str: String, obj: &mut ObjectItem) {
 
 #[no_mangle]
 pub unsafe extern "C" fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
-  let mut di = obj.dir.clone();
+  let mut di = obj.dir;
 	di.w = 0.;
 	let p = Vector4{
     x: obj.dir.x * obj.dir.w,
@@ -46,7 +46,7 @@ pub unsafe extern "C" fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 	{
 		let mut t = -(di.x * ray.sc.x + di.y * ray.sc.y + di.z *
 				ray.sc.z + di.w);
-		t = t / (di.x * uv.x + di.y * uv.y + di.z * uv.z);
+		t /= di.x * uv.x + di.y * uv.y + di.z * uv.z;
 		if t > 0. {
 			*d = t;
     }

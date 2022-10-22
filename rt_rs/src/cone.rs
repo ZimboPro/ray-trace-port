@@ -44,8 +44,8 @@ pub unsafe extern "C" fn int_cone(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 
 		let mut cp = Vector4::default();
 
-	cone.t1 = ((-cone.b + cone.c.sqrt()) / (2. * cone.a));
-	cone.t2 = ((-cone.b - cone.c.sqrt()) / (2. * cone.a));
+	cone.t1 = (-cone.b + cone.c.sqrt()) / (2. * cone.a);
+	cone.t2 = (-cone.b - cone.c.sqrt()) / (2. * cone.a);
 	if cone.t1 >= 0. {
 		*d = cone.t1;
   }
