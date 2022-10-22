@@ -127,4 +127,5 @@ char * joinStr(char **str, int i) {
 		s = t;
 		i++;
 	}
+	return s;
 }

@@ -66,25 +66,6 @@ typedef Vector4 t_vector;
 /*
  ** the data stored of objects
 */
-// typedef struct	s_objects
-// {
-// 	ObjectType type;
-// 	/**
-// 	 * @brief Point in space
-// 	 * 
-// 	 */
-// 	t_point		c;
-// 	float		h;
-// 	float		rad;
-// 	SDL_Color		col;
-// 	t_vector	dir;
-// 	float		reflect;
-// 	int			refract;
-// 	int			pattern;
-// 	int			filter;
-// 	char		*texmap;
-// }				t_objects;
-
 typedef ObjectItem t_objects;
 /*
  ** camera data
