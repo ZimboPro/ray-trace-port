@@ -18,4 +18,5 @@ void			ft_cones(t_objects *obj, char **str, int i, int *j)
 
 	*j = *j + 1;
 	cone(obj, s);
+	free(s);
 }

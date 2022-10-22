@@ -13,3 +13,13 @@ pub fn get_obj_options(line: &str, obj: &mut ObjectItem) {
 	obj.pattern = props.get(1).unwrap().parse::<i32>().unwrap();
 	obj.filter = props.get(2).unwrap().parse::<i32>().unwrap();
 }
+
+pub fn get_rad_h(line: &str, obj: &mut ObjectItem) {
+  if line.contains(' ') {
+    let props: Vec<&str> = line.split(' ').collect();
+    obj.rad = props.first().unwrap().parse::<f32>().unwrap();
+    obj.h = props.get(1).unwrap().parse::<f32>().unwrap();
+  } else {
+    obj.rad = line.parse::<f32>().unwrap();
+  }
+}

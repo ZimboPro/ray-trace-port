@@ -48,22 +48,9 @@ static void		ft_cyl_options(char *str, t_objects *obj)
 */
 void			ft_cylinders(t_objects *obj, char **str, int i, int *j)
 {
-	char	**s;
+	char	*s = joinStr(str, i);
 
 	*j = *j + 1;
-	while (ft_strstr(str[i], "Cylinder") == NULL)
-		i++;
-	i++;
-	obj->type = Cylinder;
-	ft_cyl(&i, str, obj);
-	i++;
-	s = ft_strsplit(str[i], ' ');
-	obj->reflect = ((float)ft_atoi(s[0]) / 100);
-	obj->refract = ft_atoi(s[1]);
-	ft_strarrdel(s);
-	s = NULL;
-	i++;
-	str_map_to_color(str[i], &obj->col);
-	i++;
-	ft_cyl_options(str[i], obj);
+	cylinder(obj, s);
+	free(s);
 }

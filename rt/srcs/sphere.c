@@ -22,4 +22,5 @@ void			ft_circles(t_objects *obj, char **str, int i, int *j)
 	*j = *j + 1;
 	ft_circle(obj, s);
 	obj->texmap = "NULL";
+	free(s);
 }

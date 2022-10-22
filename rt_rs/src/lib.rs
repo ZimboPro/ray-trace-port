@@ -12,6 +12,7 @@ mod pixel;
 mod circle;
 mod data_extraction;
 mod cone;
+mod cylinder;
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {
