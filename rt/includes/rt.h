@@ -285,7 +285,7 @@ int				intersection(t_obj obj, float *d, t_vector v, t_point n);
 // void			int_circle(t_objects obj, float *d, t_ray ray);
 // void			int_cone(t_objects obj, float *d, t_ray ray);
 void			int_cone_lid(t_ray obj, float *d, t_ray ray, float r);
-void			int_cyl(t_objects obj, float *d, t_ray ray);
+// void			int_cyl(t_objects obj, float *d, t_ray ray);
 void			int_cyl_lid(t_ray obj, float *d, t_ray ray, float r);
 void			int_plane(t_objects obj, float *d, t_ray ray);
 

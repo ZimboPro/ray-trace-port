@@ -16,7 +16,6 @@ srcs/cartoon_seq.c
 srcs/check_2.c
 srcs/check.c
 srcs/cone.c
-srcs/cylinder_2.c
 srcs/cylinder.c
 srcs/draw_2.c
 srcs/draw.c
