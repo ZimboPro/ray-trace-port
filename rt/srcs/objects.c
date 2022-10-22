@@ -59,16 +59,24 @@ void		obj_assign(t_obj *obj, char **str)
 		if (ft_strstr(str[i], "Circle") != NULL) {
 			char * s = joinStr(str, i);
 			ft_circle(&(obj->objects[j]), s);
-			j += 1;
 			obj->objects[j].texmap = "NULL";
 			free(s);
+		} else if (ft_strstr(str[i], "Cone") != NULL) {
+			char	*s = joinStr(str, i);
+			cone(&(obj->objects[j]), s);
+			j += 1;
+			free(s);
+		} else if (ft_strstr(str[i], "Cylinder") != NULL) {
+			char	*s = joinStr(str, i);
+			cylinder(&(obj->objects[j]), s);
+			j += 1;
+			free(s);
+		} else if (ft_strstr(str[i], "Plane") != NULL) {
+			char	*s = joinStr(str, i);
+			plane(&(obj->objects[j]), s);
+			j += 1;
+			free(s);
 		}
-		else if (ft_strstr(str[i], "Cone") != NULL)
-			ft_cones(&(obj->objects[j]), str, i, &j);
-		else if (ft_strstr(str[i], "Cylinder") != NULL)
-			ft_cylinders(&(obj->objects[j]), str, i, &j);
-		else if (ft_strstr(str[i], "Plane") != NULL)
-			ft_planes(&(obj->objects[j]), str, i, &j);
 		i++;
 	}
 	obj->progress = 0;
