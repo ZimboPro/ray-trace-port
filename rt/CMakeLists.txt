@@ -12,8 +12,6 @@ set(SOURCE
     srcs/cartoon_2.c
     srcs/cartoon.c
     srcs/cartoon_seq.c
-    srcs/check_2.c
-    srcs/check.c
     srcs/draw_2.c
     srcs/draw.c
     srcs/generate.c

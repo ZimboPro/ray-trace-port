@@ -1,8 +1,8 @@
 use std::ffi::CStr;
 
-use libc::{c_char, c_float};
+use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray, world::cnt_space};
 
 
 #[no_mangle]
@@ -51,4 +51,34 @@ pub unsafe extern "C" fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 			*d = t;
     }
 	}
+}
+
+pub fn check_plane(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+{
+	let mut lines: usize = 1;
+	while lines < 5 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+			 {
+        lines += 1;
+      }
+	if lines != 5
+	{
+		eprintln!("Error: missing one or more elements in Plane");
+		*chk = 0;
+	}
+	if cnt_space(str[*i], i, chk, 0) != 1 {
+		eprintln!("Plane Error in name");
+  }
+	if cnt_space(str[*i], i, chk, 3) != 1 {
+		eprintln!("Plane Error in coordinates");
+  }
+	if cnt_space(str[*i], i, chk, 1) != 1 {
+		eprintln!("Plane Error in reflection and refraction");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Plane Error in color");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Plane Error in color options");
+  }
 }

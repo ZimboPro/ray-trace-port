@@ -1,8 +1,8 @@
 use std::ffi::CStr;
 
-use libc::{c_char, c_float};
+use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point}, colour::convert_str_to_color, ray::{Quad, Ray}};
+use crate::{object::{ObjectItem, ObjectType}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
 
 #[no_mangle]
 pub unsafe extern "C" fn cylinder(obj: &mut ObjectItem, str: *const c_char) {
@@ -55,4 +55,42 @@ pub unsafe extern "C" fn cyl_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vect
 	let p = calc_vect_to_point(ray.sc, ray.v, d);
 	let di = calc_dp(calc_p_to_v(obj.c, p), calc_unit_v(obj.dir));
 	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
+}
+
+pub fn check_cylinder(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+{
+	let mut lines: usize = 1;
+	while lines < 7 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+			{
+        println!("Line {}", lines);
+        println!("T Line {}", *i + lines);
+        lines += 1;
+      }
+	if lines != 7
+	{
+		eprintln!("Error: missing one or more elements in Cylinder");
+		*chk = 0;
+	}
+	if cnt_space(str[*i], i, chk, 0) != 1 {
+		eprintln!("Cylinder Error in name");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cylinder Error in coordinates");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cylinder Error in direction");
+  }
+	if cnt_space(str[*i], i, chk, 1) != 1 {
+		eprintln!("Cylinder Error in radius and hieght");
+  }
+	if cnt_space(str[*i], i, chk, 1) != 1 {
+		eprintln!("Cylinder Error in reflection and refraction");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cylinder Error in color");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cylinder Error in color options");
+  }
 }

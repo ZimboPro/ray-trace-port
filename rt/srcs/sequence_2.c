@@ -100,7 +100,7 @@ void			sequence(char *str)
 	s = ft_read(str);
 	if (s != NULL)
 	{
-		if (map_check(s) == 1)
+		if (validate_world(str) == 1)
 		{
 			obj = objects(s);
 			obj_assign(&obj, s);

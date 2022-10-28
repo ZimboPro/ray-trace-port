@@ -1,8 +1,8 @@
 use std::ffi::CStr;
 
-use libc::{c_char, c_float};
+use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
 
 
 #[no_mangle]
@@ -65,4 +65,40 @@ pub unsafe extern "C" fn cone_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vec
 	let di = calc_p_dist(p, obj.c).powf(2.) / calc_dp(calc_p_to_v(obj.c, p),
 			calc_unit_v(obj.dir));
 	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
+}
+
+pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+{
+	let mut lines: usize = 1;
+	while lines < 7 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+			 {
+        lines += 1;
+      }
+	if lines != 7
+	{
+		eprintln!("Error: missing one or more elements in Cone");
+		*chk = 0;
+	}
+	if cnt_space(str[*i], i, chk, 0) != 1 {
+		eprintln!("Cone Error in name");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cone Error in coordinates");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cone Error in direction");
+  }
+	if cnt_space(str[*i], i, chk, 1) != 1 {
+		eprintln!("Cone Error in radius and hieght");
+  }
+	if cnt_space(str[*i], i, chk, 1) != 1 {
+		eprintln!("Cone Error in reflection and refraction");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cone Error in color");
+  }
+	if cnt_space(str[*i], i, chk, 2) != 1 {
+		eprintln!("Cone Error in color options");
+  }
 }
