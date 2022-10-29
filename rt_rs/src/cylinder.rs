@@ -128,3 +128,18 @@ pub fn cylinder_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
   }
 	rf
 }
+
+pub fn cylinder_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
+{
+	let mut rf = Ray::default();
+
+  unsafe {
+    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+    let di = calc_dp(calc_p_to_v(obj.c, rf.sc), calc_unit_v(obj.dir));
+    let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di),
+          rf.sc));
+    let c1 = -calc_dp(n, calc_unit_v(ray.v));
+    rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
+  }
+	rf
+}

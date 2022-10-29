@@ -117,3 +117,27 @@ pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 	}
 	rf
 }
+
+pub fn plane_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
+{
+	let mut rf = Ray::default();
+
+  unsafe {
+    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+		let mut n = Vector4{
+			x: obj.dir.x,
+			y: obj.dir.y,
+			z: obj.dir.z, 
+			w: 0.};
+		if calc_dp(n, ray.v) < 0. {
+			n = Vector4{
+				x: -obj.dir.x,
+				y: -obj.dir.y,
+				z: -obj.dir.z, 
+				w: 0.};
+		}
+		let c1 = -calc_dp(n, calc_unit_v(ray.v));
+		rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
+  }
+	rf
+}

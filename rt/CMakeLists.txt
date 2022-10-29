@@ -25,7 +25,6 @@ set(SOURCE
     srcs/perlin.c
     srcs/progess.c
     srcs/read.c
-    srcs/reflection.c
     srcs/sequence_2.c
     srcs/sequence.c
     srcs/texture_2.c

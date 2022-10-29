@@ -316,19 +316,6 @@ SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 SDL_Color			fresnel_equation_cart(t_obj obj, int i, t_ray ray, int depth);
 SDL_Color			color_adjust(SDL_Color a, float d);
 
-/*
- ** gets the reflective point and direction of respective object
-*/
-
-t_ray			get_reflect_ray(t_objects obj, t_ray ray, float d);
-t_ray			rf_sphere(t_objects obj, t_ray ray, float d);
-t_ray			rf_cone(t_objects obj, t_ray ray, float d);
-t_ray			rf_cylinder(t_objects obj, t_ray ray, float d);
-t_ray			rf_plane(t_objects obj, t_ray ray, float d);
-
-/*
- ** gets refractive ray and point of respective object
-*/
 
 /*
  ** gets object colors and shading if in cartoon mode
