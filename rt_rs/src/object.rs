@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::vec4_calc::Vector4;
 
 #[repr(C)]
-#[derive(Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, Clone, Copy)]
 pub enum ObjectType {
     Circle,
     Cylinder,
@@ -118,6 +118,7 @@ impl From<Object> for WorldObject {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub struct	ObjectItem
 {
     pub r#type: ObjectType,

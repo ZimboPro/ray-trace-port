@@ -330,12 +330,6 @@ t_ray			rf_plane(t_objects obj, t_ray ray, float d);
  ** gets refractive ray and point of respective object
 */
 
-t_ray			get_refract_ray(t_objects obj, t_ray ray, float d);
-t_ray			rl_sphere(t_objects obj, t_ray ray, float d);
-t_ray			rl_cone(t_objects obj, t_ray ray, float d);
-t_ray			rl_cylinder(t_objects obj, t_ray ray, float d);
-t_ray			rl_plane(t_objects obj, t_ray ray, float d);
-
 /*
  ** gets object colors and shading if in cartoon mode
 */

@@ -16,6 +16,7 @@ mod cylinder;
 mod plane;
 mod world;
 mod light;
+mod refraction;
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {

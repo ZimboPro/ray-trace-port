@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v, calc_multi, calc_addition, calc_vect_to_point, calc_p_dist}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space};
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_circle(obj: &mut ObjectItem, str: *const c_char) {
@@ -92,4 +92,37 @@ pub fn check_circle(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 	if cnt_space(str[*i], i, chk, 3) != 1 {
 		eprintln!("Circle Error in color options");
   }
+}
+
+pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
+{
+	let mut	rf = Ray::default();
+
+  unsafe {
+	rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.00005);
+	if calc_p_dist(rf.sc, obj.c) > obj.rad {
+    return Ray {
+      sc: rf.sc,
+      v: ray.v
+    };
+  }
+    let refract: f32 = obj.refract as f32;
+    let mut n = calc_unit_v(calc_p_to_v(obj.c, rf.sc));
+    let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
+    let mut nr: c_float = 1.000293 / (refract / 1000000.);
+    let mut c2: c_float = 1. - nr * nr * (1. - c1 * c1);
+    c2 = c2.sqrt();
+    rf.v = calc_unit_v(calc_addition(calc_multi(calc_unit_v(ray.v), nr),
+        calc_multi(n, nr * c1 - c2)));
+    int_circle(obj, &mut d, rf);
+    rf.sc = calc_vect_to_point(rf.sc, rf.v.clone(), d * 1.005);
+    let t = obj.c.clone();
+    n = calc_unit_v(calc_p_to_v(t, rf.sc));
+    c1 = calc_dp(calc_unit_v(rf.v), n);
+    nr = (refract / 1000000.) / 1.000293;
+    c2 = (1. - nr * nr * (1. - c1 * c1)).sqrt();
+    rf.v = calc_unit_v(calc_addition(calc_multi(rf.v, nr), calc_multi(n, nr *
+            c1 - c2)));
+  }
+	rf
 }

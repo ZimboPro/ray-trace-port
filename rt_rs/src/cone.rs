@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4, calc_addition, calc_multi}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
 
 
 #[no_mangle]
@@ -101,4 +101,44 @@ pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 	if cnt_space(str[*i], i, chk, 2) != 1 {
 		eprintln!("Cone Error in color options");
   }
+}
+
+pub fn cone_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
+{
+	let mut rf = Ray::default();
+
+  unsafe {
+    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.05);
+    let mut n = calc_unit_v(cone_norm(obj, d * 1.05, ray));
+    let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
+    let mut di = 1.000293 / (obj.refract as f32 / 1000000.);
+    let mut c2 = 1. - di * di * (1. - c1 * c1);
+    c2 = c2.sqrt();
+    rf.v = calc_unit_v(calc_addition(calc_multi(calc_unit_v(ray.v), di),
+        calc_multi(n, di * c1 - c2)));
+    let mut d = -1.;
+    int_cone(obj, &mut d, rf);
+    if d == -1. {
+      return Ray {
+        sc: rf.sc,
+        v: ray.v
+      };
+    }
+    n = calc_unit_v(cone_norm(obj, d * 1.005, rf));
+    c1 = calc_dp(calc_unit_v(rf.v), n);
+    di = (obj.refract as f32 / 1000000.) / 1.000293;
+    c2 = 1. - di * di * (1. - c1 * c1);
+    c2 = c2.sqrt();
+    rf.v = calc_unit_v(calc_addition(calc_multi(rf.v, di), calc_multi(n,
+          di * c1 - c2)));
+    d = -1.;
+    int_cone(obj, &mut d, rf);
+    if d != -1. {
+      return Ray {
+        sc: rf.sc,
+        v: ray.v
+      };
+    }
+  }
+	rf
 }

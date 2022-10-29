@@ -26,7 +26,6 @@ set(SOURCE
     srcs/progess.c
     srcs/read.c
     srcs/reflection.c
-    srcs/refraction.c
     srcs/sequence_2.c
     srcs/sequence.c
     srcs/texture_2.c

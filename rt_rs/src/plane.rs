@@ -2,7 +2,7 @@ use std::ffi::CStr;
 
 use libc::{c_char, c_float, c_int};
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray, world::cnt_space};
+use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v, calc_vect_to_point, calc_multi, calc_addition}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray, world::cnt_space};
 
 
 #[no_mangle]
@@ -81,4 +81,39 @@ pub fn check_plane(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 	if cnt_space(str[*i], i, chk, 2) != 1 {
 		eprintln!("Plane Error in color options");
   }
+}
+
+pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
+{
+	let mut rf = Ray::default();
+
+	unsafe {
+
+		rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+		let mut n = Vector4{
+			x: obj.dir.x,
+			y: obj.dir.y,
+			z: obj.dir.z,
+			w: 0.
+		};
+		if calc_dp(n, ray.v) < 0. {
+			n = Vector4{x: -obj.dir.x, y: -obj.dir.y, z: -obj.dir.z, w: 0.};
+		}
+		n = calc_unit_v(n);
+		let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
+		let mut nr = 1.000293 / obj.refract as f32;
+		let mut c2 = 1. - nr * nr * (1. - c1 * c1);
+		c2 = c2.sqrt();
+		rf.v = calc_unit_v(calc_addition(calc_multi(calc_unit_v(ray.v), nr),
+				calc_multi(n, nr * c1 - c2)));
+		int_plane(obj, &mut d, rf);
+		rf.sc = calc_vect_to_point(rf.sc, rf.v, d * 1.005);
+		n = calc_unit_v(Vector4{x: -obj.dir.x, y: -obj.dir.y, z: -obj.dir.z, w: 0.});
+		c1 = -calc_dp(calc_unit_v(rf.v), n);
+		nr = obj.refract as f32 / 1.000293;
+		c2 = 1. - nr * nr * (1. - c1 * c1);
+		c2 = c2.sqrt();
+		rf.v = calc_addition(calc_multi(rf.v, nr), calc_multi(n, nr * c1 - c2));
+	}
+	rf
 }
