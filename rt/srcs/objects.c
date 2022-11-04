@@ -82,7 +82,12 @@ void		obj_assign(t_obj *obj, char **str)
 	obj->progress = 0;
 	obj->first = 0;
 	obj->lights = ft_lights(obj->light, str);
-	obj->camera = ft_camera(str);
+	i = 0;
+	while (ft_strstr(str[i], "Camera") == NULL)
+		i++;
+	char * st = joinStr(str, i);
+	obj->camera = ft_camera(st);
+	free(st);
 	ft_update_map(obj, obj->camera.dist);
 }
 

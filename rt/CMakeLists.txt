@@ -8,7 +8,6 @@ find_package(SDL2)
 set(SOURCE
     srcs/anti_aliasing_2.c
     srcs/anti_aliasing.c
-    srcs/camera.c
     srcs/cartoon_2.c
     srcs/cartoon.c
     srcs/cartoon_seq.c

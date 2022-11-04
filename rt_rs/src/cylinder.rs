@@ -63,8 +63,6 @@ pub fn check_cylinder(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 	while lines < 7 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
   || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
 			{
-        println!("Line {}", lines);
-        println!("T Line {}", *i + lines);
         lines += 1;
       }
 	if lines != 7

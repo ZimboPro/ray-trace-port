@@ -247,7 +247,7 @@ t_obj			objects(char **str);
 void			obj_assign(t_obj *obj, char **str);
 int				ft_cnt(char *str);
 t_light			*ft_lights(int len, char **str);
-t_camera		ft_camera(char **str);
+// t_camera		ft_camera(char **str);
 t_point			ft_rand(t_point p);
 char * joinStr(char **str, int i);
 
