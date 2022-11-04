@@ -3,7 +3,10 @@ use std::{ops::Shr, f32::consts::PI, ffi::CStr};
 use libc::{c_int, c_float, c_char};
 use sdl2::sys::SDL_Color;
 
-use crate::{vec4_calc::{Vector4, convert_str_to_vec4, calc_unit_v, calc_p_to_v, calc_cross_product}, world::cnt_space, colour::convert_str_to_color};
+use crate::{vec4_calc::{Vector4, convert_str_to_vec4, calc_unit_v, calc_p_to_v, calc_cross_product, calc_addition, calc_multi, calc_vect_to_point}, world::cnt_space, colour::convert_str_to_color};
+
+pub const ROTATE: f32 = 1.;
+pub const DIST: f32 = 100.;
 
 #[repr(C)]
 pub struct Camera {
@@ -117,4 +120,63 @@ fn camera_extraction(str: String) -> Camera
   // TODO map to correct values
 	// obj.texmap = props.get(3).unwrap().as_bytes().as_ptr();
 	cam
+}
+
+pub fn update_view(camera: &mut Camera, dir: c_int) -> Vector4
+{
+	let mut temp = Vector4::default();
+
+	let cos_val = (ROTATE * (PI / 180.)).cos();
+	let sin_val = (ROTATE * (PI / 180.)).sin();
+
+	unsafe {
+		if dir == 0
+		{
+			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
+								sin_val));
+			camera.up = calc_addition(calc_multi(camera.up, cos_val), calc_multi(camera.view,
+						- sin_val));
+		}
+		else if dir == 1
+		{
+			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
+								-sin_val));
+			camera.up = calc_addition(calc_multi(camera.up, cos_val), calc_multi(camera.view,
+						sin_val));
+		} else if dir == 2
+		{
+			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
+								-sin_val));
+			camera.hor = calc_addition(calc_multi(camera.hor, cos_val), calc_multi(camera.view,
+						sin_val));
+		}
+		else
+		{
+			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
+								sin_val));
+			camera.hor = calc_addition(calc_multi(camera.hor, cos_val), calc_multi(camera.view,
+						-sin_val));
+		}
+	}
+	temp
+}
+
+pub fn update_pos(camera: &mut Camera, draw: & mut c_int, dir: c_int)
+{
+	unsafe {
+		if dir == 0 {
+			camera.c = calc_vect_to_point(camera.c, camera.view, DIST * DIST);
+		}	else if dir == 1 {
+			camera.c = calc_vect_to_point(camera.c, camera.view, -(DIST * DIST));
+		}	else if dir == 2 {
+			camera.c = calc_vect_to_point(camera.c, camera.hor, -DIST);
+		}	else if dir == 3 {
+			camera.c = calc_vect_to_point(camera.c, camera.hor, DIST);
+		}	else if dir == 4 {
+			camera.c = calc_vect_to_point(camera.c, camera.up, DIST);
+		}	else {
+			camera.c = calc_vect_to_point(camera.c, camera.up, -DIST);
+		}
+	}
+	*draw = 0;
 }

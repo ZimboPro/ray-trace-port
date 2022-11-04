@@ -13,22 +13,6 @@
 #include "rt.h"
 #include <rt_rs.h>
 
-/*
- ** handles events and commands
-*/
-static void		mouse_click(t_obj *obj, int *draw, SDL_Event event)
-{
-	int x;
-	int y;
-
-	x = event.motion.x;
-	y = event.motion.y;
-	if (x >= 20 && y >= 20 && x <= 70 && y <= 70)
-		update_pos(obj, draw, 0);
-	else if (x >= 20 && y >= 90 && x <= 70 && y <= 115)
-		update_pos(obj, draw, 1);
-}
-
 void			ft_evn(int *loop, t_obj *obj, int *draw)
 {
 	SDL_Event	event;
@@ -41,7 +25,7 @@ void			ft_evn(int *loop, t_obj *obj, int *draw)
 			if (event.type == SDL_MOUSEBUTTONDOWN)
 				mouse_click(obj, draw, event);
 			else
-				ft_eventloop(event, loop, obj, draw);
+				ft_eventloop(event, loop, &obj->camera, draw);
 		}
 	}
 }

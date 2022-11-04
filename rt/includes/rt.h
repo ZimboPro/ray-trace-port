@@ -223,8 +223,6 @@ typedef struct	s_prog
 }				t_prog;
 
 void			sequence(char *str);
-void			update_pos(t_obj *obj, int *draw, int dir);
-void			ft_eventloop(SDL_Event event, int *loop, t_obj *obj, int *draw);
 char			**ft_read(char *str);
 int				map_check(char **str);
 int				cnt_space(char *str, int *i, int *chk, int value);
