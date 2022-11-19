@@ -308,11 +308,10 @@ SDL_Color			fresnel_equation(t_obj obj, int i, t_ray ray, int depth,
 						SDL_Renderer *ren);
 SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,
 						SDL_Renderer *ren);
-float			fresnel(float n1, int n2, t_vector n, t_vector v);
 SDL_Color			trace_ray_cart(t_obj obj, t_ray ray, int depth,
 						SDL_Renderer *ren);
 SDL_Color			fresnel_equation_cart(t_obj obj, int i, t_ray ray, int depth);
-SDL_Color			color_adjust(SDL_Color a, float d);
+
 
 
 /*

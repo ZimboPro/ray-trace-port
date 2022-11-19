@@ -13,16 +13,6 @@
 #include "rt.h"
 #include <rt_rs.h>
 
-/*
- ** adjust color
-*/
-SDL_Color			color_adjust(SDL_Color a, float d)
-{
-	a.r *= d;
-	a.g *= d;
-	a.b *= d;
-	return (a);
-}
 
 /*
  ** does the ray tracing and gets the color with reflection and

@@ -60,34 +60,6 @@ void			ft_draw(t_obj *obj, SDL_Renderer *ren)
 }
 
 /*
- ** fresnel equation, the ratio of refraction and reflaction at a point
-*/
-float			fresnel(float n1, int n2, t_vector n, t_vector v)
-{
-	float	r0;
-	float	c1;
-	float	x;
-	float	ret;
-	float	n2t;
-
-	n2t = ((float)n2) / 1000000;
-	r0 = (n1 - n2t) / (n1 + n2t);
-	r0 *= r0;
-	c1 = -calc_dp(n, v);
-	if (n1 > n2t)
-	{
-		ret = n1 / n2t;
-		x = ret * ret * (1 - c1 * c1);
-		if (x > 1)
-			return (1);
-		c1 = sqrt(1 - x);
-	}
-	x = 1 - c1;
-	ret = r0 + (1 - r0) * x * x * x * x * x;
-	return (ret);
-}
-
-/*
  ** fresnel equation and effect
 */
 SDL_Color			fresnel_effect(t_obj obj, t_ray ray, int depth,

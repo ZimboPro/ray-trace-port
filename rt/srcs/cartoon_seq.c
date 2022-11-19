@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-
+#include <rt_rs.h>
 /*
  ** fresnel equation and effect for cartoon mode
 */

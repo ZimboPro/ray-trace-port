@@ -44,9 +44,9 @@ pub unsafe extern "C" fn mouse_click(camera: &mut Camera, draw: & mut c_int, eve
 {
 	let x = event.motion.x;
 	let y = event.motion.y;
-	if (x >= 20 && y >= 20 && x <= 70 && y <= 70) {
+	if x >= 20 && y >= 20 && x <= 70 && y <= 70 {
 		update_pos(camera, draw, 0);
-  } else if (x >= 20 && y >= 90 && x <= 70 && y <= 115) {
+  } else if x >= 20 && y >= 90 && x <= 70 && y <= 115 {
 		update_pos(camera, draw, 1);
   }
 }
