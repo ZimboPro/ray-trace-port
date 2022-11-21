@@ -160,17 +160,7 @@ typedef struct	s_noise
 	float	div;
 }				t_noise;
 
-typedef struct	s_tex
-{
-	float		tex_x;
-	float		tex_y;
-	float		scale_s;
-	float		scale_t;
-	float		s;
-	float		t;
-	float		pattern;
-	float		angle;
-}				t_tex;
+typedef TextureData t_tex; 
 
 /*
  ** reading map and checking if it is valid
@@ -276,16 +266,9 @@ void			int_cone_lid(t_ray obj, float *d, t_ray ray, float r);
 void			int_cyl_lid(t_ray obj, float *d, t_ray ray, float r);
 
 t_objects		pattern(t_objects object, t_vector n, t_ray rv);
-// float			perlin2d(float x, float y, float freq, int depth);
 t_objects		texture(t_objects circ, t_ray rv, t_vector n);
-SDL_Color			sepia(SDL_Color col);
 SDL_Color			filter(SDL_Color col);
 SDL_Color			tex_map(SDL_Surface *surf, t_vector n);
-float			modulo(float f);
-float			checker(t_tex t);
-SDL_Color			marble(t_tex *t, t_vector n);
-SDL_Color			pattern_init(t_tex *t, t_vector n);
-
 /*
  ** gets object colors and shading if in normal mode
 */

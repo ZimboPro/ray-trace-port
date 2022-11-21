@@ -26,7 +26,6 @@ fn noise2(x: c_float, y: c_float, seed: c_float) -> c_float
 					114, 20, 218, 113, 154, 27, 127, 246, 250, 1, 8, 198,
 					250, 209, 92, 222, 173, 21, 88, 102, 219];
   let t: usize = (y as usize + seed as usize) % 256;
-  let t2: usize = (hash[t] + x as usize) % 256;
 
 	return (hash[((hash[t]) + x as usize) % 256]) as c_float;
 }
@@ -55,7 +54,7 @@ fn	noise2d(x: c_float, y: c_float) -> c_float
 	let v = noise2(x_int + 1., y_int + 1., seed);
 	let low = smooth_inter(s, t, x_frac);
 	let high = smooth_inter(u, v, x_frac);
-	return (smooth_inter(low, high, y_frac));
+	smooth_inter(low, high, y_frac)
 }
 
 #[no_mangle]
@@ -77,5 +76,5 @@ pub unsafe extern "C" fn perlin2d( x: c_float,  y: c_float,  freq: c_float, dept
 		ya *= 2.;
 		i += 1;
 	}
-	return (fin / div);
+	fin / div
 }

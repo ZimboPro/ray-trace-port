@@ -21,6 +21,7 @@ mod reflection;
 mod interaction;
 mod fresnel;
 mod perlin;
+mod texture;
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {

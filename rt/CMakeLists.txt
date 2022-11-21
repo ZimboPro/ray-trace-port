@@ -24,7 +24,6 @@ set(SOURCE
     srcs/progess.c
     srcs/read.c
     srcs/sequence_2.c
-    srcs/texture_2.c
     srcs/texture.c
     srcs/threads.c
 )
