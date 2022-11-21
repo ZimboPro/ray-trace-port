@@ -21,7 +21,6 @@ set(SOURCE
     srcs/object_colors_2.c
     srcs/object_colors.c
     srcs/objects.c
-    srcs/perlin.c
     srcs/progess.c
     srcs/read.c
     srcs/sequence_2.c

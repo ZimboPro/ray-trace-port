@@ -276,7 +276,7 @@ void			int_cone_lid(t_ray obj, float *d, t_ray ray, float r);
 void			int_cyl_lid(t_ray obj, float *d, t_ray ray, float r);
 
 t_objects		pattern(t_objects object, t_vector n, t_ray rv);
-float			perlin2d(float x, float y, float freq, int depth);
+// float			perlin2d(float x, float y, float freq, int depth);
 t_objects		texture(t_objects circ, t_ray rv, t_vector n);
 SDL_Color			sepia(SDL_Color col);
 SDL_Color			filter(SDL_Color col);
