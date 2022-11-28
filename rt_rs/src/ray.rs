@@ -1,7 +1,7 @@
 use libc::c_float;
-use sdl2::{sys::{SDL_Init, SDL_INIT_EVERYTHING, SDL_CreateWindow, Window}, render::Canvas};
-
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}};
+use sdl2::{sys::{SDL_Init, SDL_CreateWindow, }, render::{WindowCanvas}, event::Event};
+use sdl2::keyboard::Keycode;
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}};
 
 #[repr(C)]
 #[derive(Default, Clone, Copy)]
@@ -76,21 +76,43 @@ pub fn raytrace(obj: &mut World) {
         .index(find_sdl_gl_driver().unwrap())
         .build()
         .unwrap();
-    events(&mut canvas, &mut obj);
+    events(&mut canvas, obj, &sdl_context);
 }
 
-fn events(ren:&mut  Canvas<Window>, obj: &mut World) {
+fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl) {
  let mut r#loop = 1;
  let mut draw = 0;
+ let mut event_pump = sdl_context.event_pump().unwrap();
  while r#loop == 1 {
   if draw == 0 {
     if obj.camera.mode == 0 {
-      normal_draw();
+      normal_draw(ren, obj);
+    } else {
+      cartoon_draw(ren, obj);
     }
-    // else {
-    //   cartoon_draw();
-    // }
     draw = 1;
   }
+  for event in event_pump.poll_iter() {
+    match event {
+      Event::Quit { .. } | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
+        r#loop = 0;
+      },
+      _ => {
+        if event.is_mouse() {
+          mouse_click(&mut obj.camera, &mut draw, event);
+        } else if event.is_keyboard() {
+        ft_eventloop(event, &mut r#loop, &mut obj.camera, &mut draw);
+}
+      }
+    }
+  }
  }
+}
+
+fn normal_draw(ren:&mut WindowCanvas, obj: &mut World) {
+  
+}
+
+fn cartoon_draw(ren:&mut WindowCanvas, obj: &mut World) {
+  
 }

@@ -184,7 +184,7 @@ impl World {
     }
 }
 
-fn objects(file_contents: &str) {
+pub fn objects(file_contents: &str) -> World {
     let splits = file_contents.split("\n\n");
     let mut w = World::new();
     for s in splits {
@@ -204,6 +204,7 @@ fn objects(file_contents: &str) {
     }
     w.obj_total = w.objects.len();
     update_map(&mut w);
+    w
 }
 
 fn update_map(obj: &mut World)
