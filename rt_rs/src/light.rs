@@ -1,7 +1,14 @@
+use glam::Vec3;
 use libc::c_int;
 
-use crate::world::cnt_space;
+use crate::{world::cnt_space, vec3_calc::{str_map_to_vec3, str_to_vec3_rs}};
 
+
+#[derive(Default)]
+pub struct Light {
+	pub total: usize,
+	pub c: Vec3
+}
 
 pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
@@ -29,5 +36,23 @@ pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 			eprintln!("Light Error in coordinates");
     }
 		lines += 1;
+	}
+}
+
+pub fn lights(s: &str, lights: &mut Vec<Light>) {
+	let l: Vec<&str> = s.split("\n").collect();
+	let mut i = 0;
+	while !l[i].contains("Light") {
+		i +=1;
+	}
+	while i < l.len() {
+		let mut light = Light::default();
+		str_to_vec3_rs(l[i], &mut light.c);
+		lights.push(light);
+		i += 1;
+	}
+	let total = lights.len();
+	for light in lights {
+			light.total = total.clone();
 	}
 }

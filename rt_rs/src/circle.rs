@@ -4,36 +4,24 @@ use libc::{c_char, c_float, c_int};
 
 use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v, calc_multi, calc_addition, calc_vect_to_point, calc_p_dist}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space};
 
-#[no_mangle]
-pub unsafe extern "C" fn ft_circle(obj: &mut ObjectItem, str: *const c_char) {
-  if !str.is_null() {
-    let raw = CStr::from_ptr(str);
-    return match raw.to_str() {
-        Ok(s) => {
-          circle_extraction( s.to_string(), obj);
-        },
-        Err(_) => eprintln!("String Error for Circle")
-      }
-    }
-}
-
-fn circle_extraction(str: String, obj: &mut ObjectItem)
+pub fn circle_extraction(str: &str) -> ObjectItem
 {
+  let mut obj = ObjectItem::default();
   obj.r#type = ObjectType::Circle;
   obj.h = 0.;
   obj.dir = Vector4::default();
 	let s: Vec<&str> = str.split('\n').collect();
   convert_str_to_vec4(s.get(2).unwrap(), &mut obj.c);
-  get_rad_h(s.get(3).unwrap(), obj);
-  get_reflect_refract(s.get(4).unwrap(), obj);
+  get_rad_h(s.get(3).unwrap(), &mut obj);
+  get_reflect_refract(s.get(4).unwrap(), &mut obj);
 	convert_str_to_color(s.get(5).unwrap().to_string(), &mut obj.col);
-  get_obj_options(s.get(6).unwrap(), obj);
+  get_obj_options(s.get(6).unwrap(), &mut obj);
+  obj
   // TODO map to correct values
 	// obj.texmap = props.get(3).unwrap().as_bytes().as_ptr();
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn int_circle(circ: ObjectItem, d: &mut c_float, ray: Ray) {
+pub fn int_circle(circ: ObjectItem, d: &mut c_float, ray: Ray) {
   let mut ci = Quad::default();
   
   let co = calc_p_to_v(circ.c, ray.sc);
@@ -97,8 +85,6 @@ pub fn check_circle(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
 {
 	let mut	rf = Ray::default();
-
-  unsafe {
 	rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.00005);
 	if calc_p_dist(rf.sc, obj.c) > obj.rad {
     return Ray {
@@ -123,7 +109,6 @@ pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
     c2 = (1. - nr * nr * (1. - c1 * c1)).sqrt();
     rf.v = calc_unit_v(calc_addition(calc_multi(rf.v, nr), calc_multi(n, nr *
             c1 - c2)));
-  }
 	rf
 }
 
@@ -131,11 +116,10 @@ pub fn circle_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
 	let mut rf = Ray::default();
 
-  unsafe {
     rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
     let n = calc_unit_v(calc_p_to_v(obj.c, rf.sc));
     let c1 = -calc_dp(n, calc_unit_v(ray.v));
     rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
-  }
+
 	rf
 }

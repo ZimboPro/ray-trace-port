@@ -3,8 +3,7 @@ use sdl2::sys::{SDL_Event, SDL_Keysym};
 
 use crate::camera::{Camera, update_view, update_pos};
 
-#[no_mangle]
-pub unsafe extern "C" fn ft_eventloop(event: SDL_Event, looping: &mut c_int, camera: &mut Camera, draw: &mut c_int)
+pub fn ft_eventloop(event: SDL_Event, looping: &mut c_int, camera: &mut Camera, draw: &mut c_int)
 {
 	if event.type_ == 256 {
 		*looping = 0;
@@ -39,8 +38,7 @@ pub unsafe extern "C" fn ft_eventloop(event: SDL_Event, looping: &mut c_int, cam
   }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn mouse_click(camera: &mut Camera, draw: & mut c_int, event: SDL_Event)
+pub fn mouse_click(camera: &mut Camera, draw: & mut c_int, event: SDL_Event)
 {
 	let x = event.motion.x;
 	let y = event.motion.y;

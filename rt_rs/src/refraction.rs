@@ -2,8 +2,7 @@ use libc::c_float;
 
 use crate::{object::ObjectItem, ray::Ray, circle::circle_refraction, cylinder::cylinder_refraction, cone::cone_refraction, plane::plane_refraction};
 
-#[no_mangle]
-pub unsafe extern "C" fn get_refract_ray(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
+pub fn get_refract_ray(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
 	match obj.r#type {
     crate::object::ObjectType::Circle => circle_refraction(obj, ray, d),

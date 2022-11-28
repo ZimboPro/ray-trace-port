@@ -45,8 +45,8 @@ impl From<Vector4> for Vec3 {
   }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_addition(a: Vector4, b: Vector4) -> Vector4 {
+
+pub fn calc_addition(a: Vector4, b: Vector4) -> Vector4 {
   let a: Vec4 = a.into(); 
   let b: Vec4 = b.into(); 
   let mut ans: Vec4 = a + b;
@@ -54,34 +54,34 @@ pub unsafe extern "C" fn calc_addition(a: Vector4, b: Vector4) -> Vector4 {
   ans.into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_cross_product(a: Vector4, b: Vector4) -> Vector4 {
+
+pub fn calc_cross_product(a: Vector4, b: Vector4) -> Vector4 {
   let a: Vec3 = a.into(); 
   let b: Vec3 = b.into(); 
   a.cross(b).into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_m(a: Vector4) -> c_float {
+
+pub fn calc_m(a: Vector4) -> c_float {
   let a: Vec3 = a.into(); 
   a.length()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_unit_v(a: Vector4) -> Vector4 {
+
+pub fn calc_unit_v(a: Vector4) -> Vector4 {
   let a: Vec4 = a.into(); 
   a.normalize().into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_dp(a: Vector4, b: Vector4) -> c_float {
+
+pub fn calc_dp(a: Vector4, b: Vector4) -> c_float {
   let a: Vec3 = a.into(); 
   let b: Vec3 = b.into();
   a.dot(b)
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
+
+pub fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
   let mut a: Vec4 = a.into(); 
   let f = a.w;
   a *= d;
@@ -89,8 +89,8 @@ pub unsafe extern "C" fn calc_multi(a: Vector4, d: c_float) -> Vector4 {
   a.into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_p_to_v(a: Vector4, b: Vector4) -> Vector4 {
+
+pub fn calc_p_to_v(a: Vector4, b: Vector4) -> Vector4 {
   let a: Vec4 = a.into(); 
   let b: Vec4 = b.into(); 
   let mut ans = b - a;
@@ -98,34 +98,34 @@ pub unsafe extern "C" fn calc_p_to_v(a: Vector4, b: Vector4) -> Vector4 {
   ans.into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_p_dist(a: Vector4, b: Vector4) -> c_float {
+
+pub fn calc_p_dist(a: Vector4, b: Vector4) -> c_float {
   let a: Vec4 = a.into(); 
   let b: Vec4 = b.into(); 
   (b - a).length()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_p_dist_vec(a: Vector4, b: Vec3) -> c_float {
+
+pub fn calc_p_dist_vec(a: Vector4, b: Vec3) -> c_float {
   let a: Vec3 = a.into(); 
   (b - a).length()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_p_to_vec(a: Vector4, b: Vec3) -> Vector4 {
+
+pub fn calc_p_to_vec(a: Vector4, b: Vec3) -> Vector4 {
   let a: Vec3 = a.into(); 
   (b - a).into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_vector_ang(a: Vector4, b: Vector4) -> c_float {
+
+pub fn calc_vector_ang(a: Vector4, b: Vector4) -> c_float {
   let a: Vec3 = a.into(); 
   let b: Vec3 = b.into(); 
   a.angle_between(b)
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_vect_to_point(p: Vector4, v: Vector4, m: c_float) -> Vector4 {
+
+pub fn calc_vect_to_point(p: Vector4, v: Vector4, m: c_float) -> Vector4 {
   let p : Vec4 = p.into();
   let v : Vec4 = v.into();
 	let mut ans = p + v * (m / v.length());
@@ -133,8 +133,8 @@ pub unsafe extern "C" fn calc_vect_to_point(p: Vector4, v: Vector4, m: c_float) 
 	ans.into()
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vector4 {
+
+pub fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vector4 {
   let ab: Vec4 = calc_p_to_v(a, b).into();
 	let t = ab.length();
 	let ang = calc_vector_ang(v, ab.into());
@@ -143,8 +143,8 @@ pub unsafe extern "C" fn calc_normal(v: Vector4, a: Vector4, b: Vector4)-> Vecto
 	calc_p_to_v(p, b)
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn	rot_x(v:  Vector4, r: c_float) -> Vector4
+
+pub fn	rot_x(v:  Vector4, r: c_float) -> Vector4
 {
   let mut ans = v;
 	let y = ans.y;
@@ -154,8 +154,8 @@ pub unsafe extern "C" fn	rot_x(v:  Vector4, r: c_float) -> Vector4
 	ans
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn	rot_y(v:  Vector4, r: c_float) -> Vector4
+
+pub fn	rot_y(v:  Vector4, r: c_float) -> Vector4
 {
   let mut ans = v;
 	let x = ans.x;

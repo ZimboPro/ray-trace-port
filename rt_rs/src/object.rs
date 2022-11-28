@@ -3,7 +3,7 @@ use libc::{c_char, c_float, c_int};
 use sdl2::sys::SDL_Color;
 use serde::{Deserialize, Serialize};
 
-use crate::vec4_calc::Vector4;
+use crate::{vec4_calc::{Vector4, calc_multi}, camera::{Camera, camera_extraction}, light::{Light, lights}, circle::{circle_extraction}, cone::cone_extraction, cylinder::cylinder_extraction, plane::plane_extraction, vec3_calc::calc_multi_vec};
 
 #[repr(C)]
 #[derive(Serialize, Deserialize, PartialEq, Eq, Clone, Copy)]
@@ -42,7 +42,7 @@ impl Into<SDL_Color> for Color {
 }
 
 #[repr(C)]
-#[derive(Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 pub struct Vec3 {
     pub x: f32,
     pub y: f32,
@@ -131,5 +131,96 @@ pub struct	ObjectItem
     pub refract: c_int,
     pub pattern: c_int,
     pub filter: c_int,
-    pub texmap: *const c_char,
-}	
+}
+
+impl ObjectItem {
+    pub fn new() -> Self {
+        Self {
+            r#type: Default::default(),
+            c: Default::default(),
+            h: Default::default(),
+            rad: Default::default(),
+            col: SDL_Color { r: 0, g: 0, b: 0, a: 255 },
+            dir: Default::default(),
+            reflect: Default::default(),
+            refract: Default::default(),
+            pattern: Default::default(),
+            filter: Default::default()
+        }
+    }
+}
+
+impl Default for ObjectItem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+pub struct World {
+    pub d: f32,
+    pub obj_total: usize,
+    pub light: usize,
+    pub progress: i32,
+    pub first: i32,
+    pub objects: Vec<ObjectItem>,
+    pub camera: Camera,
+    pub lights: Vec<Light>,
+    pub i: usize
+}
+
+impl World {
+    pub fn new() -> Self {
+        Self {
+            d: 0.,
+            obj_total: 0,
+            light: 0,
+            progress: 0,
+            first: 0,
+            objects: Vec::new(),
+            camera: Camera::default(),
+            lights: Vec::new(),
+            i: 0
+        }
+    }
+}
+
+fn objects(file_contents: &str) {
+    let splits = file_contents.split("\n\n");
+    let mut w = World::new();
+    for s in splits {
+        if s.contains("Circle") {
+            w.objects.push(circle_extraction(s));
+        } else if s.contains("Cone") {
+            w.objects.push(cone_extraction(s));
+        } else if s.contains("Cylinder") {
+            w.objects.push(cylinder_extraction(s));
+        } else if s.contains("Plane") {
+            w.objects.push(plane_extraction(s));
+        } else if s.contains("Lights") {
+            lights(s, &mut w.lights);
+        } else if s.contains("Camera") {
+            w.camera = camera_extraction(s);
+        }
+    }
+    w.obj_total = w.objects.len();
+    update_map(&mut w);
+}
+
+fn update_map(obj: &mut World)
+{
+    for object in &mut obj.objects {
+		if object.r#type == ObjectType::Plane {
+			object.dir.w *= obj.camera.dist.clone();
+        } else if object.r#type != ObjectType::Plane {
+            object.c = calc_multi(object.c, obj.camera.dist.clone());
+            object.rad *= obj.camera.dist.clone();
+        }
+		if object.r#type != ObjectType::Plane && object.r#type != ObjectType::Circle {
+			object.h *= obj.camera.dist.clone();
+        }
+	}
+	obj.camera.c = calc_multi(obj.camera.c, obj.camera.dist.clone());
+    for light in &mut obj.lights {
+        light.c = calc_multi_vec(light.c, obj.camera.dist.clone());
+    }
+}

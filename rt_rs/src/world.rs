@@ -4,21 +4,7 @@ use libc::{c_int, c_char};
 
 use crate::{circle::check_circle, cone::check_cone, plane::check_plane, cylinder::check_cylinder, camera::check_camera, light::check_light};
 
-#[no_mangle]
-pub unsafe extern "C" fn validate_world(val: *const c_char) -> c_int {
-  if !val.is_null() {
-    let raw = CStr::from_ptr(val);
-    return match raw.to_str() {
-        Ok(s) => {
-            return validate_file_contents(s.into());
-        }
-        Err(_) => 0,
-    };
-  }
-  0
-}
-
-fn validate_file_contents(path: PathBuf) -> c_int {
+pub fn validate_file_contents(path: PathBuf) -> c_int {
   let contents = fs::read_to_string(path).unwrap();
   println!("{}",contents);
   let mut chk: c_int = check_if_camera_light_and_obj(&contents);

@@ -53,7 +53,13 @@ pub unsafe extern "C" fn str_map_to_vec3(val: *const c_char, vec: &mut Vec3) {
     vec.z = 0.;
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn calc_multi_vec(a: Vec3, d: c_float) -> Vec3 {
+pub fn str_to_vec3_rs(s: &str, vec: &mut Vec3) {
+    let points: Vec<&str> = s.split(' ').collect();
+    vec.x = points.first().unwrap().parse::<f32>().unwrap();
+    vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
+    vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
+}
+
+pub fn calc_multi_vec(a: Vec3, d: c_float) -> Vec3 {
  a * d
 }

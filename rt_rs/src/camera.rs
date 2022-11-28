@@ -11,8 +11,8 @@ pub const DIST: f32 = 100.;
 #[repr(C)]
 pub struct Camera {
 	pub mode: c_int,
-	pub width: c_int,
-	pub height: c_int,
+	pub width: u32,
+	pub height: u32,
 	pub dist: c_float,
 	pub ar: c_float,
 	pub scale: c_float,
@@ -74,24 +74,7 @@ pub fn check_camera(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 	}
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn ft_camera(str: *const c_char) -> Camera {
-  if !str.is_null() {
-    let raw = CStr::from_ptr(str);
-    return match raw.to_str() {
-        Ok(s) => {
-          return camera_extraction( s.to_string());
-        },
-        Err(_) => {
-					eprintln!("String Error for Circle");
-					Camera::default()
-				}
-      }
-    }
-		return Camera::default();
-}
-
-fn camera_extraction(str: String) -> Camera
+pub fn camera_extraction(str: &str) -> Camera
 {
 	let mut cam = Camera::default();
 	cam.c = Vector4{ x: 0., y: 0., z: 0., w: 1.};
@@ -111,8 +94,8 @@ fn camera_extraction(str: String) -> Camera
 		}
 	}
 	let points: Vec<&str> = s.get(3).unwrap().split(' ').collect();
-  cam.width = points.first().unwrap().parse::<i32>().unwrap();
-  cam.height = points.get(1).unwrap().parse::<i32>().unwrap();
+  cam.width = points.first().unwrap().parse::<u32>().unwrap();
+  cam.height = points.get(1).unwrap().parse::<u32>().unwrap();
   cam.h_fov = points.get(2).unwrap().parse::<f32>().unwrap();
   cam.mode = s.get(4).unwrap().parse::<i32>().unwrap();
 	convert_str_to_color(s.get(5).unwrap().to_string(), &mut cam.bg);

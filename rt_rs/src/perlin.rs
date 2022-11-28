@@ -57,8 +57,7 @@ fn	noise2d(x: c_float, y: c_float) -> c_float
 	smooth_inter(low, high, y_frac)
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn perlin2d( x: c_float,  y: c_float,  freq: c_float, depth: c_int) -> c_float
+pub fn perlin2d( x: c_float,  y: c_float,  freq: c_float, depth: c_int) -> c_float
 {
 
 	let mut xa = x * freq;

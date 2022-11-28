@@ -5,33 +5,21 @@ use libc::{c_char, c_float, c_int};
 use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v, calc_vect_to_point, calc_multi, calc_addition}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray, world::cnt_space};
 
 
-#[no_mangle]
-pub unsafe extern "C" fn plane(obj: &mut ObjectItem, str: *const c_char) {
-  if !str.is_null() {
-    let raw = CStr::from_ptr(str);
-    return match raw.to_str() {
-        Ok(s) => {
-          plane_extraction( s.to_string(), obj);
-        },
-        Err(_) => eprintln!("String Error for Circle")
-      }
-    }
-}
-
-fn plane_extraction(str: String, obj: &mut ObjectItem) {
+pub fn plane_extraction(str: &str) -> ObjectItem {
+	let mut obj = ObjectItem::default();
   obj.r#type = ObjectType::Plane;
 	let s: Vec<&str> = str.split('\n').collect();
   convert_str_to_vec4_with_w(s.get(2).unwrap(), &mut obj.dir);
-  get_reflect_refract(s.get(3).unwrap(), obj);
-  get_obj_options(s.get(4).unwrap(), obj);
+  get_reflect_refract(s.get(3).unwrap(), &mut obj);
+  get_obj_options(s.get(4).unwrap(), &mut obj);
 	convert_str_to_color(s.get(5).unwrap().to_string(), &mut obj.col);
   obj.h = 0.;
   obj.rad = 0.;
   obj.c = Vector4::default();
+	obj
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
+pub fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
   let mut di = obj.dir;
 	di.w = 0.;
 	let p = Vector4{

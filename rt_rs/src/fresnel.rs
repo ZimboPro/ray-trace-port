@@ -2,8 +2,7 @@ use libc::{c_float, c_int};
 
 use crate::vec4_calc::{Vector4, calc_dp};
 
-#[no_mangle]
-pub unsafe extern "C" fn fresnel(n1: c_float, n2: c_int, n: Vector4, v: Vector4) -> c_float
+pub fn fresnel(n1: c_float, n2: c_int, n: Vector4, v: Vector4) -> c_float
 {
 	let n2t = (n2 as f32) / 1000000.;
 	let mut r0 = (n1 - n2t) / (n1 + n2t);

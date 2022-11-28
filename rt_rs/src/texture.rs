@@ -16,8 +16,7 @@ pub struct TextureData {
 	angle: f32
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn pattern_init(t: &mut TextureData, n: Vector4) -> SDL_Color
+pub fn pattern_init(t: &mut TextureData, n: Vector4) -> SDL_Color
 {
 	t.scale_s = 10.;
 	t.scale_t = 10.;
@@ -30,8 +29,7 @@ pub unsafe extern "C" fn pattern_init(t: &mut TextureData, n: Vector4) -> SDL_Co
 	c
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn sepia(mut col:  SDL_Color) -> SDL_Color
+pub fn sepia(mut col:  SDL_Color) -> SDL_Color
 {
 	col.r = ((col.r as f32 * 0.393) + (col.g as f32 * 0.769) + (col.b as f32 * 0.189)) as u8;
 	col.g = ((col.r as f32 * 0.349) + (col.g as f32 * 0.686) + (col.b as f32 * 0.168)) as u8;
@@ -39,8 +37,7 @@ pub unsafe extern "C" fn sepia(mut col:  SDL_Color) -> SDL_Color
 	col
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn marble(t: & mut TextureData, n: Vector4) -> SDL_Color
+pub fn marble(t: & mut TextureData, n: Vector4) -> SDL_Color
 {
 
 	let c = SDL_Color{r: 52, g: 67, b: 62, a: 255};
@@ -52,8 +49,7 @@ pub unsafe extern "C" fn marble(t: & mut TextureData, n: Vector4) -> SDL_Color
 	c
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn modulo(f: f32) -> f32
+pub fn modulo(f: f32) -> f32
 {
 	if (f - f.floor()) < 0.5 {
     1.
@@ -62,8 +58,7 @@ pub unsafe extern "C" fn modulo(f: f32) -> f32
   }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn checker(mut t: TextureData) -> f32
+pub fn checker(mut t: TextureData) -> f32
 {
 	t.angle = 1.5708;
 	t.s = t.tex_x * t.angle.cos() - t.tex_y * t.angle.sin();
