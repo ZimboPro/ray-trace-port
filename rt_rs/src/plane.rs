@@ -1,6 +1,6 @@
-use std::ffi::CStr;
 
-use libc::{c_char, c_float, c_int};
+
+use libc::{c_float, c_int};
 
 use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v, calc_vect_to_point, calc_multi, calc_addition}, data_extraction::{get_reflect_refract, get_obj_options}, colour::convert_str_to_color, ray::Ray, world::cnt_space};
 
@@ -44,8 +44,8 @@ pub fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 pub fn check_plane(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
-	while lines < 5 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
-  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+	while lines < 5 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().starts_with('-'))
 			 {
         lines += 1;
       }

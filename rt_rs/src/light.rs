@@ -1,7 +1,7 @@
 use glam::Vec3;
 use libc::c_int;
 
-use crate::{world::cnt_space, vec3_calc::{str_map_to_vec3, str_to_vec3_rs}};
+use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}};
 
 
 #[derive(Default)]
@@ -23,7 +23,7 @@ pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 		t = s[1].parse::<i32>().unwrap();
 	}
 	let mut lines = 1;
-	while lines < t.try_into().unwrap() && str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric() {
+	while lines < t.try_into().unwrap() && str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric() {
 		lines += 1;
   }
 	if lines != t.try_into().unwrap() {
@@ -40,7 +40,7 @@ pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 }
 
 pub fn lights(s: &str, lights: &mut Vec<Light>) {
-	let l: Vec<&str> = s.split("\n").collect();
+	let l: Vec<&str> = s.split('\n').collect();
 	let mut i = 0;
 	while !l[i].contains("Light") {
 		i +=1;
@@ -53,6 +53,6 @@ pub fn lights(s: &str, lights: &mut Vec<Light>) {
 	}
 	let total = lights.len();
 	for light in lights {
-			light.total = total.clone();
+			light.total = total;
 	}
 }

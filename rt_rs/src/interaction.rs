@@ -1,5 +1,5 @@
 use libc::c_int;
-use sdl2::{sys::{SDL_Event, SDL_Keysym}, event::Event};
+use sdl2::{event::Event};
 use sdl2::keyboard::Keycode;
 
 use crate::camera::{Camera, update_view, update_pos};
@@ -14,15 +14,15 @@ pub fn ft_eventloop(event: Event, looping: &mut c_int, camera: &mut Camera, draw
 		update_view(camera, 0);
 		*draw = 0;
     },
-    	Event::KeyDown { keycode: Some(Keycode::s), .. } | Event::KeyDown { keycode: Some(Keycode::Down), .. } => {
+    	Event::KeyDown { keycode: Some(Keycode::S), .. } | Event::KeyDown { keycode: Some(Keycode::Down), .. } => {
 		update_view(camera, 1);
 		*draw = 0;
     },
-    	Event::KeyDown { keycode: Some(Keycode::a), .. } | Event::KeyDown { keycode: Some(Keycode::Left), .. } => {
+    	Event::KeyDown { keycode: Some(Keycode::A), .. } | Event::KeyDown { keycode: Some(Keycode::Left), .. } => {
 		update_view(camera, 2);
 		*draw = 0;
     },
-    	Event::KeyDown { keycode: Some(Keycode::d), .. } | Event::KeyDown { keycode: Some(Keycode::Right), .. } => {
+    	Event::KeyDown { keycode: Some(Keycode::D), .. } | Event::KeyDown { keycode: Some(Keycode::Right), .. } => {
 		update_view(camera, 3);
 		*draw = 0;
     },

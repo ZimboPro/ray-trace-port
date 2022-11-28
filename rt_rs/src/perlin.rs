@@ -27,17 +27,17 @@ fn noise2(x: c_float, y: c_float, seed: c_float) -> c_float
 					250, 209, 92, 222, 173, 21, 88, 102, 219];
   let t: usize = (y as usize + seed as usize) % 256;
 
-	return (hash[((hash[t]) + x as usize) % 256]) as c_float;
+	(hash[((hash[t]) + x as usize) % 256]) as c_float
 }
 
 fn lin_inter(x: c_float, y: c_float, s: c_float) -> c_float
 {
-	return x + s * (y - x);
+	x + s * (y - x)
 }
 
 fn smooth_inter(x: c_float, y: c_float, s: c_float) -> c_float
 {
-	return lin_inter(x, y, s * s * (3. - 2. * s));
+	lin_inter(x, y, s * s * (3. - 2. * s))
 }
 
 fn	noise2d(x: c_float, y: c_float) -> c_float

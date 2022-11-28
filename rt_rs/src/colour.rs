@@ -1,6 +1,6 @@
-use std::{ops::{Shr}, ffi::CStr};
+use std::{ops::{Shr}};
 
-use libc::{c_char, c_float};
+use libc::{c_float};
 use sdl2::sys::SDL_Color;
 
 pub fn blend_colours(a: SDL_Color, b: SDL_Color) -> SDL_Color {

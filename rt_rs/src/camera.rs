@@ -1,6 +1,6 @@
-use std::{ops::Shr, f32::consts::PI, ffi::CStr};
+use std::{ops::Shr, f32::consts::PI};
 
-use libc::{c_int, c_float, c_char};
+use libc::{c_int, c_float};
 use sdl2::sys::SDL_Color;
 
 use crate::{vec4_calc::{Vector4, convert_str_to_vec4, calc_unit_v, calc_p_to_v, calc_cross_product, calc_addition, calc_multi, calc_vect_to_point}, world::cnt_space, colour::convert_str_to_color};
@@ -47,8 +47,8 @@ fn camera_corners(cam: & mut Camera) {
 pub fn check_camera(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
-	while lines < 5 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
-  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+	while lines < 5 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().starts_with('-'))
 			 {
 				lines += 1;
 			}

@@ -1,6 +1,6 @@
-use std::ffi::CStr;
 
-use libc::{c_char, c_float, c_int};
+
+use libc::{c_float, c_int};
 
 use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4, calc_addition, calc_multi}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
 
@@ -56,8 +56,8 @@ pub fn cone_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
 pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
-	while lines < 7 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
-  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+	while lines < 7 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().starts_with('-'))
 			 {
         lines += 1;
       }
@@ -89,7 +89,7 @@ pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
   }
 }
 
-pub fn cone_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
+pub fn cone_refraction(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
 	let mut rf = Ray::default();
 

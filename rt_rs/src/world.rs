@@ -1,6 +1,6 @@
-use std::{path::PathBuf, fs, ffi::CStr};
+use std::{path::PathBuf, fs};
 
-use libc::{c_int, c_char};
+use libc::{c_int};
 
 use crate::{circle::check_circle, cone::check_cone, plane::check_plane, cylinder::check_cylinder, camera::check_camera, light::check_light};
 

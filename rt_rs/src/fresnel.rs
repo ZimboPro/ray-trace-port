@@ -18,6 +18,6 @@ pub fn fresnel(n1: c_float, n2: c_int, n: Vector4, v: Vector4) -> c_float
 		c1 = (1. - x).sqrt();
 	}
 	let x = 1. - c1;
-	let ret = r0 + (1. - r0) * x * x * x * x * x;
-	ret
+	
+	r0 + (1. - r0) * x * x * x * x * x
 }

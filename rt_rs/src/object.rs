@@ -1,5 +1,5 @@
 use glam::{self, f32};
-use libc::{c_char, c_float, c_int};
+use libc::{c_float, c_int};
 use sdl2::sys::SDL_Color;
 use serde::{Deserialize, Serialize};
 
@@ -211,17 +211,17 @@ fn update_map(obj: &mut World)
 {
     for object in &mut obj.objects {
 		if object.r#type == ObjectType::Plane {
-			object.dir.w *= obj.camera.dist.clone();
+			object.dir.w *= obj.camera.dist;
         } else if object.r#type != ObjectType::Plane {
-            object.c = calc_multi(object.c, obj.camera.dist.clone());
-            object.rad *= obj.camera.dist.clone();
+            object.c = calc_multi(object.c, obj.camera.dist);
+            object.rad *= obj.camera.dist;
         }
 		if object.r#type != ObjectType::Plane && object.r#type != ObjectType::Circle {
-			object.h *= obj.camera.dist.clone();
+			object.h *= obj.camera.dist;
         }
 	}
-	obj.camera.c = calc_multi(obj.camera.c, obj.camera.dist.clone());
+	obj.camera.c = calc_multi(obj.camera.c, obj.camera.dist);
     for light in &mut obj.lights {
-        light.c = calc_multi_vec(light.c, obj.camera.dist.clone());
+        light.c = calc_multi_vec(light.c, obj.camera.dist);
     }
 }

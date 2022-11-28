@@ -1,6 +1,6 @@
-use std::ffi::CStr;
 
-use libc::{c_char, c_float, c_int};
+
+use libc::{c_float, c_int};
 
 use crate::{object::{ObjectItem, ObjectType}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point, calc_addition, calc_multi}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
 
@@ -47,8 +47,8 @@ pub fn cyl_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
 pub fn check_cylinder(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
-	while lines < 7 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
-  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+	while lines < 7 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().starts_with('-'))
 			{
         lines += 1;
       }

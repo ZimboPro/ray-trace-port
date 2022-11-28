@@ -1,5 +1,5 @@
 use libc::c_float;
-use sdl2::{sys::{SDL_Init, SDL_CreateWindow, }, render::{WindowCanvas}, event::Event};
+use sdl2::{render::{WindowCanvas}, event::Event};
 use sdl2::keyboard::Keycode;
 use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}};
 

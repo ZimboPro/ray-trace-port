@@ -1,6 +1,6 @@
-use std::ffi::CStr;
 
-use libc::{c_char, c_float, c_int};
+
+use libc::{c_float, c_int};
 
 use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v, calc_multi, calc_addition, calc_vect_to_point, calc_p_dist}, colour::{convert_str_to_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space};
 
@@ -52,8 +52,8 @@ pub fn check_circle(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 {
 
 	let mut lines: usize = 1;
-	while lines < 6 && (str.get(*i + lines).unwrap().chars().nth(0).unwrap().is_numeric()
-  || str.get(*i + lines).unwrap().chars().nth(0).unwrap() == '-')
+	while lines < 6 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
+  || str.get(*i + lines).unwrap().starts_with('-'))
 			 {
         lines += 1;
       }
@@ -101,8 +101,8 @@ pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
     rf.v = calc_unit_v(calc_addition(calc_multi(calc_unit_v(ray.v), nr),
         calc_multi(n, nr * c1 - c2)));
     int_circle(obj, &mut d, rf);
-    rf.sc = calc_vect_to_point(rf.sc, rf.v.clone(), d * 1.005);
-    let t = obj.c.clone();
+    rf.sc = calc_vect_to_point(rf.sc, rf.v, d * 1.005);
+    let t = obj.c;
     n = calc_unit_v(calc_p_to_v(t, rf.sc));
     c1 = calc_dp(calc_unit_v(rf.v), n);
     nr = (refract / 1000000.) / 1.000293;
