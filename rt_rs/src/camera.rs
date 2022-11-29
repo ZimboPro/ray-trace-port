@@ -85,7 +85,6 @@ pub fn camera_extraction(str: &str) -> Camera
 	let s: Vec<&str> = str.split('\n').collect();
 	let mut p = Vector4::default();
   convert_str_to_vec4(s.get(2).unwrap(), &mut p);
-	unsafe {
 		if cam.c.x != p.x || cam.c.y != p.y || cam.c.z != p.z {
 			cam.c = p;
 			cam.view = calc_unit_v(calc_p_to_v(cam.c, Vector4{ x: 0., y: 0., z: 0., w: 1.}));
@@ -93,7 +92,6 @@ pub fn camera_extraction(str: &str) -> Camera
 				Vector4{ x: 0., y: 1., z: 0., w: 0.}));
 			cam.up = calc_unit_v(calc_cross_product(cam.hor, cam.view));
 		}
-	}
 	let points: Vec<&str> = s.get(3).unwrap().split(' ').collect();
   cam.width = points.first().unwrap().parse::<usize>().unwrap();
   cam.height = points.get(1).unwrap().parse::<usize>().unwrap();
@@ -113,7 +111,6 @@ pub fn update_view(camera: &mut Camera, dir: c_int) -> Vector4
 	let cos_val = (ROTATE * (PI / 180.)).cos();
 	let sin_val = (ROTATE * (PI / 180.)).sin();
 
-	unsafe {
 		if dir == 0
 		{
 			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
@@ -141,13 +138,11 @@ pub fn update_view(camera: &mut Camera, dir: c_int) -> Vector4
 			camera.hor = calc_addition(calc_multi(camera.hor, cos_val), calc_multi(camera.view,
 						-sin_val));
 		}
-	}
 	temp
 }
 
 pub fn update_pos(camera: &mut Camera, draw: & mut c_int, dir: c_int)
 {
-	unsafe {
 		if dir == 0 {
 			camera.c = calc_vect_to_point(camera.c, camera.view, DIST * DIST);
 		}	else if dir == 1 {
@@ -161,6 +156,5 @@ pub fn update_pos(camera: &mut Camera, draw: & mut c_int, dir: c_int)
 		}	else {
 			camera.c = calc_vect_to_point(camera.c, camera.up, -DIST);
 		}
-	}
 	*draw = 0;
 }

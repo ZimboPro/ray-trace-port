@@ -3,7 +3,7 @@
 use libc::{c_float, c_int};
 use sdl2::sys::SDL_Color;
 
-use crate::{object::{ObjectItem, ObjectType, World}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point, calc_addition, calc_multi}, colour::{convert_str_to_color, blinn_phong}, ray::{Quad, Ray}, world::cnt_space, light::light_color};
+use crate::{object::{ObjectItem, ObjectType, World}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point, calc_addition, calc_multi, calc_p_dist}, colour::{convert_str_to_color, blinn_phong, init_color}, ray::{Quad, Ray}, world::cnt_space, light::light_color, cartoon::cartoon_color};
 
 pub fn cylinder_extraction(str: &str) -> ObjectItem {
   let mut obj = ObjectItem::default();
@@ -85,8 +85,6 @@ pub fn cylinder_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 {
 	let mut rf = Ray::default();
 
-  unsafe {
-
     rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.00005);
     let mut n = calc_unit_v(cyl_norm(obj, d * 1.005, ray));
     let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
@@ -111,7 +109,6 @@ pub fn cylinder_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
     c2 = c2.sqrt();
     rf.v = calc_unit_v(calc_addition(calc_multi(rf.v, di), calc_multi(n,
             di * c1 - c2)));
-  }
 	rf
 }
 
@@ -119,14 +116,12 @@ pub fn cylinder_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
 	let mut rf = Ray::default();
 
-  unsafe {
     rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
     let di = calc_dp(calc_p_to_v(obj.c, rf.sc), calc_unit_v(obj.dir));
     let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di),
           rf.sc));
     let c1 = -calc_dp(n, calc_unit_v(ray.v));
     rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
-  }
 	rf
 }
 
@@ -142,4 +137,24 @@ pub fn color_cylinder(obj: &mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Co
 		return blinn_phong(obj, Ray{ sc:p, v: n}, i, rv.v, d);
 	}
 	light_color(obj, Ray{ sc:p, v: n}, i, d)
+}
+
+pub fn cartoon_cylinder(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_Color
+{
+	let mut p = calc_vect_to_point(rv.sc, rv.v, *d * 1.05);
+	let mut di = calc_dp(calc_p_to_v(obj.objects[i].c, p),
+			calc_unit_v(obj.objects[i].dir));
+	let p1 = calc_vect_to_point(obj.objects[i].c, obj.objects[i].dir, di);
+	return if calc_p_dist(p, p1) > obj.objects[i].rad {
+		init_color()
+	}
+	else
+	{
+		p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
+		di = calc_dp(calc_p_to_v(obj.objects[i].c, p),
+				calc_unit_v(obj.objects[i].dir));
+		let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.objects[i].c,
+						obj.objects[i].dir, di), p));
+		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
+	};
 }

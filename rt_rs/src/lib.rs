@@ -24,6 +24,7 @@ mod perlin;
 mod texture;
 mod cartoon;
 mod sequence;
+mod anti_aliasing;
 
 #[no_mangle]
 pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {

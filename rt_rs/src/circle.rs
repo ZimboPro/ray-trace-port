@@ -3,7 +3,7 @@
 use libc::{c_float, c_int};
 use sdl2::sys::SDL_Color;
 
-use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v, calc_multi, calc_addition, calc_vect_to_point, calc_p_dist}, colour::{convert_str_to_color, blinn_phong}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space, light::light_color};
+use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, convert_str_to_vec4, calc_p_to_v, calc_dp, calc_unit_v, calc_multi, calc_addition, calc_vect_to_point, calc_p_dist}, colour::{convert_str_to_color, blinn_phong, init_color}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, ray::{Ray, Quad}, world::cnt_space, light::light_color, cartoon::cartoon_color};
 
 pub fn circle_extraction(str: &str) -> ObjectItem
 {
@@ -135,4 +135,20 @@ pub fn color_circle(obj: & mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Col
 		return blinn_phong(obj, Ray { sc: p, v: n}, i, rv.v, d);
 	}
 	light_color(obj, Ray { sc: p, v: n}, i, d)
+}
+
+pub fn cartoon_circle(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_Color
+{
+
+	let circ = obj.objects[i];
+	let mut p = calc_vect_to_point(rv.sc, rv.v, *d * 1.05);
+	return if calc_p_dist(p, circ.c) > circ.rad {
+		init_color()
+	}
+	else
+	{
+		p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
+		let n = calc_unit_v(calc_p_to_v(circ.c, p));
+		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
+	};
 }

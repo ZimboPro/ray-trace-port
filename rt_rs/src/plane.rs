@@ -3,7 +3,7 @@
 use libc::{c_float, c_int};
 use sdl2::sys::SDL_Color;
 
-use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v, calc_vect_to_point, calc_multi, calc_addition, calc_p_to_vec}, data_extraction::{get_reflect_refract, get_obj_options}, colour::{convert_str_to_color, blinn_phong}, ray::Ray, world::cnt_space, light::light_color};
+use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, convert_str_to_vec4_with_w, calc_dp, calc_unit_v, calc_vect_to_point, calc_multi, calc_addition, calc_p_to_vec}, data_extraction::{get_reflect_refract, get_obj_options}, colour::{convert_str_to_color, blinn_phong}, ray::Ray, world::cnt_space, light::light_color, cartoon::cartoon_color};
 
 
 pub fn plane_extraction(str: &str) -> ObjectItem {
@@ -76,7 +76,6 @@ pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 {
 	let mut rf = Ray::default();
 
-	unsafe {
 
 		rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
 		let mut n = Vector4{
@@ -103,7 +102,6 @@ pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 		c2 = 1. - nr * nr * (1. - c1 * c1);
 		c2 = c2.sqrt();
 		rf.v = calc_addition(calc_multi(rf.v, nr), calc_multi(n, nr * c1 - c2));
-	}
 	rf
 }
 
@@ -111,7 +109,6 @@ pub fn plane_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
 	let mut rf = Ray::default();
 
-  unsafe {
     rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
 		let mut n = Vector4{
 			x: obj.dir.x,
@@ -127,7 +124,6 @@ pub fn plane_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 		}
 		let c1 = -calc_dp(n, calc_unit_v(ray.v));
 		rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
-  }
 	rf
 }
 
@@ -145,4 +141,12 @@ pub fn color_plane(obj: &mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Color
 		return blinn_phong(obj, Ray{ sc:p, v: n}, i, rv.v, d);
 	}
 	light_color(obj, Ray{ sc:p, v: n}, i, d)
+}
+
+pub fn cartoon_plane(obj: & mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Color
+{
+	let plane = obj.objects[i];
+	let n = Vector4{x: plane.dir.x, y: plane.dir.y, z: plane.dir.z, w: 0. };
+	let p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
+	cartoon_color(obj, Ray{sc: p, v: n}, i, d)
 }

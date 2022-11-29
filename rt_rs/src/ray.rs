@@ -2,7 +2,7 @@ use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};
 use sdl2::{render::{WindowCanvas}, event::Event};
 use sdl2::keyboard::Keycode;
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color}, reflection::get_reflect_ray, fresnel::fresnel_effect};
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
 use sdl2::sys::SDL_Color;
 use crate::colour::get_color;
 
@@ -69,7 +69,7 @@ fn find_sdl_gl_driver() -> Option<u32> {
   None
 }
 
-pub fn raytrace(obj: &mut World) {
+pub fn raytrace(obj: &mut World, is_aa: u8) {
 
   let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -81,10 +81,10 @@ pub fn raytrace(obj: &mut World) {
         .index(find_sdl_gl_driver().unwrap())
         .build()
         .unwrap();
-    events(&mut canvas, obj, &sdl_context);
+    events(&mut canvas, obj, &sdl_context, is_aa);
 }
 
-fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl) {
+fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl, is_aa: u8) {
  let mut r#loop = 1;
  let mut draw = 0;
  let mut event_pump = sdl_context.event_pump().unwrap();
@@ -92,11 +92,11 @@ fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl) {
  
  while r#loop == 1 {
   if draw == 0 {
-    if obj.camera.mode == 0 {
-      normal_draw(ren, obj, &mut canvas);
-    } else {
-      cartoon_draw(ren, obj, &mut canvas);
-    }
+        if obj.camera.mode == 0 {
+            normal_draw(ren, obj, &mut canvas, is_aa);
+        } else {
+            cartoon_draw(ren, obj, &mut canvas, is_aa);
+        }
     draw = 1;
   }
   for event in event_pump.poll_iter() {
@@ -126,18 +126,56 @@ fn init_canvas_array(obj: & World) -> Vec<RenderPixel> {
   v
 }
 
-fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>) {
+fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: u8) {
   let k = obj.camera.clone();
   canvas.par_iter_mut().for_each(|p| {
-    let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
-  let mut c = obj.clone();
-    let mut d = 0.;
-    p.c = trace_ray(&mut c, rv, 0/*, ren*/, &mut d);
+    if is_aa == 0 {
+        let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
+    let mut c = obj.clone();
+        let mut d = 0.;
+        p.c = trace_ray(&mut c, rv, 0/*, ren*/, &mut d);
+    } else {
+        let rv_0 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float - 0.25);
+        let rv_1 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float - 0.25);
+        let rv_2 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float + 0.25);
+        let rv_3 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float + 0.25);
+        let mut c = obj.clone();
+        let mut d = 0.;
+        p.c = trace_ray(&mut c, rv_0, 0/*, ren*/, &mut d);
+        let t = trace_ray(&mut c, rv_1, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+        let t = trace_ray(&mut c, rv_2, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+        let t = trace_ray(&mut c, rv_3, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+    }
   });
 }
 
-fn cartoon_draw(_ren:&mut WindowCanvas, _obj: &mut World, canvas: & mut Vec<RenderPixel>) {
-  
+fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: u8) {
+  let k = obj.camera.clone();
+  canvas.par_iter_mut().for_each(|p| {
+    if is_aa == 0 {
+        let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
+        let mut c = obj.clone();
+        let mut d = 0.;
+        p.c = trace_ray_cart(&mut c, rv, 0/*, ren*/, &mut d);
+    } else {
+        let rv_0 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float - 0.25);
+        let rv_1 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float - 0.25);
+        let rv_2 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float + 0.25);
+        let rv_3 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float + 0.25);
+        let mut c = obj.clone();
+        let mut d = 0.;
+        p.c = trace_ray_cart(&mut c, rv_0, 0/*, ren*/, &mut d);
+        let t = trace_ray_cart(&mut c, rv_1, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+        let t = trace_ray_cart(&mut c, rv_2, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+        let t = trace_ray_cart(&mut c, rv_3, 0/*, ren*/, &mut d);
+        p.c = mix_color(p.c, t);
+    }
+  });
 }
 
 pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanvas*/, d: &mut f32) -> SDL_Color {
@@ -162,6 +200,36 @@ pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanv
 		{
 			obj.i = i as usize;
 			rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
+			p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
+				+ p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
+		}
+		return p_c;
+	}
+	obj.camera.bg
+}
+
+pub fn trace_ray_cart(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanvas*/, d: &mut f32) -> SDL_Color {
+  if depth < DEPTH
+	{
+	  let i = intersection(obj, d, ray.v, ray.sc);
+	  if i == -1 {
+	    return obj.camera.bg;
+	  }
+		let mut p_c = get_cartoon_color(obj/*, ren*/, i as usize, ray, d);
+		let f = obj.objects[i as usize].reflect;
+		let mut rlc: SDL_Color = init_color();
+		
+		if obj.objects[i as usize].reflect > 0. && obj.objects[i as usize].refract == 1000293
+		{
+			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
+			rlc =
+			color_adjust(trace_ray_cart(obj, temp, depth + 1/*, ren*/, d), f);
+			p_c = mix_color(rlc, p_c);
+		}
+		if obj.objects[i as usize].refract != 1000293
+		{
+			obj.i = i as usize;
+			rlc = fresnel_effect_cart(obj, ray, depth/*, ren*/, d);
 			p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
 				+ p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
 		}
