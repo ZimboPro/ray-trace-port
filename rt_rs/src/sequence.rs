@@ -12,7 +12,7 @@ pub unsafe extern "C" fn sequence(val: *const c_char) {
               let path: PathBuf = file_name.into();
               let contents = fs::read_to_string(path).unwrap();
               let mut obj = objects(&contents);
-              raytrace(&mut obj, 0);
+              raytrace(&mut obj, false);
             }
           },
           Err(e) => eprintln!("File name error: {}", e)
@@ -30,7 +30,7 @@ pub unsafe extern "C" fn sequence_aa(val: *const c_char) {
               let path: PathBuf = file_name.into();
               let contents = fs::read_to_string(path).unwrap();
               let mut obj = objects(&contents);
-              raytrace(&mut obj, 1);
+              raytrace(&mut obj, true);
             }
           },
           Err(e) => eprintln!("File name error: {}", e)

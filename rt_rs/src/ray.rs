@@ -2,7 +2,7 @@ use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};
 use sdl2::{render::{WindowCanvas}, event::Event};
 use sdl2::keyboard::Keycode;
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
 use sdl2::sys::SDL_Color;
 use crate::colour::get_color;
 
@@ -69,7 +69,7 @@ fn find_sdl_gl_driver() -> Option<u32> {
   None
 }
 
-pub fn raytrace(obj: &mut World, is_aa: u8) {
+pub fn raytrace(obj: &mut World, is_aa: bool) {
 
   let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -84,7 +84,7 @@ pub fn raytrace(obj: &mut World, is_aa: u8) {
     events(&mut canvas, obj, &sdl_context, is_aa);
 }
 
-fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl, is_aa: u8) {
+fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl, is_aa: bool) {
  let mut r#loop = 1;
  let mut draw = 0;
  let mut event_pump = sdl_context.event_pump().unwrap();
@@ -126,10 +126,10 @@ fn init_canvas_array(obj: & World) -> Vec<RenderPixel> {
   v
 }
 
-fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: u8) {
-  let k = obj.camera;
+fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: bool) {
+  let k = obj.camera.clone();
   canvas.par_iter_mut().for_each(|p| {
-    if is_aa == 0 {
+    if !is_aa {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
     let mut c = obj.clone();
         let mut d = 0.;
@@ -152,10 +152,10 @@ fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Render
   });
 }
 
-fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: u8) {
-  let k = obj.camera;
+fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: bool) {
+  let k = obj.camera.clone();
   canvas.par_iter_mut().for_each(|p| {
-    if is_aa == 0 {
+    if !is_aa {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
         let mut c = obj.clone();
         let mut d = 0.;
