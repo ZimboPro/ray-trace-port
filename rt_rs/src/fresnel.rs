@@ -1,5 +1,5 @@
 use libc::{c_float, c_int};
-use sdl2::{sys::SDL_Color, render::WindowCanvas};
+use sdl2::{sys::SDL_Color};
 
 use crate::{vec4_calc::{Vector4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point}, object::{World, ObjectType}, ray::{Ray, normal, trace_ray, trace_ray_cart}, refraction::get_refract_ray, reflection::get_reflect_ray};
 
@@ -37,7 +37,7 @@ pub fn fresnel_effect(obj: &mut World, ray: Ray, depth: usize /*, ren: & mut Win
 	if f == 1. {
 		return trace_ray(obj, ray, depth + 1/*, ren*/, d);
 	}
-		f = f * obj.objects[obj.i].reflect;
+		f *= obj.objects[obj.i].reflect;
 		let rfl = trace_ray(obj, get_reflect_ray(obj.objects[obj.i], ray, *d),
 				depth + 1/*, ren*/, d);
 		let mut rfr = trace_ray(obj, get_refract_ray(obj.objects[obj.i], ray, *d),
@@ -57,7 +57,7 @@ pub fn fresnel_effect_cart(obj: &mut World, ray: Ray, depth: usize /*, ren: & mu
 	if f == 1. {
 		return trace_ray_cart(obj, ray, depth + 1/*, ren*/, d);
 	}
-		f = f * obj.objects[i].reflect;
+		f *= obj.objects[i].reflect;
 		let rfl = trace_ray_cart(obj, get_reflect_ray(obj.objects[i], ray, *d),
 				depth + 1/*, ren*/, d);
 		let rfr = trace_ray(obj, get_refract_ray(obj.objects[i], ray, *d),

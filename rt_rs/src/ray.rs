@@ -2,7 +2,7 @@ use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};
 use sdl2::{render::{WindowCanvas}, event::Event};
 use sdl2::keyboard::Keycode;
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
 use sdl2::sys::SDL_Color;
 use crate::colour::get_color;
 
@@ -127,7 +127,7 @@ fn init_canvas_array(obj: & World) -> Vec<RenderPixel> {
 }
 
 fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: u8) {
-  let k = obj.camera.clone();
+  let k = obj.camera;
   canvas.par_iter_mut().for_each(|p| {
     if is_aa == 0 {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
@@ -153,7 +153,7 @@ fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Render
 }
 
 fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: u8) {
-  let k = obj.camera.clone();
+  let k = obj.camera;
   canvas.par_iter_mut().for_each(|p| {
     if is_aa == 0 {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);

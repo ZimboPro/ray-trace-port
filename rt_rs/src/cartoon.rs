@@ -35,7 +35,7 @@ use crate::{colour::{AMB, dim_color}, object::{World, ObjectType}, ray::{Ray, in
 
 fn cartoon_help(col: SDL_Color, j: f32) -> SDL_Color
 {
-	return dim_color(&col, (AMB + (1. - AMB) * j));
+	dim_color(&col, AMB + (1. - AMB) * j)
 }
 
 pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color

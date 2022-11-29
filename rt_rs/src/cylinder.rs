@@ -145,7 +145,7 @@ pub fn cartoon_cylinder(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_
 	let mut di = calc_dp(calc_p_to_v(obj.objects[i].c, p),
 			calc_unit_v(obj.objects[i].dir));
 	let p1 = calc_vect_to_point(obj.objects[i].c, obj.objects[i].dir, di);
-	return if calc_p_dist(p, p1) > obj.objects[i].rad {
+	if calc_p_dist(p, p1) > obj.objects[i].rad {
 		init_color()
 	}
 	else
@@ -156,5 +156,5 @@ pub fn cartoon_cylinder(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_
 		let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.objects[i].c,
 						obj.objects[i].dir, di), p));
 		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
-	};
+	}
 }

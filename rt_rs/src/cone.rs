@@ -161,7 +161,7 @@ pub fn cartoon_cone(obj: &mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Colo
 	let mut p = calc_vect_to_point(rv.sc, rv.v, *d * 1.05);
 	let mut di = -1.;
 	int_cone(obj.objects[i], &mut di, Ray{sc: p, v: rv.v});
-	return if di == -1. {
+	if di == -1. {
 		init_color()
 	}
 	else
@@ -173,5 +173,5 @@ pub fn cartoon_cone(obj: &mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Colo
 		let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.objects[i].c,
 					obj.objects[i].dir, di), p));
 		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
-	};
+	}
 }

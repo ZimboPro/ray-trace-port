@@ -142,7 +142,7 @@ pub fn cartoon_circle(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_Co
 
 	let circ = obj.objects[i];
 	let mut p = calc_vect_to_point(rv.sc, rv.v, *d * 1.05);
-	return if calc_p_dist(p, circ.c) > circ.rad {
+	if calc_p_dist(p, circ.c) > circ.rad {
 		init_color()
 	}
 	else
@@ -150,5 +150,5 @@ pub fn cartoon_circle(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_Co
 		p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
 		let n = calc_unit_v(calc_p_to_v(circ.c, p));
 		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
-	};
+	}
 }

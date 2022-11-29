@@ -1,7 +1,7 @@
 use std::{ops::{Shr}};
 
 use libc::{c_float};
-use sdl2::{sys::SDL_Color, render::WindowCanvas};
+use sdl2::{sys::SDL_Color};
 
 use crate::{ray::{Ray, intersection}, object::{ObjectType, World}, vec4_calc::{calc_unit_v, calc_p_to_vec, calc_multi, Vector4, calc_addition, calc_m, calc_p_dist_vec, calc_dp}, circle::{color_circle, cartoon_circle}, plane::cartoon_plane, cone::cartoon_cone, cylinder::cartoon_cylinder};
 use crate::cylinder::color_cylinder;
@@ -79,7 +79,7 @@ pub fn color_adjust(mut a: SDL_Color, mut d: c_float) -> SDL_Color {
 pub fn get_color(obj: &mut World/*, ren: &mut WindowCanvas*/, i: usize, ry: Ray, d: &mut f32) -> SDL_Color
 {
 	// miss(ren);
-	return if obj.objects[i].r#type == ObjectType::Circle {
+	if obj.objects[i].r#type == ObjectType::Circle {
 		color_circle(obj, i, ry, d)
 	} else if obj.objects[i].r#type == ObjectType::Cylinder {
 		color_cylinder(obj, i, ry, d)
@@ -93,7 +93,7 @@ pub fn get_color(obj: &mut World/*, ren: &mut WindowCanvas*/, i: usize, ry: Ray,
 pub fn get_cartoon_color(obj: &mut World/*, ren: &mut WindowCanvas*/, i: usize, ry: Ray, d: &mut f32) -> SDL_Color
 {
 	// miss(ren);
-	return if obj.objects[i].r#type == ObjectType::Circle {
+	if obj.objects[i].r#type == ObjectType::Circle {
 		cartoon_circle(obj, i, ry, d)
 	} else if obj.objects[i].r#type == ObjectType::Cylinder {
 		cartoon_cylinder(obj, i, ry, d)
