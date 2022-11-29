@@ -6,8 +6,10 @@ use sdl2::sys::SDL_Color;
 use crate::{object::{ObjectItem, ObjectType, World}, data_extraction::{get_rad_h, get_reflect_refract, get_obj_options}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, Vector4, calc_vect_to_point, calc_addition, calc_multi, calc_p_dist}, colour::{convert_str_to_color, blinn_phong, init_color}, ray::{Quad, Ray}, world::cnt_space, light::light_color, cartoon::cartoon_color};
 
 pub fn cylinder_extraction(str: &str) -> ObjectItem {
-  let mut obj = ObjectItem::default();
-  obj.r#type = ObjectType::Cylinder;
+  let mut obj = ObjectItem {
+		r#type: ObjectType::Cylinder,
+		..Default::default()
+	};
 	let s: Vec<&str> = str.split('\n').collect();
 	for (i, el) in s.iter().enumerate() {
 			println!("{}: {}", i, el);
@@ -48,7 +50,7 @@ pub fn cyl_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
 	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
 }
 
-pub fn check_cylinder(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_cylinder(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
 	while lines < 7 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
@@ -86,9 +88,9 @@ pub fn check_cylinder(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 
 pub fn cylinder_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.00005);
+	let mut rf = Ray {
+		sc: calc_vect_to_point(ray.sc, ray.v, d * 1.00005),
+		..Default::default() };
     let mut n = calc_unit_v(cyl_norm(obj, d * 1.005, ray));
     let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
     let mut di = 1.000293 / (obj.refract as f32 / 1000000.);
@@ -117,9 +119,10 @@ pub fn cylinder_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 
 pub fn cylinder_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+	let mut rf = Ray {
+			sc: calc_vect_to_point(ray.sc, ray.v, d * 0.995),
+			..Default::default()
+		};
     let di = calc_dp(calc_p_to_v(obj.c, rf.sc), calc_unit_v(obj.dir));
     let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di),
           rf.sc));

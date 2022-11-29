@@ -4,7 +4,7 @@ use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};
 use sdl2::{render::{WindowCanvas}, event::Event, rect::Point};
 use sdl2::keyboard::Keycode;
-use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
+use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel}, colour::{color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
 use sdl2::sys::SDL_Color;
 use crate::colour::get_color;
 
@@ -131,8 +131,8 @@ fn init_canvas_array(obj: & World) -> Vec<RenderPixel> {
   v
 }
 
-fn normal_draw(ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: bool) {
-  let k = obj.camera.clone();
+fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: bool) {
+  let k = obj.camera;
   assert!(!obj.lights.is_empty(), "Needs to be at least one light");
   canvas.par_iter_mut().for_each(|p| {
     if !is_aa {
@@ -164,10 +164,10 @@ fn normal_draw(ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderP
   println!("Black {} of {}", c, canvas.len());
 }
 
-fn draw_screen(ren:&mut WindowCanvas, canvas: & mut Vec<RenderPixel>) {
+fn draw_screen(ren:&mut WindowCanvas, canvas: & mut [RenderPixel]) {
   ren.clear();
   canvas.iter().for_each(|p| {
-    ren.set_draw_color(p.c.clone());
+    ren.set_draw_color(p.c);
     if let Err(e) = ren.draw_point::<Point>(p.p.into()) {
       eprintln!("Draw error {}", e);
     }
@@ -175,8 +175,8 @@ fn draw_screen(ren:&mut WindowCanvas, canvas: & mut Vec<RenderPixel>) {
   ren.present();
 }
 
-fn cartoon_draw(ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: bool) {
-  let k = obj.camera.clone();
+fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: bool) {
+  let k = obj.camera;
   canvas.par_iter_mut().for_each(|p| {
     if !is_aa {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
@@ -216,19 +216,17 @@ pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanv
 	  }
 		let mut p_c = get_color(obj/*, ren*/, i as usize, ray, d);
 		let f = obj.objects[i as usize].reflect;
-		let mut rlc = init_color();
-		
 		if obj.objects[i as usize].reflect > 0. && obj.objects[i as usize].refract == 1000293
 		{
 			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
-			rlc =
+			let rlc =
 			color_adjust(trace_ray(obj, temp, depth + 1/*, ren*/, d), f);
 			p_c = mix_color(rlc, p_c);
 		}
 		if obj.objects[i as usize].refract != 1000293
 		{
 			obj.i = i as usize;
-			rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
+			let rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
 			p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
 				+ p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
 		}

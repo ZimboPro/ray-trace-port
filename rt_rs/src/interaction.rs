@@ -40,14 +40,11 @@ pub fn ft_eventloop(event: Event, looping: &mut c_int, camera: &mut Camera, draw
 
 pub fn mouse_click(camera: &mut Camera, draw: & mut c_int, event: Event)
 {
-	match event {
-    	Event::MouseMotion { x, y,   .. } => {
-			if x >= 20 && y >= 20 && x <= 70 && y <= 70 {
-				update_pos(camera, draw, 0);
-  		} else if x >= 20 && y >= 90 && x <= 70 && y <= 115 {
-				update_pos(camera, draw, 1);
-  		}
-    	},
-    	_ => {}
-}
+	if let Event::MouseMotion { x, y,   .. } = event {
+	    if x >= 20 && y >= 20 && x <= 70 && y <= 70 {
+	        update_pos(camera, draw, 0);
+	  } else if x >= 20 && y >= 90 && x <= 70 && y <= 115 {
+	        update_pos(camera, draw, 1);
+	  }
+	}
 }

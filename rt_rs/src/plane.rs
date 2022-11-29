@@ -7,8 +7,10 @@ use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, conver
 
 
 pub fn plane_extraction(str: &str) -> ObjectItem {
-	let mut obj = ObjectItem::default();
-  obj.r#type = ObjectType::Plane;
+	let mut obj =ObjectItem { 
+		r#type: ObjectType::Plane,
+		..Default::default()
+	};
 	let s: Vec<&str> = str.split('\n').collect();
   convert_str_to_vec4_with_w(s.get(1).unwrap(), &mut obj.dir);
   get_reflect_refract(s.get(2).unwrap(), &mut obj);
@@ -42,7 +44,7 @@ pub fn int_plane(obj: ObjectItem, d: &mut c_float, ray: Ray) {
 	}
 }
 
-pub fn check_plane(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_plane(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
 	while lines < 5 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
@@ -74,10 +76,10 @@ pub fn check_plane(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 
 pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 {
-	let mut rf = Ray::default();
-
-
-		rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+	let mut rf = Ray {
+		sc: calc_vect_to_point(ray.sc, ray.v, d * 0.995),
+		..Default::default()
+	};
 		let mut n = Vector4{
 			x: obj.dir.x,
 			y: obj.dir.y,
@@ -107,9 +109,10 @@ pub fn plane_refraction(obj: ObjectItem, ray: Ray, mut d: f32) -> Ray
 
 pub fn plane_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+	let mut rf = Ray {
+		sc: calc_vect_to_point(ray.sc, ray.v, d * 0.995),
+		..Default::default()
+	};
 		let mut n = Vector4{
 			x: obj.dir.x,
 			y: obj.dir.y,

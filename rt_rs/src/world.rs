@@ -61,12 +61,9 @@ fn check_if_camera_light_and_obj(contents: &str) -> c_int {
       0
     }
   };
-  match contents.matches("Light").count() {
-    0 => {
+  if contents.matches("Light").count() == 0 {
       eprintln!("No light(s)");
       chk = 0;
-    }
-    _ => {}
   }
 
   let mut cnt = 0;

@@ -37,11 +37,11 @@ impl From<Vec3> for Vector4 {
 
 impl From<Vector4> for Vec3 {
   fn from(vec: Vector4) -> Self {
-    let mut a = Self::default();
-    a.x = vec.x;
-    a.y = vec.y;
-    a.z = vec.z;
-    a
+    Self {
+      x: vec.x,
+      y: vec.y,
+      z: vec.z
+    }
   }
 }
 
@@ -172,14 +172,13 @@ pub unsafe extern "C" fn str_to_vec4(val: *const c_char) -> Vector4 {
         return match raw.to_str() {
             Ok(s) => {
                 let points: Vec<&str> = s.split(' ').collect();
-                let mut v = Vector4::default();
-                
-                    v.x = points.first().unwrap().parse::<c_float>().unwrap();
-                    v.y = points.get(1).unwrap().parse::<c_float>().unwrap();
-                    v.z = points.get(2).unwrap().parse::<c_float>().unwrap();
-                    v.w = points.get(3).unwrap().parse::<c_float>().unwrap();
-                    v
-            }
+                Vector4 {
+                  x: points.first().unwrap().parse::<c_float>().unwrap(),
+                  y: points.get(1).unwrap().parse::<c_float>().unwrap(),
+                  z: points.get(2).unwrap().parse::<c_float>().unwrap(),
+                  w: points.get(3).unwrap().parse::<c_float>().unwrap(),
+                }
+              },
             Err(_) => {
                 eprintln!("Failed to convert string");
                 Vector4::default()
@@ -197,12 +196,12 @@ pub unsafe extern "C" fn str_to_vec4_def(val: *const c_char) -> Vector4 {
         return match raw.to_str() {
             Ok(s) => {
                 let points: Vec<&str> = s.split(' ').collect();
-                let mut v = Vector4::default();
-                
-                    v.x = points.first().unwrap().parse::<c_float>().unwrap();
-                    v.y = points.get(1).unwrap().parse::<c_float>().unwrap();
-                    v.z = points.get(2).unwrap().parse::<c_float>().unwrap();
-                    v
+                Vector4 {
+                  x: points.first().unwrap().parse::<c_float>().unwrap(),
+                  y: points.get(1).unwrap().parse::<c_float>().unwrap(),
+                  z: points.get(2).unwrap().parse::<c_float>().unwrap(),
+                  w: points.get(3).unwrap_or(&"0").parse::<c_float>().unwrap(),
+                }
             }
             Err(_) => {
                 eprintln!("Failed to convert string");

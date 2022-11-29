@@ -6,8 +6,10 @@ use sdl2::sys::SDL_Color;
 use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4, calc_addition, calc_multi}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::{convert_str_to_color, blinn_phong, init_color}, ray::{Quad, Ray}, world::cnt_space, light::light_color, cartoon::cartoon_color};
 
 pub fn cone_extraction(str: &str) -> ObjectItem {
-  let mut obj = ObjectItem::default();
-  obj.r#type = ObjectType::Cone;
+  let mut obj = ObjectItem { 
+    r#type: ObjectType::Cone,
+    ..Default::default()
+  };
 	let s: Vec<&str> = str.split('\n').collect();
   convert_str_to_vec4(s.get(1).unwrap(), &mut obj.c);
   convert_str_to_vec4(s.get(2).unwrap(), &mut obj.dir);
@@ -54,7 +56,7 @@ pub fn cone_norm(obj: ObjectItem, d: c_float, ray: Ray) -> Vector4 {
 	calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di), p))
 }
 
-pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_cone(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
 	while lines < 7 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
@@ -92,9 +94,10 @@ pub fn check_cone(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 
 pub fn cone_refraction(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.05);
+	let mut rf = Ray {
+    sc: calc_vect_to_point(ray.sc, ray.v, d * 1.05),
+    ..Default::default()
+  };
     let mut n = calc_unit_v(cone_norm(obj, d * 1.05, ray));
     let mut c1 = -calc_dp(calc_unit_v(ray.v), n);
     let mut di = 1.000293 / (obj.refract as f32 / 1000000.);
@@ -130,9 +133,10 @@ pub fn cone_refraction(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 
 pub fn cone_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+	let mut rf = Ray {
+    sc: calc_vect_to_point(ray.sc, ray.v, d * 0.995),
+    ..Default::default()
+  };
     let di = calc_p_dist(rf.sc, obj.c).powf(2.) / calc_dp(calc_p_to_v(obj.c,
           rf.sc), calc_unit_v(obj.dir));
     let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.c, obj.dir, di),

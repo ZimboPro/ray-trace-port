@@ -11,7 +11,7 @@ pub struct Light {
 	pub c: Vec3
 }
 
-pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_light(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 	let mut t= cnt_space(str[*i], i, chk, 2);
 
@@ -47,7 +47,7 @@ pub fn lights(s: &str, lights: &mut Vec<Light>) {
 		i +=1;
 	}
 	while i < l.len() && l.get(i).is_some() {
-		if l[i].len() > 0 {
+		if !l[i].is_empty() {
 			let mut light = Light::default();
 			str_to_vec3_rs(l[i], &mut light.c);
 			lights.push(light);

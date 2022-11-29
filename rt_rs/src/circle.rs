@@ -7,10 +7,12 @@ use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{Vector4, conver
 
 pub fn circle_extraction(str: &str) -> ObjectItem
 {
-  let mut obj = ObjectItem::default();
-  obj.r#type = ObjectType::Circle;
-  obj.h = 0.;
-  obj.dir = Vector4::default();
+  let mut obj = ObjectItem {
+    r#type: ObjectType::Circle,
+    h: 0.,
+    dir: Vector4::default(),
+    ..Default::default()
+  };
 	let s: Vec<&str> = str.split('\n').collect();
   convert_str_to_vec4(s.get(1).unwrap(), &mut obj.c);
   get_rad_h(s.get(2).unwrap(), &mut obj);
@@ -49,7 +51,7 @@ pub fn int_circle(circ: ObjectItem, d: &mut c_float, ray: Ray) {
   }
 }
 
-pub fn check_circle(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_circle(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 
 	let mut lines: usize = 1;
@@ -85,8 +87,10 @@ pub fn check_circle(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 
 pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
 {
-	let mut	rf = Ray::default();
-	rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 1.00005);
+	let mut	rf = Ray {
+    sc: calc_vect_to_point(ray.sc, ray.v, d * 1.00005),
+    ..Default::default()
+  };
 	if calc_p_dist(rf.sc, obj.c) > obj.rad {
     return Ray {
       sc: rf.sc,
@@ -115,9 +119,10 @@ pub fn circle_refraction(obj: ObjectItem, ray: Ray, mut d: c_float) -> Ray
 
 pub fn circle_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
 {
-	let mut rf = Ray::default();
-
-    rf.sc = calc_vect_to_point(ray.sc, ray.v, d * 0.995);
+	let mut rf = Ray {
+    sc: calc_vect_to_point(ray.sc, ray.v, d * 0.995),
+    ..Default::default()
+  };
     let n = calc_unit_v(calc_p_to_v(obj.c, rf.sc));
     let c1 = -calc_dp(n, calc_unit_v(ray.v));
     rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));

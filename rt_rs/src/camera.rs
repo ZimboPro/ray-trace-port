@@ -30,7 +30,22 @@ pub struct Camera {
 
 impl Default for Camera {
     fn default() -> Self {
-        Self { mode: Default::default(), width: Default::default(), height: Default::default(), dist: Default::default(), ar: Default::default(), scale: Default::default(), xdeg: Default::default(), ydeg: Default::default(), c: Default::default(), view: Default::default(), up: Default::default(), hor: Default::default(), h_fov: Default::default(), v_fov: Default::default(), bg: SDL_Color { r: 0, g: 0, b: 0, a: 1 } }
+        Self {
+					mode: Default::default(),
+					width: Default::default(),
+					height: Default::default(),
+					dist: Default::default(),
+					ar: Default::default(),
+					scale: Default::default(),
+					xdeg: Default::default(),
+					ydeg: Default::default(),
+					h_fov: Default::default(),
+					v_fov: Default::default(),
+					c: Vector4{ x: 0., y: 0., z: 0., w: 1.},
+					up: Vector4{ x: 0., y: 1., z: 0., w: 0.},
+					view: Vector4{ x: 0., y: 0., z: -1., w: 0.},
+					hor: Vector4{ x: 1., y: 0., z: 0., w: 0.},
+					bg: SDL_Color { r: 0, g: 0, b: 0, a: 1 } }
     }
 }
 
@@ -45,7 +60,7 @@ fn camera_corners(cam: & mut Camera) {
 	cam.h_fov *= 0.5 * (PI / 180.);
 }
 
-pub fn check_camera(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
+pub fn check_camera(str: &[&str], i: &mut usize, chk: &mut c_int)
 {
 	let mut lines: usize = 1;
 	while lines < 5 && (str.get(*i + lines).unwrap().chars().next().unwrap().is_numeric()
@@ -78,10 +93,6 @@ pub fn check_camera(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 pub fn camera_extraction(str: &str) -> Camera
 {
 	let mut cam = Camera::default();
-	cam.c = Vector4{ x: 0., y: 0., z: 0., w: 1.};
-	cam.up = Vector4{ x: 0., y: 1., z: 0., w: 0.};
-	cam.view = Vector4{ x: 0., y: 0., z: -1., w: 0.};
-	cam.hor = Vector4{ x: 1., y: 0., z: 0., w: 0.};
 	let s: Vec<&str> = str.split('\n').collect();
 	let mut p = Vector4::default();
   convert_str_to_vec4(s.get(1).unwrap(), &mut p);
@@ -106,39 +117,36 @@ pub fn camera_extraction(str: &str) -> Camera
 
 pub fn update_view(camera: &mut Camera, dir: c_int) -> Vector4
 {
-	let mut temp = Vector4::default();
-
 	let cos_val = (ROTATE * (PI / 180.)).cos();
 	let sin_val = (ROTATE * (PI / 180.)).sin();
 
 		if dir == 0
 		{
-			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
-								sin_val));
 			camera.up = calc_addition(calc_multi(camera.up, cos_val), calc_multi(camera.view,
-						- sin_val));
+				- sin_val));
+			calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
+									sin_val))
 		}
 		else if dir == 1
 		{
-			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
-								-sin_val));
 			camera.up = calc_addition(calc_multi(camera.up, cos_val), calc_multi(camera.view,
-						sin_val));
+				sin_val));
+			calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.up,
+									-sin_val))
 		} else if dir == 2
 		{
-			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
-								-sin_val));
 			camera.hor = calc_addition(calc_multi(camera.hor, cos_val), calc_multi(camera.view,
-						sin_val));
+				sin_val));
+			calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
+									-sin_val))
 		}
 		else
 		{
-			temp = calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
-								sin_val));
 			camera.hor = calc_addition(calc_multi(camera.hor, cos_val), calc_multi(camera.view,
-						-sin_val));
+				-sin_val));
+			calc_addition(calc_multi(camera.view, cos_val), calc_multi(camera.hor,
+									sin_val))
 		}
-	temp
 }
 
 pub fn update_pos(camera: &mut Camera, draw: & mut c_int, dir: c_int)
