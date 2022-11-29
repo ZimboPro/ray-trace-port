@@ -1,12 +1,27 @@
-use libc::{c_int, c_uint};
-use sdl2::sys::{SDL_Surface, SDL_BYTEORDER, SDL_BIG_ENDIAN};
+use sdl2::sys::SDL_Color;
+
+use crate::colour::init_color;
+
 
 #[repr(C)]
 pub struct Pixel {
-  pub x: c_int,
-  pub y: c_int,
+  pub x: usize,
+  pub y: usize
 }
 
+pub struct RenderPixel {
+  pub p: Pixel,
+  pub c: SDL_Color
+}
+
+impl RenderPixel {
+    pub fn new(x: usize, y: usize) -> Self {
+      Self {
+        p: Pixel{ x, y},
+        c: init_color()
+      }
+    }
+}
 
 // pub fn get_pixel(surf: & SDL_Surface,  x: c_int, y: c_int) -> c_uint
 // {

@@ -1,7 +1,7 @@
-use libc::c_int;
-use sdl2::sys::SDL_Color;
 
-use crate::{object::ObjectItem, ray::Ray, cone::int_cone, vec4_calc::{calc_vect_to_point, calc_p_dist, calc_dp, calc_p_to_v, calc_unit_v}};
+
+
+
 
 
 

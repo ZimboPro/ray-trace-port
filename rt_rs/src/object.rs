@@ -156,8 +156,9 @@ impl Default for ObjectItem {
     }
 }
 
+#[derive(Clone)]
 pub struct World {
-    pub d: f32,
+    // pub d: f32,
     pub obj_total: usize,
     pub light: usize,
     pub progress: i32,
@@ -171,7 +172,7 @@ pub struct World {
 impl World {
     pub fn new() -> Self {
         Self {
-            d: 0.,
+            // d: 0.,
             obj_total: 0,
             light: 0,
             progress: 0,

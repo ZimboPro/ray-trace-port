@@ -1,8 +1,9 @@
 
 
 use libc::{c_float, c_int};
+use sdl2::sys::SDL_Color;
 
-use crate::{object::{ObjectItem, ObjectType}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4, calc_addition, calc_multi}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::convert_str_to_color, ray::{Quad, Ray}, world::cnt_space};
+use crate::{object::{ObjectItem, ObjectType, World}, vec4_calc::{convert_str_to_vec4, calc_dp, calc_unit_v, calc_p_to_v, calc_vect_to_point, calc_p_dist, Vector4, calc_addition, calc_multi}, data_extraction::{get_reflect_refract, get_obj_options, get_rad_h}, colour::{convert_str_to_color, blinn_phong}, ray::{Quad, Ray}, world::cnt_space, light::light_color};
 
 pub fn cone_extraction(str: &str) -> ObjectItem {
   let mut obj = ObjectItem::default();
@@ -143,4 +144,18 @@ pub fn cone_reflection(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
     rf.v = calc_addition(calc_unit_v(ray.v), calc_multi(n, 2. * c1));
   }
 	rf
+}
+
+pub fn color_cone(obj: &mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Color
+{
+	let p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
+	let di = calc_p_dist(p, obj.objects[i].c).powi(2) / calc_dp(
+			calc_p_to_v(obj.objects[i].c, p), calc_unit_v(obj.objects[i].dir));
+	let n = calc_unit_v(calc_p_to_v(calc_vect_to_point(obj.objects[i].c,
+					obj.objects[i].dir, di), p));
+	// obj.objects[i] = texture(obj.objects[i], rv, n);
+	if obj.objects[i].reflect > 0. {
+		return blinn_phong(obj, Ray{ sc:p, v: n}, i, rv.v, d);
+	}
+	light_color(obj, Ray{ sc:p, v: n}, i, d)
 }

@@ -1,10 +1,11 @@
 use glam::Vec3;
 use libc::c_int;
+use sdl2::sys::SDL_Color;
 
-use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}};
+use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}, object::{ObjectType, World}, colour::{dim_color, AMB}, vec4_calc::{calc_unit_v, calc_dp, calc_p_dist_vec, calc_p_to_vec}, ray::{Ray, intersection}};
 
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct Light {
 	pub total: usize,
 	pub c: Vec3
@@ -55,4 +56,29 @@ pub fn lights(s: &str, lights: &mut Vec<Light>) {
 	for light in lights {
 			light.total = total;
 	}
+}
+
+pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
+{
+	let mut k: usize = 0;
+	let mut j = 0.;
+	while k < obj.light
+	{
+		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
+		let mut tmp = calc_dp(l, n.v);
+		if obj.objects[i].r#type != ObjectType::Plane && tmp < 0. {
+			tmp /= 6.;
+}
+		else if intersection(obj, d, l, n.sc) != -1 &&
+				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d {
+			tmp = 0.;
+				}
+		else if obj.objects[i].r#type == ObjectType::Plane {
+			tmp = 1.;
+		}
+		j += tmp;
+		k += 1;
+	}
+	j /= k as f32;
+	dim_color(&obj.objects[i].col, AMB + (1. - AMB) * j)
 }

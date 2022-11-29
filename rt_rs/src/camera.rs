@@ -9,10 +9,11 @@ pub const ROTATE: f32 = 1.;
 pub const DIST: f32 = 100.;
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub struct Camera {
 	pub mode: c_int,
-	pub width: u32,
-	pub height: u32,
+	pub width: usize,
+	pub height: usize,
 	pub dist: c_float,
 	pub ar: c_float,
 	pub scale: c_float,
@@ -94,8 +95,8 @@ pub fn camera_extraction(str: &str) -> Camera
 		}
 	}
 	let points: Vec<&str> = s.get(3).unwrap().split(' ').collect();
-  cam.width = points.first().unwrap().parse::<u32>().unwrap();
-  cam.height = points.get(1).unwrap().parse::<u32>().unwrap();
+  cam.width = points.first().unwrap().parse::<usize>().unwrap();
+  cam.height = points.get(1).unwrap().parse::<usize>().unwrap();
   cam.h_fov = points.get(2).unwrap().parse::<f32>().unwrap();
   cam.mode = s.get(4).unwrap().parse::<i32>().unwrap();
 	convert_str_to_color(s.get(5).unwrap().to_string(), &mut cam.bg);
