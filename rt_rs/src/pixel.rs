@@ -1,12 +1,19 @@
-use sdl2::sys::SDL_Color;
+use sdl2::{sys::SDL_Color, rect::Point};
 
 use crate::colour::init_color;
 
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub struct Pixel {
   pub x: usize,
   pub y: usize
+}
+
+impl Into<Point> for Pixel {
+    fn into(self) -> Point {
+      Point::new(self.x as i32, self.y as i32)
+    }
 }
 
 pub struct RenderPixel {

@@ -197,7 +197,7 @@ pub fn objects(file_contents: &str) -> World {
             w.objects.push(cylinder_extraction(s));
         } else if s.contains("Plane") {
             w.objects.push(plane_extraction(s));
-        } else if s.contains("Lights") {
+        } else if s.contains("Light") {
             lights(s, &mut w.lights);
         } else if s.contains("Camera") {
             w.camera = camera_extraction(s);

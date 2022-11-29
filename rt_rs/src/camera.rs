@@ -84,7 +84,7 @@ pub fn camera_extraction(str: &str) -> Camera
 	cam.hor = Vector4{ x: 1., y: 0., z: 0., w: 0.};
 	let s: Vec<&str> = str.split('\n').collect();
 	let mut p = Vector4::default();
-  convert_str_to_vec4(s.get(2).unwrap(), &mut p);
+  convert_str_to_vec4(s.get(1).unwrap(), &mut p);
 		if cam.c.x != p.x || cam.c.y != p.y || cam.c.z != p.z {
 			cam.c = p;
 			cam.view = calc_unit_v(calc_p_to_v(cam.c, Vector4{ x: 0., y: 0., z: 0., w: 1.}));
@@ -92,12 +92,12 @@ pub fn camera_extraction(str: &str) -> Camera
 				Vector4{ x: 0., y: 1., z: 0., w: 0.}));
 			cam.up = calc_unit_v(calc_cross_product(cam.hor, cam.view));
 		}
-	let points: Vec<&str> = s.get(3).unwrap().split(' ').collect();
+	let points: Vec<&str> = s.get(2).unwrap().split(' ').collect();
   cam.width = points.first().unwrap().parse::<usize>().unwrap();
   cam.height = points.get(1).unwrap().parse::<usize>().unwrap();
   cam.h_fov = points.get(2).unwrap().parse::<f32>().unwrap();
-  cam.mode = s.get(4).unwrap().parse::<i32>().unwrap();
-	convert_str_to_color(s.get(5).unwrap().to_string(), &mut cam.bg);
+  cam.mode = s.get(3).unwrap().parse::<i32>().unwrap();
+	convert_str_to_color(s.get(4).unwrap().to_string(), &mut cam.bg);
 	camera_corners(&mut cam);
   // TODO map to correct values
 	// obj.texmap = props.get(3).unwrap().as_bytes().as_ptr();

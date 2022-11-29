@@ -10,10 +10,10 @@ pub fn plane_extraction(str: &str) -> ObjectItem {
 	let mut obj = ObjectItem::default();
   obj.r#type = ObjectType::Plane;
 	let s: Vec<&str> = str.split('\n').collect();
-  convert_str_to_vec4_with_w(s.get(2).unwrap(), &mut obj.dir);
-  get_reflect_refract(s.get(3).unwrap(), &mut obj);
-  get_obj_options(s.get(4).unwrap(), &mut obj);
-	convert_str_to_color(s.get(5).unwrap().to_string(), &mut obj.col);
+  convert_str_to_vec4_with_w(s.get(1).unwrap(), &mut obj.dir);
+  get_reflect_refract(s.get(2).unwrap(), &mut obj);
+  get_obj_options(s.get(3).unwrap(), &mut obj);
+	convert_str_to_color(s.get(4).unwrap().to_string(), &mut obj.col);
   obj.h = 0.;
   obj.rad = 0.;
   obj.c = Vector4::default();

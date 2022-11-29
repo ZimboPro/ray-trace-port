@@ -43,19 +43,22 @@ pub fn check_light(str: &Vec<&str>, i: &mut usize, chk: &mut c_int)
 pub fn lights(s: &str, lights: &mut Vec<Light>) {
 	let l: Vec<&str> = s.split('\n').collect();
 	let mut i = 0;
-	while !l[i].contains("Light") {
+	while l[i].contains("Light") {
 		i +=1;
 	}
-	while i < l.len() {
-		let mut light = Light::default();
-		str_to_vec3_rs(l[i], &mut light.c);
-		lights.push(light);
+	while i < l.len() && l.get(i).is_some() {
+		if l[i].len() > 0 {
+			let mut light = Light::default();
+			str_to_vec3_rs(l[i], &mut light.c);
+			lights.push(light);
+		}
 		i += 1;
 	}
 	let total = lights.len();
 	for light in lights {
 			light.total = total;
 	}
+	assert!(total > 0, "There needs to be a light");
 }
 
 pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color

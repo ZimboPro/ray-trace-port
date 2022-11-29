@@ -1,6 +1,8 @@
+use std::{time::Duration, ops::{Shr, Shl}};
+
 use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};
-use sdl2::{render::{WindowCanvas}, event::Event};
+use sdl2::{render::{WindowCanvas}, event::Event, rect::Point};
 use sdl2::keyboard::Keycode;
 use crate::{vec4_calc::{Vector4, calc_addition, calc_multi, calc_vect_to_point}, camera::Camera, circle::int_circle, cone::{int_cone, cone_norm}, cylinder::{int_cyl, cyl_norm}, plane::int_plane, object::{ObjectType, ObjectItem, World}, interaction::{ft_eventloop, mouse_click}, pixel::{RenderPixel, Pixel}, colour::{init_color, color_adjust, mix_color, get_cartoon_color}, reflection::get_reflect_ray, fresnel::{fresnel_effect, fresnel_effect_cart}};
 use sdl2::sys::SDL_Color;
@@ -99,6 +101,8 @@ fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl, is_a
         }
     draw = 1;
   }
+  ren.set_draw_color(obj.camera.bg);
+  draw_screen(ren, &mut canvas);
   for event in event_pump.poll_iter() {
     match event {
       Event::Quit { .. } | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
@@ -113,6 +117,7 @@ fn events(ren:&mut WindowCanvas, obj: &mut World, sdl_context: & sdl2::Sdl, is_a
       }
     }
   }
+  ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
  }
 }
 
@@ -126,12 +131,14 @@ fn init_canvas_array(obj: & World) -> Vec<RenderPixel> {
   v
 }
 
-fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: bool) {
+fn normal_draw(ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>, is_aa: bool) {
   let k = obj.camera.clone();
+  assert!(!obj.lights.is_empty(), "Needs to be at least one light");
   canvas.par_iter_mut().for_each(|p| {
     if !is_aa {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
     let mut c = obj.clone();
+        assert!(!c.lights.is_empty(), "Needs to be at least one light");
         let mut d = 0.;
         p.c = trace_ray(&mut c, rv, 0/*, ren*/, &mut d);
     } else {
@@ -140,6 +147,7 @@ fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Render
         let rv_2 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float + 0.25);
         let rv_3 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float + 0.25);
         let mut c = obj.clone();
+        assert!(!c.lights.is_empty(), "Needs to be at least one light");
         let mut d = 0.;
         p.c = trace_ray(&mut c, rv_0, 0/*, ren*/, &mut d);
         let t = trace_ray(&mut c, rv_1, 0/*, ren*/, &mut d);
@@ -150,14 +158,30 @@ fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Render
         p.c = mix_color(p.c, t);
     }
   });
+  let c = canvas.iter().filter(|x| {
+    x.c.r == 0 && x.c.g == 0 && x.c.b == 0
+  }).count();
+  println!("Black {} of {}", c, canvas.len());
 }
 
-fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: bool) {
+fn draw_screen(ren:&mut WindowCanvas, canvas: & mut Vec<RenderPixel>) {
+  ren.clear();
+  canvas.iter().for_each(|p| {
+    ren.set_draw_color(p.c.clone());
+    if let Err(e) = ren.draw_point::<Point>(p.p.into()) {
+      eprintln!("Draw error {}", e);
+    }
+  });
+  ren.present();
+}
+
+fn cartoon_draw(ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<RenderPixel>,is_aa: bool) {
   let k = obj.camera.clone();
   canvas.par_iter_mut().for_each(|p| {
     if !is_aa {
         let rv = ray(k, p.p.x as c_float, p.p.y as c_float);
         let mut c = obj.clone();
+        assert!(!c.lights.is_empty(), "Needs to be at least one light");
         let mut d = 0.;
         p.c = trace_ray_cart(&mut c, rv, 0/*, ren*/, &mut d);
     } else {
@@ -166,6 +190,7 @@ fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Rende
         let rv_2 = ray(k, p.p.x as c_float - 0.25, p.p.y as c_float + 0.25);
         let rv_3 = ray(k, p.p.x as c_float + 0.25, p.p.y as c_float + 0.25);
         let mut c = obj.clone();
+        assert!(!c.lights.is_empty(), "Needs to be at least one light");
         let mut d = 0.;
         p.c = trace_ray_cart(&mut c, rv_0, 0/*, ren*/, &mut d);
         let t = trace_ray_cart(&mut c, rv_1, 0/*, ren*/, &mut d);
@@ -176,6 +201,10 @@ fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Rende
         p.c = mix_color(p.c, t);
     }
   });
+  let c = canvas.iter().filter(|x| {
+    x.c.r == 0 && x.c.g == 0 && x.c.b == 0
+  }).count();
+  println!("Black {} of {}", c, canvas.len());
 }
 
 pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanvas*/, d: &mut f32) -> SDL_Color {
@@ -217,21 +246,28 @@ pub fn trace_ray_cart(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut Windo
 	  }
 		let mut p_c = get_cartoon_color(obj/*, ren*/, i as usize, ray, d);
 		let f = obj.objects[i as usize].reflect;
-		let mut rlc: SDL_Color = init_color();
 		
 		if obj.objects[i as usize].reflect > 0. && obj.objects[i as usize].refract == 1000293
 		{
 			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
-			rlc =
+			let rlc =
 			color_adjust(trace_ray_cart(obj, temp, depth + 1/*, ren*/, d), f);
-			p_c = mix_color(rlc, p_c);
+			p_c = SDL_Color{
+        r: rlc.r.shr(1) + p_c.r.shl(1),
+        g: rlc.g.shr(1) + p_c.g.shl(1),
+        b: rlc.b.shr(1) + p_c.b.shl(1),
+        a: 255};
+      // assert!(!(p_c.r == 0 && p_c.g == 0 && p_c.b == 0));
 		}
 		if obj.objects[i as usize].refract != 1000293
 		{
 			obj.i = i as usize;
-			rlc = fresnel_effect_cart(obj, ray, depth/*, ren*/, d);
-			p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
-				+ p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
+			let rlc = fresnel_effect_cart(obj, ray, depth/*, ren*/, d);
+			p_c = SDL_Color{
+        r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8,
+        g: (rlc.g as f32 * f + p_c.g  as f32 * (1. - f)) as u8,
+        b: (rlc.b as f32 * f + p_c.b  as f32 * (1. - f)) as u8,
+        a: 255};
 		}
 		return p_c;
 	}

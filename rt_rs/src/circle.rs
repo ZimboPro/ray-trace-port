@@ -12,11 +12,11 @@ pub fn circle_extraction(str: &str) -> ObjectItem
   obj.h = 0.;
   obj.dir = Vector4::default();
 	let s: Vec<&str> = str.split('\n').collect();
-  convert_str_to_vec4(s.get(2).unwrap(), &mut obj.c);
-  get_rad_h(s.get(3).unwrap(), &mut obj);
-  get_reflect_refract(s.get(4).unwrap(), &mut obj);
-	convert_str_to_color(s.get(5).unwrap().to_string(), &mut obj.col);
-  get_obj_options(s.get(6).unwrap(), &mut obj);
+  convert_str_to_vec4(s.get(1).unwrap(), &mut obj.c);
+  get_rad_h(s.get(2).unwrap(), &mut obj);
+  get_reflect_refract(s.get(3).unwrap(), &mut obj);
+	convert_str_to_color(s.get(4).unwrap().to_string(), &mut obj.col);
+  get_obj_options(s.get(5).unwrap(), &mut obj);
   obj
   // TODO map to correct values
 	// obj.texmap = props.get(3).unwrap().as_bytes().as_ptr();

@@ -1,7 +1,10 @@
 use atoi::atoi;
 
 use libc::{c_char, c_int};
-use std::ffi::CStr;
+use object::objects;
+use ray::raytrace;
+use world::validate_file_contents;
+use std::{ffi::CStr, path::PathBuf, fs};
 mod colour;
 mod object;
 mod vec3_calc;
@@ -23,7 +26,7 @@ mod fresnel;
 mod perlin;
 mod texture;
 mod cartoon;
-mod sequence;
+pub mod sequence;
 mod anti_aliasing;
 
 #[no_mangle]
@@ -44,6 +47,24 @@ pub unsafe extern "C" fn ft_atoi_rs(val: *const c_char) -> c_int {
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
+
+pub fn non_aa_seq(file_name: &str) {
+    if validate_file_contents(file_name.into()) == 1 {
+      let path: PathBuf = file_name.into();
+      let contents = fs::read_to_string(path).unwrap();
+      let mut obj = objects(&contents);
+      raytrace(&mut obj, false);
+    }
+  }
+  
+  pub fn aa_seq(file_name: &str) {
+    if validate_file_contents(file_name.into()) == 1 {
+      let path: PathBuf = file_name.into();
+      let contents = fs::read_to_string(path).unwrap();
+      let mut obj = objects(&contents);
+      raytrace(&mut obj, true);
+    }
+  }
 
 #[cfg(test)]
 mod tests {

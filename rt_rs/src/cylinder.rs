@@ -9,12 +9,15 @@ pub fn cylinder_extraction(str: &str) -> ObjectItem {
   let mut obj = ObjectItem::default();
   obj.r#type = ObjectType::Cylinder;
 	let s: Vec<&str> = str.split('\n').collect();
-  convert_str_to_vec4(s.get(2).unwrap(), &mut obj.c);
-  convert_str_to_vec4(s.get(3).unwrap(), &mut obj.dir);
-  get_rad_h(s.get(4).unwrap(), &mut obj);
-  get_reflect_refract(s.get(5).unwrap(), &mut obj);
-	convert_str_to_color(s.get(6).unwrap().to_string(), &mut obj.col);
-  get_obj_options(s.get(7).unwrap(), &mut obj);
+	for (i, el) in s.iter().enumerate() {
+			println!("{}: {}", i, el);
+	}
+  convert_str_to_vec4(s.get(1).unwrap(), &mut obj.c);
+  convert_str_to_vec4(s.get(2).unwrap(), &mut obj.dir);
+  get_rad_h(s.get(3).unwrap(), &mut obj);
+  get_reflect_refract(s.get(4).unwrap(), &mut obj);
+	convert_str_to_color(s.get(5).unwrap().to_string(), &mut obj.col);
+  get_obj_options(s.get(6).unwrap(), &mut obj);
   obj
 }
 
