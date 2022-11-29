@@ -251,9 +251,9 @@ pub fn trace_ray_cart(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut Windo
 			let rlc =
 			color_adjust(trace_ray_cart(obj, temp, depth + 1/*, ren*/, d), f);
 			p_c = SDL_Color{
-        r: rlc.r.shr(1) + p_c.r.shl(1),
-        g: rlc.g.shr(1) + p_c.g.shl(1),
-        b: rlc.b.shr(1) + p_c.b.shl(1),
+        r: rlc.r.shr(1) + p_c.r.shr(1),
+        g: rlc.g.shr(1) + p_c.g.shr(1),
+        b: rlc.b.shr(1) + p_c.b.shr(1),
         a: 255};
       // assert!(!(p_c.r == 0 && p_c.g == 0 && p_c.b == 0));
 		}
