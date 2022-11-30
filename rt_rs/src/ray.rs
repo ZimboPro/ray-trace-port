@@ -48,7 +48,7 @@ pub fn intersect(obj: ObjectItem, d: &mut c_float, ray: Ray) {
     int_cone(obj, d, ray);
   } else if obj.r#type == ObjectType::Cylinder {
     int_cyl(obj, d, ray);
-  } else if obj.r#type == ObjectType::Plane {
+  } else if obj.is_plane() {
     int_plane(obj, d, ray);
   }
 }

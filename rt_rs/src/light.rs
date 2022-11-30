@@ -69,14 +69,14 @@ pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 	{
 		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
 		let mut tmp = calc_dp(l, n.v);
-		if obj.objects[i].r#type != ObjectType::Plane && tmp < 0. {
+		if !obj.objects[i].is_plane() && tmp < 0. {
 			tmp /= 6.;
 }
 		else if intersection(obj, d, l, n.sc) != -1 &&
 				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d {
 			tmp = 0.;
 				}
-		else if obj.objects[i].r#type == ObjectType::Plane {
+		else if obj.objects[i].is_plane() {
 			tmp = 1.;
 		}
 		j += tmp;

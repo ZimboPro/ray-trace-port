@@ -118,13 +118,13 @@ pub fn blinn_phong(obj:& mut World, n: Ray, i: usize, v: Vector4, d: &mut f32) -
 		{
 			l = calc_unit_v(l);
 			tmp = calc_dp(l, n.v);
-			if (obj.objects[i].r#type != ObjectType::Plane && tmp < 0.)
+			if (!obj.objects[i].is_plane() && tmp < 0.)
 				|| (intersection(obj, d, calc_unit_v(calc_p_to_vec(n.sc,
 					obj.lights[k].c)), n.sc) != -1
 					&& calc_p_dist_vec(n.sc, obj.lights[k].c) > *d) {
 		  	tmp = 0.;
 		  }
-	   else if obj.objects[i].r#type == ObjectType::Plane
+	   else if obj.objects[i].is_plane()
 		  && tmp < 0. {
 		  tmp = -tmp;
 		}
