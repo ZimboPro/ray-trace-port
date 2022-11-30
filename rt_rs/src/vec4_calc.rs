@@ -280,3 +280,12 @@ pub fn convert_str_to_vec4(s: &str, vec: &mut Vector4) {
   vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
   vec.w = 0.;
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

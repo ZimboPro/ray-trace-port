@@ -66,3 +66,12 @@ pub fn checker(mut t: TextureData) -> f32
 	t.pattern = modulo(t.s * t.scale_s).powf(modulo(t.t * t.scale_t));
 	t.pattern
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

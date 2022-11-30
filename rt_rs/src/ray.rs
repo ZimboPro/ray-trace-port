@@ -216,14 +216,14 @@ pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanv
 	  }
 		let mut p_c = get_color(obj/*, ren*/, i as usize, ray, d);
 		let f = obj.objects[i as usize].reflect;
-		if obj.objects[i as usize].reflect > 0. && obj.objects[i as usize].refract == 1000293
+		if obj.objects[i as usize].reflect > 0. && !obj.objects[i as usize].is_refracted()
 		{
 			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
 			let rlc =
 			color_adjust(trace_ray(obj, temp, depth + 1/*, ren*/, d), f);
 			p_c = mix_color(rlc, p_c);
 		}
-		if obj.objects[i as usize].refract != 1000293
+		if obj.objects[i as usize].is_refracted()
 		{
 			obj.i = i as usize;
 			let rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
@@ -245,7 +245,7 @@ pub fn trace_ray_cart(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut Windo
 		let mut p_c = get_cartoon_color(obj/*, ren*/, i as usize, ray, d);
 		let f = obj.objects[i as usize].reflect;
 		
-		if obj.objects[i as usize].reflect > 0. && obj.objects[i as usize].refract == 1000293
+		if obj.objects[i as usize].reflect > 0. && !obj.objects[i as usize].is_refracted()
 		{
 			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
 			let rlc =
@@ -257,7 +257,7 @@ pub fn trace_ray_cart(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut Windo
         a: 255};
       // assert!(!(p_c.r == 0 && p_c.g == 0 && p_c.b == 0));
 		}
-		if obj.objects[i as usize].refract != 1000293
+		if obj.objects[i as usize].is_refracted()
 		{
 			obj.i = i as usize;
 			let rlc = fresnel_effect_cart(obj, ray, depth/*, ren*/, d);
@@ -290,4 +290,13 @@ pub fn intersection(obj: & mut World, d: &mut f32, v: Vector4, p: Vector4) -> i3
 		i += 1;
 	}
 	ind
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
 }

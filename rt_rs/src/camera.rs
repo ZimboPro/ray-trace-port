@@ -166,3 +166,12 @@ pub fn update_pos(camera: &mut Camera, draw: & mut c_int, dir: c_int)
 		}
 	*draw = 0;
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

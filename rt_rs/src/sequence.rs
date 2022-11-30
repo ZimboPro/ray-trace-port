@@ -47,3 +47,12 @@ pub unsafe extern "C" fn sequence_aa(val: *const c_char) {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

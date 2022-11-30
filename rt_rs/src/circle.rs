@@ -157,3 +157,12 @@ pub fn cartoon_circle(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_Co
 		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
 	}
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

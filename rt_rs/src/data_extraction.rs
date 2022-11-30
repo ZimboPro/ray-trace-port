@@ -23,3 +23,12 @@ pub fn get_rad_h(line: &str, obj: &mut ObjectItem) {
     obj.rad = line.parse::<f32>().unwrap();
   }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

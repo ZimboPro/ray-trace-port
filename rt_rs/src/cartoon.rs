@@ -65,3 +65,12 @@ pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Colo
 	j /= k as f32;
 	cartoon_help(obj.objects[i].col, j)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

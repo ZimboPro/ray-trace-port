@@ -148,6 +148,10 @@ impl ObjectItem {
             filter: Default::default()
         }
     }
+    
+    pub fn is_refracted(self) -> bool {
+        self.refract != 1000293
+    }
 }
 
 impl Default for ObjectItem {
@@ -224,5 +228,14 @@ fn update_map(obj: &mut World)
 	obj.camera.c = calc_multi(obj.camera.c, obj.camera.dist);
     for light in &mut obj.lights {
         light.c = calc_multi_vec(light.c, obj.camera.dist);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
     }
 }

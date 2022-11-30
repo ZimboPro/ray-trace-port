@@ -164,3 +164,12 @@ pub fn cartoon_cylinder(obj: &mut World, i: usize, rv: Ray, d:& mut f32) -> SDL_
 		cartoon_color(obj, Ray{sc: p, v: n}, i, d)
 	}
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

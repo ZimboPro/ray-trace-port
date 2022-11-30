@@ -153,3 +153,12 @@ pub fn cartoon_plane(obj: & mut World, i: usize, rv: Ray, d: &mut f32) -> SDL_Co
 	let p = calc_vect_to_point(rv.sc, rv.v, *d * 0.995);
 	cartoon_color(obj, Ray{sc: p, v: n}, i, d)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

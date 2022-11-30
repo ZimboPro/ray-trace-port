@@ -147,3 +147,12 @@ fn color_calc_cap(c: u8, j: f32) -> u8 {
     }
     c
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

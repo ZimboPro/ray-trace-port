@@ -65,3 +65,12 @@ impl RenderPixel {
 //   let b4 : u8 = (x & 0xff) as u8;
 //   return [b1, b2, b3, b4]
 // }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

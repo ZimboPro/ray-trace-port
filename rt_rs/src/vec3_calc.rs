@@ -64,3 +64,12 @@ pub fn str_to_vec3_rs(s: &str, vec: &mut Vec3) {
 pub fn calc_multi_vec(a: Vec3, d: c_float) -> Vec3 {
  a * d
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

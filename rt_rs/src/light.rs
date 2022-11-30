@@ -85,3 +85,12 @@ pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 	j /= k as f32;
 	dim_color(&obj.objects[i].col, AMB + (1. - AMB) * j)
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}
