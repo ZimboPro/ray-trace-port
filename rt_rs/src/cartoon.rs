@@ -31,7 +31,7 @@
 
 use sdl2::sys::SDL_Color;
 
-use crate::{colour::{AMB, dim_color}, object::{World, ObjectType}, ray::{Ray, intersection}, vec4_calc::{calc_unit_v, calc_p_to_vec, calc_dp, calc_p_dist_vec}};
+use crate::{colour::{AMB, dim_color}, object::{World}, ray::{Ray, intersection}, vec4_calc::{calc_unit_v, calc_p_to_vec, calc_dp, calc_p_dist_vec}};
 
 fn cartoon_help(col: SDL_Color, j: f32) -> SDL_Color
 {

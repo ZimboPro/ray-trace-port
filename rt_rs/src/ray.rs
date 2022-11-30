@@ -1,4 +1,4 @@
-use std::{time::Duration, ops::{Shr, Shl}};
+use std::{time::Duration, ops::{Shr}};
 
 use libc::c_float;
 use rayon::prelude::{IntoParallelRefMutIterator, ParallelIterator};

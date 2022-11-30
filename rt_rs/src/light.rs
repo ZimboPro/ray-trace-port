@@ -2,7 +2,7 @@ use glam::Vec3;
 use libc::c_int;
 use sdl2::sys::SDL_Color;
 
-use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}, object::{ObjectType, World}, colour::{dim_color, AMB}, vec4_calc::{calc_unit_v, calc_dp, calc_p_dist_vec, calc_p_to_vec}, ray::{Ray, intersection}};
+use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}, object::{World}, colour::{dim_color, AMB}, vec4_calc::{calc_unit_v, calc_dp, calc_p_dist_vec, calc_p_to_vec}, ray::{Ray, intersection}};
 
 
 #[derive(Default, Clone, Copy)]
