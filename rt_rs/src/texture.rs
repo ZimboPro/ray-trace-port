@@ -1,4 +1,4 @@
-use std::f32::consts::PI;
+use std::f32::consts::{PI, FRAC_PI_2, FRAC_PI_6};
 
 use sdl2::sys::SDL_Color;
 
@@ -20,7 +20,7 @@ pub fn pattern_init(t: &mut TextureData, n: Vector4) -> SDL_Color
 {
 	t.scale_s = 10.;
 	t.scale_t = 10.;
-	t.angle = 0.523599;
+	t.angle = FRAC_PI_6;
 	let c = SDL_Color{r: 0, g: 120, b: 80, a: 255};
 	t.tex_x = (1. + n.z.atan2(n.x) / PI) * 0.5;
 	t.tex_y = n.y.acos() / PI;
@@ -43,7 +43,7 @@ pub fn marble(t: & mut TextureData, n: Vector4) -> SDL_Color
 	let c = SDL_Color{r: 52, g: 67, b: 62, a: 255};
 	t.scale_s = 100.;
 	let noise = perlin2d(t.scale_s * 0.5 * n.y, t.scale_t * 0.5 * n.x, 0.1, 4);
-	t.angle = 0.523599;
+	t.angle = FRAC_PI_6;
 	t.s = t.tex_x * t.angle.cos() - t.tex_y * t.angle.sin();
 	t.pattern = modulo(t.s * t.scale_s * noise);
 	c
@@ -60,7 +60,7 @@ pub fn modulo(f: f32) -> f32
 
 pub fn checker(mut t: TextureData) -> f32
 {
-	t.angle = 1.5708;
+	t.angle = FRAC_PI_2;
 	t.s = t.tex_x * t.angle.cos() - t.tex_y * t.angle.sin();
 	t.t = t.tex_y * t.angle.cos() + t.tex_x * t.angle.sin();
 	t.pattern = modulo(t.s * t.scale_s).powf(modulo(t.t * t.scale_t));
