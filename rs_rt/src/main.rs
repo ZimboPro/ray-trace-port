@@ -9,8 +9,8 @@ struct Args {
    file: String,
 
    /// Number of times to greet
-   #[arg()]
-   a: Option<bool>,
+   #[arg(short, long)]
+   aa: Option<bool>,
 }
 
 
@@ -25,7 +25,7 @@ fn main() {
 	}
 	else
 	{
-		match args.a {
+		match args.aa {
 				Some(aliasing) => {
 					if aliasing {
 						aa_seq(&args.file);
