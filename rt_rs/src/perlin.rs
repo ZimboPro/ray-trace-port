@@ -77,3 +77,13 @@ pub fn perlin2d( x: c_float,  y: c_float,  freq: c_float, depth: c_int) -> c_flo
 	}
 	fin / div
 }
+
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

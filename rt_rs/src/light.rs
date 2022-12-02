@@ -2,7 +2,7 @@ use glam::Vec3;
 use libc::c_int;
 use sdl2::sys::SDL_Color;
 
-use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}, object::{ObjectType, World}, colour::{dim_color, AMB}, vec4_calc::{calc_unit_v, calc_dp, calc_p_dist_vec, calc_p_to_vec}, ray::{Ray, intersection}};
+use crate::{world::cnt_space, vec3_calc::{str_to_vec3_rs}, object::{World}, colour::{dim_color, AMB}, vec4_calc::{calc_unit_v, calc_dp, calc_p_dist_vec, calc_p_to_vec}, ray::{Ray, intersection}};
 
 
 #[derive(Default, Clone, Copy)]
@@ -69,14 +69,14 @@ pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 	{
 		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
 		let mut tmp = calc_dp(l, n.v);
-		if obj.objects[i].r#type != ObjectType::Plane && tmp < 0. {
+		if !obj.objects[i].is_plane() && tmp < 0. {
 			tmp /= 6.;
 }
 		else if intersection(obj, d, l, n.sc) != -1 &&
 				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d {
 			tmp = 0.;
 				}
-		else if obj.objects[i].r#type == ObjectType::Plane {
+		else if obj.objects[i].is_plane() {
 			tmp = 1.;
 		}
 		j += tmp;
@@ -84,4 +84,13 @@ pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 	}
 	j /= k as f32;
 	dim_color(&obj.objects[i].col, AMB + (1. - AMB) * j)
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
 }

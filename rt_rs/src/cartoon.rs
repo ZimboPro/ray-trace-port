@@ -31,7 +31,7 @@
 
 use sdl2::sys::SDL_Color;
 
-use crate::{colour::{AMB, dim_color}, object::{World, ObjectType}, ray::{Ray, intersection}, vec4_calc::{calc_unit_v, calc_p_to_vec, calc_dp, calc_p_dist_vec}};
+use crate::{colour::{AMB, dim_color}, object::{World}, ray::{Ray, intersection}, vec4_calc::{calc_unit_v, calc_p_to_vec, calc_dp, calc_p_dist_vec}};
 
 fn cartoon_help(col: SDL_Color, j: f32) -> SDL_Color
 {
@@ -46,11 +46,11 @@ pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Colo
 	{
 		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
 		let mut tmp = calc_dp(l, n.v);
-		if (obj.objects[i].r#type != ObjectType::Plane && tmp < 0.)
+		if (!obj.objects[i].is_plane() && tmp < 0.)
 			|| (intersection(obj, d, l, n.sc) != -1 &&
 				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d) {
 			tmp = 0.;	
-		} else if obj.objects[i].r#type == ObjectType::Plane {
+		} else if obj.objects[i].is_plane() {
 			tmp = 1.;
 		}
 		else if tmp < 0.5 {
@@ -64,4 +64,13 @@ pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Colo
 	}
 	j /= k as f32;
 	cartoon_help(obj.objects[i].col, j)
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
 }

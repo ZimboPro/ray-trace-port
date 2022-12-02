@@ -12,3 +12,12 @@ pub fn get_refract_ray(obj: ObjectItem, ray: Ray, d: c_float) -> Ray
     crate::object::ObjectType::Texture => Ray::default(),
   }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

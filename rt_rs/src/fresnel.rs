@@ -68,3 +68,12 @@ pub fn fresnel_effect_cart(obj: &mut World, ray: Ray, depth: usize /*, ren: & mu
 				b: (rfl.b as f32 * f + rfr.b as f32 * (1. - f)) as u8,
 				a: 255}
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}

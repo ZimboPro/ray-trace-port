@@ -148,6 +148,14 @@ impl ObjectItem {
             filter: Default::default()
         }
     }
+    
+    pub fn is_refracted(self) -> bool {
+        self.refract != 1000293
+    }
+    
+    pub fn is_plane(self) -> bool {
+        self.r#type == ObjectType::Plane
+    }
 }
 
 impl Default for ObjectItem {
@@ -211,18 +219,27 @@ pub fn objects(file_contents: &str) -> World {
 fn update_map(obj: &mut World)
 {
     for object in &mut obj.objects {
-		if object.r#type == ObjectType::Plane {
+		if object.is_plane() {
 			object.dir.w *= obj.camera.dist;
-        } else if object.r#type != ObjectType::Plane {
+        } else if !object.is_plane() {
             object.c = calc_multi(object.c, obj.camera.dist);
             object.rad *= obj.camera.dist;
         }
-		if object.r#type != ObjectType::Plane && object.r#type != ObjectType::Circle {
+		if !object.is_plane() && object.r#type != ObjectType::Circle {
 			object.h *= obj.camera.dist;
         }
 	}
 	obj.camera.c = calc_multi(obj.camera.c, obj.camera.dist);
     for light in &mut obj.lights {
         light.c = calc_multi_vec(light.c, obj.camera.dist);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
     }
 }
