@@ -1,0 +1,43 @@
+Circle
+x y z
+rad
+reflect refract //put reflect as % and refract is divided by 1000000, 1000293 means no refraction
+r g b
+// if more than one Circle
+//Circle
+//x y z
+//rad
+//reflect refract
+//r g b
+//rand pattern filter texmap
+
+Cone
+x y z
+dx dy dz
+rad height
+reflect refract
+r g b
+rand pattern filter
+
+Cylinder
+x y z
+dx dy dz
+rad h
+reflect refract
+r g b
+rand pattern filter
+
+Plane
+a b c d // ax + by + cz + d = 0
+reflect refract
+rand pattern filter
+r g b
+
+Camera
+0 0 0	//camera is always at origin ad looks in -z axis diretion
+width height h_fov
+mode //0 is normal, 1 is cartoon
+r g b //background color
+
+Light total
+x y z
