@@ -17,7 +17,7 @@
  ** closer than object if intersection
 */
 
-static t_color	light_color(t_obj obj, t_ray n, int i)
+t_color	light_color(t_obj obj, t_ray n, int i)
 {
 	t_cart	h;
 

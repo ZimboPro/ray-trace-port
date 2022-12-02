@@ -403,7 +403,7 @@ float			modulo(float f);
 float			checker(t_tex t);
 t_color			marble(t_tex *t, t_vector n);
 t_color			pattern_init(t_tex *t, t_vector n);
-
+t_color	light_color(t_obj obj, t_ray n, int i);
 /*
  ** gets object colors and shading if in normal mode
 */

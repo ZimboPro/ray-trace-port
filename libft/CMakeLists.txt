@@ -72,4 +72,4 @@ get_next_line.c
 )
 
 add_library(ft STATIC ${SOURCE})
-target_link_libraries(ft rt_rs)
+# target_link_libraries(ft rt_rs)
