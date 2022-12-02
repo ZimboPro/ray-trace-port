@@ -241,7 +241,6 @@ pub unsafe extern "C" fn str_map_to_vec4(val: *const c_char, vec: &mut Vector4) 
 
 pub fn convert_str_to_vec4_with_w(s: &str, vec: &mut Vector4) {
   let points: Vec<&str> = s.split(' ').collect();
-  println!("Point w: {}", s);
   vec.x = points.first().unwrap().parse::<f32>().unwrap();
   vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
   vec.z = points.get(2).unwrap().parse::<f32>().unwrap();
@@ -274,7 +273,6 @@ pub unsafe extern "C" fn str_map_to_vec4_def(val: *const c_char, vec: &mut Vecto
 
 pub fn convert_str_to_vec4(s: &str, vec: &mut Vector4) {
   let points: Vec<&str> = s.split(' ').collect();
-  println!("Point: {}", s);
   vec.x = points.first().unwrap().parse::<f32>().unwrap();
   vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
   vec.z = points.get(2).unwrap().parse::<f32>().unwrap();

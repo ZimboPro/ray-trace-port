@@ -6,7 +6,6 @@ use crate::{circle::check_circle, cone::check_cone, plane::check_plane, cylinder
 
 pub fn validate_file_contents(path: PathBuf) -> c_int {
   let contents = fs::read_to_string(path).unwrap();
-  println!("{}",contents);
   let mut chk: c_int = check_if_camera_light_and_obj(&contents);
   let lines: Vec<&str> = contents.split('\n').collect();
   let mut i = 0;

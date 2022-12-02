@@ -11,9 +11,6 @@ pub fn cylinder_extraction(str: &str) -> ObjectItem {
 		..Default::default()
 	};
 	let s: Vec<&str> = str.split('\n').collect();
-	for (i, el) in s.iter().enumerate() {
-			println!("{}: {}", i, el);
-	}
   convert_str_to_vec4(s.get(1).unwrap(), &mut obj.c);
   convert_str_to_vec4(s.get(2).unwrap(), &mut obj.dir);
   get_rad_h(s.get(3).unwrap(), &mut obj);

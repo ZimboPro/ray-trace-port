@@ -65,24 +65,25 @@ pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 {
 	let mut k: usize = 0;
 	let mut j = 0.;
-	while k < obj.light
-	{
-		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
-		let mut tmp = calc_dp(l, n.v);
-		if !obj.objects[i].is_plane() && tmp < 0. {
-			tmp /= 6.;
-}
-		else if intersection(obj, d, l, n.sc) != -1 &&
-				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d {
+	let mut t = obj.clone();
+	for light in &obj.lights {
+			
+		let l = calc_unit_v(calc_p_to_vec(n.sc, light.c));
+		let mut tmp = 0.;
+		if !obj.objects[i].is_plane() {
+			tmp = calc_dp(l, n.v);
+			if tmp < 0. {
+				tmp /= 6.;
+			}
+		} else if intersection(& mut t, d, l, n.sc) != -1 &&
+				calc_p_dist_vec(n.sc, light.c) > *d {
 			tmp = 0.;
-				}
-		else if obj.objects[i].is_plane() {
+		} else if obj.objects[i].is_plane() {
 			tmp = 1.;
 		}
 		j += tmp;
-		k += 1;
 	}
-	j /= k as f32;
+	j /= obj.lights.len() as f32;
 	dim_color(&obj.objects[i].col, AMB + (1. - AMB) * j)
 }
 

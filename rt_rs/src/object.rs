@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use glam::{self, f32};
 use libc::{c_float, c_int};
 use sdl2::sys::SDL_Color;
@@ -13,6 +15,17 @@ pub enum ObjectType {
     Cone,
     Plane,
     Texture,
+}
+impl Display for ObjectType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ObjectType::Circle => write!(f, "(Circle)"),
+            ObjectType::Cylinder => write!(f, "(Cylinder)"),
+            ObjectType::Cone => write!(f, "(Cone)"),
+            ObjectType::Plane => write!(f, "(Plane)"),
+            ObjectType::Texture => write!(f, "(Texture)"),
+        }
+    }
 }
 
 impl Default for ObjectType {

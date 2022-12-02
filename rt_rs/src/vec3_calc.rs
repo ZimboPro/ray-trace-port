@@ -55,7 +55,6 @@ pub unsafe extern "C" fn str_map_to_vec3(val: *const c_char, vec: &mut Vec3) {
 
 pub fn str_to_vec3_rs(s: &str, vec: &mut Vec3) {
     let points: Vec<&str> = s.split(' ').collect();
-    println!("Vec3 {}", s);
     vec.x = points.first().unwrap().parse::<f32>().unwrap();
     vec.y = points.get(1).unwrap().parse::<f32>().unwrap();
     vec.z = points.get(2).unwrap().parse::<f32>().unwrap();

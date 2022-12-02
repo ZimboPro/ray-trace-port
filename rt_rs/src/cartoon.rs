@@ -40,15 +40,14 @@ fn cartoon_help(col: SDL_Color, j: f32) -> SDL_Color
 
 pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 {
-	let mut k = 0;
 	let mut j = 0.;
-	while k < obj.light
-	{
-		let l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
+	let mut t = obj.clone();
+	for light in &obj.lights {
+		let l = calc_unit_v(calc_p_to_vec(n.sc, light.c));
 		let mut tmp = calc_dp(l, n.v);
 		if (!obj.objects[i].is_plane() && tmp < 0.)
-			|| (intersection(obj, d, l, n.sc) != -1 &&
-				calc_p_dist_vec(n.sc, obj.lights[k].c) > *d) {
+			|| (intersection(&mut t, d, l, n.sc) != -1 &&
+				calc_p_dist_vec(n.sc, light.c) > *d) {
 			tmp = 0.;	
 		} else if obj.objects[i].is_plane() {
 			tmp = 1.;
@@ -60,9 +59,8 @@ pub fn cartoon_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Colo
 			tmp = 1.;
 		}
 		j += tmp;
-		k += 1;
 	}
-	j /= k as f32;
+	j /= obj.lights.len() as f32;
 	cartoon_help(obj.objects[i].col, j)
 }
 

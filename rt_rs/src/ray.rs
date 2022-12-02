@@ -26,8 +26,7 @@ pub struct Quad {
   pub t2: c_float,
 }
 
-#[no_mangle]
-pub extern "C" fn ray(obj: Camera, x: c_float, y: c_float) -> Ray
+pub fn ray(obj: Camera, x: c_float, y: c_float) -> Ray
 {
 	let	mut ray = Ray::default();
 
@@ -158,10 +157,6 @@ fn normal_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Render
         p.c = mix_color(p.c, t);
     }
   });
-  let c = canvas.iter().filter(|x| {
-    x.c.r == 0 && x.c.g == 0 && x.c.b == 0
-  }).count();
-  println!("Black {} of {}", c, canvas.len());
 }
 
 fn draw_screen(ren:&mut WindowCanvas, canvas: & mut [RenderPixel]) {
@@ -201,37 +196,32 @@ fn cartoon_draw(_ren:&mut WindowCanvas, obj: &mut World, canvas: & mut Vec<Rende
         p.c = mix_color(p.c, t);
     }
   });
-  let c = canvas.iter().filter(|x| {
-    x.c.r == 0 && x.c.g == 0 && x.c.b == 0
-  }).count();
-  println!("Black {} of {}", c, canvas.len());
 }
 
 pub fn trace_ray(obj:&mut World, ray: Ray, depth: usize/*, ren: & mut WindowCanvas*/, d: &mut f32) -> SDL_Color {
   if depth < DEPTH
 	{
 	  let i = intersection(obj, d, ray.v, ray.sc);
-	  if i == -1 {
-	    return obj.camera.bg;
-	  }
-		let mut p_c = get_color(obj/*, ren*/, i as usize, ray, d);
-		let f = obj.objects[i as usize].reflect;
-		if obj.objects[i as usize].reflect > 0. && !obj.objects[i as usize].is_refracted()
-		{
-			let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
-			let rlc =
-			color_adjust(trace_ray(obj, temp, depth + 1/*, ren*/, d), f);
-			p_c = mix_color(rlc, p_c);
-		}
-		if obj.objects[i as usize].is_refracted()
-		{
-			obj.i = i as usize;
-			let rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
-			p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
-				+ p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
-		}
-		return p_c;
-	}
+	  if i != -1 {
+      let mut p_c = get_color(obj/*, ren*/, i as usize, ray, d);
+      let f = obj.objects[i as usize].reflect;
+      if obj.objects[i as usize].reflect > 0. && !obj.objects[i as usize].is_refracted()
+      {
+        let temp = get_reflect_ray(obj.objects[i as usize], ray, *d);
+        let rlc =
+        color_adjust(trace_ray(obj, temp, depth + 1/*, ren*/, d), f);
+        p_c = mix_color(rlc, p_c);
+      }
+      if obj.objects[i as usize].is_refracted()
+      {
+        obj.i = i as usize;
+        let rlc = fresnel_effect(obj, ray, depth/*, ren*/, d);
+        p_c = SDL_Color{r: (rlc.r as f32 * f + p_c.r  as f32 * (1. - f)) as u8, g: (rlc.g  as f32 * f
+          + p_c.g  as f32 * (1. - f)) as u8, b: (rlc.b  as f32 * f + p_c.b  as f32 * (1. - f)) as u8, a: 255};
+        }
+        return p_c;
+      }
+    }
 	obj.camera.bg
 }
 
@@ -294,9 +284,68 @@ pub fn intersection(obj: & mut World, d: &mut f32, v: Vector4, p: Vector4) -> i3
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
+    use crate::{object::{objects, ObjectType}, ray::{ray, trace_ray_cart, trace_ray, intersection, Ray}, colour::get_color, vec4_calc::{calc_vect_to_point, calc_p_to_v, calc_unit_v}, light::light_color};
+
+
     #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
+    fn ray_1() {
+      let contents = fs::read_to_string("/home/leslie/sandbox/rust/ray-trace-port/rt_orig/cylinder_1").unwrap();
+      let mut obj = objects(&contents);
+      let rv = ray(obj.camera, 160., 200.);
+      assert!(!obj.lights.is_empty(), "Needs to be at least one light");
+      let mut d = 0.;
+      let col = trace_ray(&mut obj, rv, 0/*, ren*/, &mut d);
+      assert!(col.r == 0, "R = {}", col.r);
+      assert!(col.g == 191, "g = {}", col.g);
+      assert!(col.b == 0, "b = {}", col.b);
+    }
+
+    #[test]
+    fn intersection1() {
+      let contents = fs::read_to_string("/home/leslie/sandbox/rust/ray-trace-port/rt_orig/cylinder_1").unwrap();
+      let mut obj = objects(&contents);
+      let rv = ray(obj.camera, 160., 100.);
+      assert!(!obj.lights.is_empty(), "Needs to be at least one light");
+      let mut d = 0.;
+      let i = intersection(&mut obj, &mut d,rv.v, rv.sc);
+      let col = get_color(&mut obj, i as usize, rv, &mut d);
+      assert!(col.r == 0, "R = {}", col.r);
+      assert!(col.g == 255, "g = {}", col.g);
+      assert!(col.b == 255, "b = {}", col.b);
+    }
+
+    #[test]
+    fn intersection2() {
+      let contents = fs::read_to_string("/home/leslie/sandbox/rust/ray-trace-port/rt_orig/cylinder_1").unwrap();
+      let mut obj = objects(&contents);
+      let rv = ray(obj.camera, 160., 200.);
+      assert!(!obj.lights.is_empty(), "Needs to be at least one light");
+      let mut d = 0.;
+      let i = intersection(&mut obj, &mut d,rv.v, rv.sc);
+      let col = get_color(&mut obj, i as usize, rv, &mut d);
+      assert!(i == 2, "i = {}", i);
+      assert!(obj.objects[i as usize].r#type != ObjectType::Plane, "Type = {}", obj.objects[i as usize].r#type);
+      assert!(obj.objects[i as usize].r#type == ObjectType::Circle, "Type = {}", obj.objects[i as usize].r#type);
+      assert!(obj.objects[i as usize].r#type != ObjectType::Cylinder, "Type = {}", obj.objects[i as usize].r#type);
+      
+      let pt = calc_vect_to_point(rv.sc, rv.v, d * 0.995);
+      assert!(pt.x == -7117.7065, "X = {}", pt.x);
+      assert!(pt.y == -22.997763, "Y = {}", pt.y);
+      assert!(pt.z == -16014.878, "Z = {}", pt.z);
+      assert!(pt.w == 1., "W = {}", pt.w);
+      let n = calc_unit_v(calc_p_to_v(obj.objects[i as usize].c, pt));
+      assert!(n.x == 0.9288683, "X = {}", n.x);
+      assert!(n.y == -0.0065235174, "Y = {}", n.y);
+      assert!(n.z == 0.37035283, "Z = {}", n.z);
+      assert!(n.w == 0., "W = {}", n.w);
+      let c = light_color(&mut obj, Ray { sc: pt, v: n}, i as usize, & mut d);
+      assert!(c.r == 0, "light R = {}", c.r);
+      assert!(c.g == 191, "light G = {}", c.g);
+      assert!(c.b == 0, "light B = {}", c.b);
+      assert!(col.r == 0, "R = {}", col.r);
+      assert!(col.g == 191, "g = {}", col.g);
+      assert!(col.b == 0, "b = {}", col.b);
     }
 }

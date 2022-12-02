@@ -106,34 +106,32 @@ pub fn get_cartoon_color(obj: &mut World/*, ren: &mut WindowCanvas*/, i: usize, 
 
 pub fn blinn_phong(obj:& mut World, n: Ray, i: usize, v: Vector4, d: &mut f32) -> SDL_Color
 {
-	let mut k = 0;
 	let mut j = 0.;
 	let mut co = obj.objects[i].col;
-	while k < obj.light
-	{
-		let mut tmp = 1.;
-		let mut l = calc_unit_v(calc_p_to_vec(n.sc, obj.lights[k].c));
-		l = calc_addition(l, calc_multi(calc_unit_v(v), -1.));
-		if calc_m(l) != 0.
-		{
-			l = calc_unit_v(l);
-			tmp = calc_dp(l, n.v);
-			if (!obj.objects[i].is_plane() && tmp < 0.)
-				|| (intersection(obj, d, calc_unit_v(calc_p_to_vec(n.sc,
-					obj.lights[k].c)), n.sc) != -1
-					&& calc_p_dist_vec(n.sc, obj.lights[k].c) > *d) {
-		  	tmp = 0.;
-		  }
-	   else if obj.objects[i].is_plane()
-		  && tmp < 0. {
-		  tmp = -tmp;
-		}
-	   tmp = obj.objects[i].reflect.powi(2) * tmp.powi(1000);
-		}
-		j += tmp;
-		k += 1;
-	}
-	j /= k as f32;
+    let mut t = obj.clone();
+    for light in &obj.lights {
+        let mut tmp = 1.;
+        let mut l = calc_unit_v(calc_p_to_vec(n.sc, light.c));
+        l = calc_addition(l, calc_multi(calc_unit_v(v), -1.));
+        if calc_m(l) != 0.
+        {
+            l = calc_unit_v(l);
+            tmp = calc_dp(l, n.v);
+            if (!obj.objects[i].is_plane() && tmp < 0.)
+                || (intersection(&mut t, d, calc_unit_v(calc_p_to_vec(n.sc,
+                    light.c)), n.sc) != -1
+                    && calc_p_dist_vec(n.sc, light.c) > *d) {
+              tmp = 0.;
+          }
+       else if obj.objects[i].is_plane()
+          && tmp < 0. {
+          tmp = -tmp;
+        }
+       tmp = obj.objects[i].reflect.powi(2) * tmp.powi(1000);
+        }
+        j += tmp;
+    }
+	j /= obj.lights.len() as f32;
 	co.r = color_calc_cap(co.r, j);
 	co.g = color_calc_cap(co.g, j);
 	co.b = color_calc_cap(co.b, j);
