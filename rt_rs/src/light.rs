@@ -63,7 +63,6 @@ pub fn lights(s: &str, lights: &mut Vec<Light>) {
 
 pub fn light_color(obj: &mut World, n: Ray, i: usize, d: &mut f32) -> SDL_Color
 {
-	let mut k: usize = 0;
 	let mut j = 0.;
 	let mut t = obj.clone();
 	for light in &obj.lights {

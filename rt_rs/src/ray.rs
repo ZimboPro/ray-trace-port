@@ -286,7 +286,7 @@ pub fn intersection(obj: & mut World, d: &mut f32, v: Vector4, p: Vector4) -> i3
 mod tests {
     use std::fs;
 
-    use crate::{object::{objects, ObjectType}, ray::{ray, trace_ray_cart, trace_ray, intersection, Ray}, colour::get_color, vec4_calc::{calc_vect_to_point, calc_p_to_v, calc_unit_v}, light::light_color};
+    use crate::{object::{objects, ObjectType}, ray::{ray, trace_ray, intersection, Ray}, colour::get_color, vec4_calc::{calc_vect_to_point, calc_p_to_v, calc_unit_v}, light::light_color};
 
 
     #[test]
